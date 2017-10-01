@@ -1,52 +1,70 @@
 package com.game.classes;
 
+import com.game.controllers.FoodController;
 import com.game.models.Food;
+import com.game.views.FoodView;
 
+import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class FoodManager {
-    private Map<Point, Food> Foods;
-    private int Count;
+    private HashMap<Point, Food> Foods;
+    private int Limit;
     private List<IController> ExternalContainer;
 
     public FoodManager(int count, List<IController> externalContainer)
     {
-        Count = count;
+        Limit = count;
         ExternalContainer = externalContainer;
+        Foods = new HashMap<Point, Food>();
     }
 
-//    public boolean isFood(Point location)
-//    {
-//        if (Foods.containsKey(location)) {
-//            removeFood(location);
-//            return true;
-//        }
-//        return false;
-//    }
-
-    public int getCount() {
-        return Count;
+    public boolean isFood(Point location)
+    {
+        if (Foods.containsKey(location)) {
+            return true;
+        }
+        return false;
     }
 
-//    public void addFood(Food food)
-//    {
-//        if (Foods.size() < Count) {
-//            Foods.put(food.getLocation(), food);
-//            ExternalContainer.add(...);
-//        }
-//    }
-//
-//    public void removeFood(Point location)
-//    {
-//        Food food = Foods.remove(location);
-//        for (IController controller: ExternalContainer) {
-//            if (controller.getModel().equal(food)){
-//                ExternalContainer.remove(controller);
-//            }
-//        }
-//    }
+    public int getLimit() {
+        return Limit;
+    }
+
+    public void addFood(Food food)
+    {
+        if (Foods.size() < Limit) {
+            Foods.put(food.getLocation(), food);
+            ExternalContainer.add(new FoodController(food, new FoodView(food)));
+        }
+    }
+
+    public void removeFood(Point location)
+    {
+        Food food = Foods.remove(location);
+        ExternalContainer.removeIf(controller -> controller.getModel().equals(food));
+    }
+
+    public int count()
+    {
+        return Foods.size();
+    }
+
+    public Food getFood(Point location)
+    {
+        return Foods.get(location);
+    }
+
+    public Set<Point> getLocations()
+    {
+        return Foods.keySet();
+    }
+
+    public void clear()
+    {
+        ExternalContainer.removeIf(controller -> controller.getModel() instanceof Food);
+        Foods.clear();
+    }
 }

@@ -40,7 +40,7 @@ public class FoodTests {
         Food food3 = new Food(new Point(0, 1), 3);
         assertEquals(food1.hashCode(), 211*211*1 + 211*3 + 5);
         assertEquals(food2.hashCode(), 0);
-        assertEquals(food3.hashCode(), 211);
+        assertEquals(food3.hashCode(), 214);
 
     }
 }

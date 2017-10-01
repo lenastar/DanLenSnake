@@ -32,18 +32,18 @@ public class Map {
     public Map(int height, int width){
         Height = height;
         Width = width;
-        Canvas = new char[width][height];
+        Canvas = new char[Height][Width];
         fillMap();
     }
 
     public void fillMap(){
         for (int i = 1; i  < Height-1; i++) {
-            Canvas[i][0] = SimpleObjects.HorizonWall;
-            Canvas[i][Width-1] = SimpleObjects.HorizonWall;
+            Canvas[i][0] = SimpleObjects.VerticalWall;
+            Canvas[i][Width-1] = SimpleObjects.VerticalWall;
         }
         for (int i = 1; i<Width-1; i++){
-            Canvas[0][i] = SimpleObjects.VerticalWall;
-            Canvas[Height-1][i] = SimpleObjects.VerticalWall;
+            Canvas[0][i] = SimpleObjects.HorizonWall;
+            Canvas[Height-1][i] = SimpleObjects.HorizonWall;
         }
         for (int i = 1; i<Height-1; i++) {
             for (int j = 1; j < Width - 1; j++){

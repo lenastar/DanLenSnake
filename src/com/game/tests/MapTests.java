@@ -37,9 +37,9 @@ public class MapTests{
     }
 
     @Test
-    public void testSetItemFail() throws IndexOutOfBoundsException{
+    public void testSetItemFail() throws ArrayIndexOutOfBoundsException{
         Map map = new Map(2,2);
-        assertThrows(IndexOutOfBoundsException.class,() -> {map.setItem(3,3,'a');});
+        assertThrows(ArrayIndexOutOfBoundsException.class,() -> {map.setItem(3,3,'a');});
     }
 }
 
