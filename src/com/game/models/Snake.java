@@ -79,11 +79,11 @@ public class Snake{
         return Segments.get(Segments.size() - 1);
     }
 
-    public void grow(int length)
+    public void grow(int length, Point location)
     {
         for (int index = 0; index < length; index++)
         {
-            Segments.add(0, new Point(0, 0));
+            Segments.add(0, new Point(location));
         }
     }
 

@@ -37,29 +37,29 @@ public class Map {
     }
 
     public void fillMap(){
-        for (int i = 1; i  < Width-1; i++) {
+        for (int i = 1; i  < Height-1; i++) {
             Canvas[i][0] = SimpleObjects.HorizonWall;
-            Canvas[i][Height-1] = SimpleObjects.HorizonWall;
+            Canvas[i][Width-1] = SimpleObjects.HorizonWall;
         }
-        for (int i = 1; i<Height-1; i++){
+        for (int i = 1; i<Width-1; i++){
             Canvas[0][i] = SimpleObjects.VerticalWall;
-            Canvas[Width-1][i] = SimpleObjects.VerticalWall;
+            Canvas[Height-1][i] = SimpleObjects.VerticalWall;
         }
-        for (int i = 1; i<Width-1; i++) {
-            for (int j = 1; j < Height - 1; j++){
+        for (int i = 1; i<Height-1; i++) {
+            for (int j = 1; j < Width - 1; j++){
                 Canvas[i][j] = SimpleObjects.Empty;
             }
         }
 
         Canvas[0][0] = SimpleObjects.Corner;
-        Canvas[Width-1][0] = SimpleObjects.Corner;
-        Canvas[0][Height-1] = SimpleObjects.Corner;
-        Canvas[Width-1][Height-1] = SimpleObjects.Corner;
+        Canvas[Height-1][0] = SimpleObjects.Corner;
+        Canvas[0][Width-1] = SimpleObjects.Corner;
+        Canvas[Height-1][Width-1] = SimpleObjects.Corner;
     }
 
     public void print(){
-        for (int i = 0; i < Width; i++){
-            for (int j = 0; j < Height;j++){
+        for (int i = 0; i < Height; i++){
+            for (int j = 0; j < Width;j++){
                 System.out.print(Canvas[i][j]);
             }
             System.out.println();

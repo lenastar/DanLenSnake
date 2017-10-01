@@ -4,5 +4,5 @@ import com.game.models.Map;
 
 public interface IView<TModel>{
     public TModel getModel();
-    public void draw(Map map);
+    public void draw(Map map) throws Exception;
 }

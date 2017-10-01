@@ -76,8 +76,8 @@ public class SnakeTests {
     {
         Snake snake = new Snake(head, 3);
         assertEquals(3, snake.getLength());
-        snake.grow(5);
-        assertEquals(8, snake.getLength());
+        snake.grow(2, new Point(0,0));
+        assertEquals(5, snake.getLength());
     }
 
     public void testMove(Directions direction) throws Exception

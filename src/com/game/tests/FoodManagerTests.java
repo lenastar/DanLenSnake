@@ -1,11 +1,13 @@
 package com.game.tests;
 
 import com.game.classes.FoodManager;
+import com.game.classes.IController;
 import com.game.models.Food;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class FoodManagerTests {
     @BeforeAll
     public void init()
     {
-        ExternalContainer = new List<IController>();
+        ExternalContainer = new ArrayList<IController>();
         Foods = Arrays.asList(
                 new Food(new Point(1, 2), 3),
                 new Food(new Point(2, 3), 1),
@@ -40,7 +42,7 @@ public class FoodManagerTests {
     }
 
     @Test
-    public void tetsRemoveFood()
+    public void testRemoveFood()
     {
 
     }

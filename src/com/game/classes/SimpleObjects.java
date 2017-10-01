@@ -7,4 +7,5 @@ public class SimpleObjects{
     public static char SnakeBody = 'x';
     public static char SnakeHead = 'O';
     public static char Empty = ' ';
+    public static char Food = '*';
 }
