@@ -2,6 +2,8 @@ package com.game.models;
 
 import com.game.classes.SimpleObjects;
 
+import java.awt.*;
+
 public class Map {
     public int getHeight() {
         return Height;
@@ -25,8 +27,11 @@ public class Map {
         return Canvas[x][y];
     }
 
-    public void setItem(int x, int y, char item){
-        Canvas[x][y] = item;
+    public void setItem(Point point, char item) {
+        if (point.x < 0 || point.y < 0 || point.x >= Width || point.y >= Height) {
+            throw new IndexOutOfBoundsException("Snake is outside of map");
+        }
+        Canvas[point.x][point.y] = item;
     }
 
     public Map(int height, int width){

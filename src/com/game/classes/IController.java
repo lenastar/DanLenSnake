@@ -7,6 +7,6 @@ import java.lang.reflect.Method;
 public interface IController<TModel, TView extends IView >{
     public TModel getModel();
     public TView getView();
-    public Method getAction(int key);
+    public void runAction(int key);
     public boolean keyExists(int key);
 }

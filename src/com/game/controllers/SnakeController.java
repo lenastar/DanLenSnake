@@ -5,22 +5,23 @@ import com.game.classes.IController;
 import com.game.models.Snake;
 import com.game.views.SnakeView;
 
+import javax.swing.*;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
 public class SnakeController implements IController<Snake, SnakeView>{
-    private Snake Model;
-    private SnakeView View;
-    private HashMap<Integer, Method> Actions;
+    private final Snake Model;
+    private final SnakeView View;
+    private HashMap<Integer, Runnable> Actions;
 
     public SnakeController(Snake model, SnakeView view) throws NoSuchMethodException {
         Model = model;
         View = view;
-        Actions = new HashMap<Integer, Method>();
-        Actions.put((int)'w', SnakeController.class.getMethod("moveUp"));
-        Actions.put((int)'s', SnakeController.class.getMethod("moveDown"));
-        Actions.put((int)'a', SnakeController.class.getMethod("moveLeft"));
-        Actions.put((int)'d', SnakeController.class.getMethod("moveRight"));
+        Actions = new HashMap<Integer, Runnable>();
+        Actions.put((int)'w', () -> Model.setDirection(Directions.Up));
+        Actions.put((int)'s', () -> Model.setDirection(Directions.Down));
+        Actions.put((int)'a', () -> Model.setDirection(Directions.Left));
+        Actions.put((int)'d', () -> Model.setDirection(Directions.Right));
     }
 
     @Override
@@ -34,32 +35,12 @@ public class SnakeController implements IController<Snake, SnakeView>{
     }
 
     @Override
-    public Method getAction(int key) {
-        return Actions.get(key);
+    public void runAction(int key) {
+        Actions.get(key).run();
     }
 
     @Override
     public boolean keyExists(int key) {
         return Actions.containsKey(key);
-    }
-
-    public void moveUp() throws Exception
-    {
-        Model.setDirection(Directions.Up);
-    }
-
-    public void moveDown() throws Exception
-    {
-        Model.setDirection(Directions.Down);
-    }
-
-    public void moveLeft() throws Exception
-    {
-        Model.setDirection(Directions.Left);
-    }
-
-    public void moveRight() throws Exception
-    {
-        Model.setDirection(Directions.Right);
     }
 }

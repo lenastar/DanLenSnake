@@ -1,23 +1,17 @@
 package com.game.classes;
 
-import com.game.controllers.FoodController;
 import com.game.models.Food;
-import com.game.views.FoodView;
 
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 public class FoodManager {
     private HashMap<Point, Food> Foods;
     private int Limit;
-    private List<IController> ExternalContainer;
 
-    public FoodManager(int count, List<IController> externalContainer)
+    public FoodManager(int limit)
     {
-        Limit = count;
-        ExternalContainer = externalContainer;
+        Limit = limit;
         Foods = new HashMap<Point, Food>();
     }
 
@@ -37,14 +31,12 @@ public class FoodManager {
     {
         if (Foods.size() < Limit) {
             Foods.put(food.getLocation(), food);
-            ExternalContainer.add(new FoodController(food, new FoodView(food)));
         }
     }
 
     public void removeFood(Point location)
     {
         Food food = Foods.remove(location);
-        ExternalContainer.removeIf(controller -> controller.getModel().equals(food));
     }
 
     public int count()
@@ -64,7 +56,6 @@ public class FoodManager {
 
     public void clear()
     {
-        ExternalContainer.removeIf(controller -> controller.getModel() instanceof Food);
         Foods.clear();
     }
 }

@@ -22,14 +22,13 @@ public class FoodManagerTests {
     @BeforeEach
     public void init()
     {
-        ExternalContainer = new ArrayList<IController>();
         Foods = Arrays.asList(
                 new Food(new Point(1, 2), 3),
                 new Food(new Point(2, 3), 1),
                 new Food(new Point(3, 3), 2),
                 new Food(new Point(5, 5), 1)
         );
-        Manager = new FoodManager(3, ExternalContainer);
+        Manager = new FoodManager(3);
     }
 
     @Test
@@ -38,13 +37,9 @@ public class FoodManagerTests {
         Manager.addFood(Foods.get(0));
         assertEquals(Manager.count(), 1);
         assertEquals(Manager.getFood(new Point(1, 2)), Foods.get(0));
-        assertTrue(ExternalContainer.get(0).getModel().equals(Foods.get(0)));
-        assertEquals(ExternalContainer.size(), 1);
         Manager.addFood(Foods.get(1));
         assertEquals(Manager.count(), 2);
         assertEquals(Manager.getFood(new Point(2, 3)), Foods.get(1));
-        assertTrue(ExternalContainer.get(1).getModel().equals(Foods.get(1)));
-        assertEquals(ExternalContainer.size(), 2);
 
     }
 
@@ -89,10 +84,8 @@ public class FoodManagerTests {
         Manager.addFood(Foods.get(0));
         Manager.addFood(Foods.get(1));
         assertEquals(Manager.count(), 2);
-        assertEquals(ExternalContainer.size(), 2);
         Manager.clear();
         assertEquals(Manager.count(), 0);
-        assertEquals(ExternalContainer.size(), 0);
     }
 
 }

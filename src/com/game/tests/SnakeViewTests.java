@@ -32,6 +32,8 @@ public class SnakeViewTests {
         Map map = new Map(5, 6);
         Snake snake = new Snake(new Point(3, 3), 3, Directions.Up);
         SnakeView snakeView = new SnakeView(snake);
-        assertThrows(Exception.class, () -> {snakeView.draw(map);});
+        assertThrows(Exception.class, () -> {
+            snakeView.draw(map);
+        });
     }
 }

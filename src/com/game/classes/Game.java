@@ -1,19 +1,16 @@
 package com.game.classes;
 
-import com.game.classes.Directions;
-import com.game.classes.IController;
+import com.game.controllers.FoodManagerController;
 import com.game.controllers.SnakeController;
-import com.game.classes.SimpleObjects;
 import com.game.models.Food;
 import com.game.models.Map;
 import com.game.models.Snake;
+import com.game.views.FoodManagerView;
 import com.game.views.SnakeView;
 
 import java.awt.*;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class Game {
@@ -29,10 +26,14 @@ public class Game {
         Snake snake = new Snake( new Point(5, 5), 5, Directions.Right);
         SnakeView snakeView = new SnakeView(snake);
         SnakeController snakeController = new SnakeController(snake, snakeView);
+        Manager = new FoodManager(1);
+        Manager.addFood(new Food(new Point(3, 7), 3 ));
+        FoodManagerView foodManagerView = new FoodManagerView(Manager);
+        FoodManagerController foodManagerController = new FoodManagerController(Manager, foodManagerView);
         Container = new ArrayList<IController>();
         Container.add(snakeController);
-        Manager = new FoodManager(1, Container);
-        Manager.addFood(new Food(new Point(3, 7), 3 ));
+        Container.add(foodManagerController);
+
     }
 
     public void gameOver()
@@ -49,7 +50,7 @@ public class Game {
                 int readKey = reader.read();
                 for (IController controller : Container) {
                     if (controller.keyExists(readKey)) {
-                        controller.getAction(readKey).invoke(controller);
+                        controller.runAction(readKey);
                     }
                 }
             }

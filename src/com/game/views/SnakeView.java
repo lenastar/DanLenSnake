@@ -6,9 +6,10 @@ import com.game.models.Map;
 import com.game.models.Snake;
 
 import java.awt.*;
+import java.util.function.*;
 
 public class SnakeView implements IView<Snake> {
-    private Snake Model;
+    private final Snake Model;
 
     public SnakeView(Snake model){
         Model = model;
@@ -20,16 +21,12 @@ public class SnakeView implements IView<Snake> {
     }
 
     @Override
-    public void draw(Map map) throws Exception {
+    public void draw(Map map) throws IndexOutOfBoundsException {
 
         for (Point segment: Model.getSegments()){
-            if (segment.x < 0 || segment.y<0 || segment.x >= map.getWidth() || segment.y >= map.getHeight()){
-                throw new Exception("Snake is outside of map");
-            }
-            map.setItem(segment.x,segment.y, SimpleObjects.SnakeBody);
+            map.setItem(segment, SimpleObjects.SnakeBody);
         }
-        map.setItem(Model.getHead().x,Model.getHead().y,SimpleObjects.SnakeHead);
-
+        map.setItem(Model.getHead(),SimpleObjects.SnakeHead);
 
     }
 }
