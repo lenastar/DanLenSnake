@@ -1,7 +1,7 @@
 package com.game.tests;
 
 import com.game.classes.Directions;
-import com.game.models.Map;
+import com.game.models.MapConsole;
 import com.game.models.Snake;
 import com.game.views.SnakeView;
 import org.junit.jupiter.api.Test;
@@ -13,10 +13,10 @@ import java.awt.*;
 public class SnakeViewTests {
     @Test
     public void testDrawSnakeSuccess() throws Exception {
-        Map map = new Map(5, 6);
+        MapConsole mapConsole = new MapConsole(5, 6);
         Snake snake = new Snake(new Point(3, 3), 3, Directions.Right);
         SnakeView snakeView = new SnakeView(snake);
-        snakeView.draw(map);
+        snakeView.paint(mapConsole);
         char[][] expectedResult = {
                 {'+', '-', '-', '-', '-', '+'},
                 {'|', ' ', ' ', ' ', ' ', '|'},
@@ -24,16 +24,16 @@ public class SnakeViewTests {
                 {'|', 'x', 'x', 'O', ' ', '|'},
                 {'+', '-', '-', '-', '-', '+'}
         };
-        assertArrayEquals(expectedResult, map.getCanvas());
+        assertArrayEquals(expectedResult, mapConsole.getCanvas());
     }
 
     @Test
     public void testDrawSnakeFail() throws Exception {
-        Map map = new Map(5, 6);
+        MapConsole mapConsole = new MapConsole(5, 6);
         Snake snake = new Snake(new Point(3, 3), 3, Directions.Up);
         SnakeView snakeView = new SnakeView(snake);
         assertThrows(Exception.class, () -> {
-            snakeView.draw(map);
+            snakeView.paint(mapConsole);
         });
     }
 }

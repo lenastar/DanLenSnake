@@ -1,10 +1,11 @@
 package com.game.models;
 
+import com.game.classes.IMap;
 import com.game.classes.SimpleObjects;
 
 import java.awt.*;
 
-public class Map {
+public class MapConsole implements IMap {
     public int getHeight() {
         return Height;
     }
@@ -34,7 +35,7 @@ public class Map {
         Canvas[point.x][point.y] = item;
     }
 
-    public Map(int height, int width){
+    public MapConsole(int height, int width){
         Height = height;
         Width = width;
         Canvas = new char[Height][Width];
@@ -62,7 +63,9 @@ public class Map {
         Canvas[Height-1][Width-1] = SimpleObjects.Corner;
     }
 
-    public void print(){
+
+    @Override
+    public void paint() {
         for (int i = 0; i < Height; i++){
             for (int j = 0; j < Width;j++){
                 System.out.print(Canvas[i][j]);

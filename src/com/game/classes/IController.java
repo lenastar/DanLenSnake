@@ -3,6 +3,7 @@ package com.game.classes;
 import com.game.classes.IView;
 
 import java.lang.reflect.Method;
+import java.util.EventListener;
 
 public interface IController<TModel, TView extends IView >{
     public TModel getModel();

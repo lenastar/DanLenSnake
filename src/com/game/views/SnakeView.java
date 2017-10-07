@@ -1,12 +1,12 @@
 package com.game.views;
 
 import com.game.classes.IView;
+import com.game.classes.IMap;
 import com.game.classes.SimpleObjects;
-import com.game.models.Map;
+import com.game.models.MapConsole;
 import com.game.models.Snake;
 
 import java.awt.*;
-import java.util.function.*;
 
 public class SnakeView implements IView<Snake> {
     private final Snake Model;
@@ -21,12 +21,16 @@ public class SnakeView implements IView<Snake> {
     }
 
     @Override
-    public void draw(Map map) throws IndexOutOfBoundsException {
+    public void paint(IMap map) throws IndexOutOfBoundsException {
+        draw((MapConsole) map);
+    }
+
+    private void draw(MapConsole mapConsole) throws IndexOutOfBoundsException {
 
         for (Point segment: Model.getSegments()){
-            map.setItem(segment, SimpleObjects.SnakeBody);
+            mapConsole.setItem(segment, SimpleObjects.SnakeBody);
         }
-        map.setItem(Model.getHead(),SimpleObjects.SnakeHead);
+        mapConsole.setItem(Model.getHead(),SimpleObjects.SnakeHead);
 
     }
 }

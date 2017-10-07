@@ -18,10 +18,10 @@ public class SnakeController implements IController<Snake, SnakeView>{
         Model = model;
         View = view;
         Actions = new HashMap<Integer, Runnable>();
-        Actions.put((int)'w', () -> Model.setDirection(Directions.Up));
-        Actions.put((int)'s', () -> Model.setDirection(Directions.Down));
-        Actions.put((int)'a', () -> Model.setDirection(Directions.Left));
-        Actions.put((int)'d', () -> Model.setDirection(Directions.Right));
+        Actions.put((int)'W', () -> Model.setDirection(Directions.Up));
+        Actions.put((int)'S', () -> Model.setDirection(Directions.Down));
+        Actions.put((int)'A', () -> Model.setDirection(Directions.Left));
+        Actions.put((int)'D', () -> Model.setDirection(Directions.Right));
     }
 
     @Override
