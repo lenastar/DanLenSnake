@@ -1,5 +1,3 @@
-package com.game.tests;
-
 import com.game.models.Food;
 import org.junit.jupiter.api.Test;
 
@@ -37,10 +35,11 @@ public class FoodTests {
     {
         Food food1 = new Food(new Point(1, 3), 5);
         Food food2 = new Food(new Point(0, 0), 0);
-        Food food3 = new Food(new Point(0, 1), 3);
-        assertEquals(food1.hashCode(), 211*211*1 + 211*3 + 5);
-        assertEquals(food2.hashCode(), 0);
-        assertEquals(food3.hashCode(), 214);
+        Food food3 = new Food(new Point(0, 0), 3);
+        Food food4 = new Food(new Point(1, 3), 5);
+        assertEquals(food1.hashCode(), food4.hashCode());
+        assertNotEquals(food2.hashCode(), food3.hashCode());
+        assertNotEquals(food3.hashCode(), food1.hashCode());
 
     }
 }

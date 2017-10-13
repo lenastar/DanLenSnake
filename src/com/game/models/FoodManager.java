@@ -1,4 +1,4 @@
-package com.game.classes;
+package com.game.models;
 
 import com.game.models.Food;
 

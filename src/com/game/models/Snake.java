@@ -1,6 +1,6 @@
 package com.game.models;
 
-import com.game.classes.Directions;
+import com.game.classes.enumerators.Directions;
 
 import java.awt.*;
 import java.util.ArrayList;

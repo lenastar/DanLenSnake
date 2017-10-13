@@ -1,4 +1,4 @@
-package com.game.classes;
+package com.game.classes.enumerators;
 
 public enum Directions {
     Up,

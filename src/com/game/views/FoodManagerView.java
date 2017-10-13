@@ -1,14 +1,10 @@
 package com.game.views;
 
-import com.game.classes.FoodManager;
-import com.game.classes.IMap;
-import com.game.classes.IView;
-import com.game.classes.SimpleObjects;
-import com.game.models.MapConsole;
+import com.game.classes.Context;
+import com.game.models.FoodManager;
+import com.game.classes.interfaces.IView;
 
-import java.awt.*;
-
-public class FoodManagerView implements IView<FoodManager> {
+public class FoodManagerView implements IView<FoodManager, Context> {
     private final FoodManager Model;
 
     public FoodManagerView(FoodManager model) {
@@ -21,14 +17,7 @@ public class FoodManagerView implements IView<FoodManager> {
     }
 
     @Override
-    public void paint(IMap map) throws IndexOutOfBoundsException {
-        draw((MapConsole) map);
-    }
-
-    private void draw(MapConsole mapConsole) throws IndexOutOfBoundsException {
-        for (Point location: Model.getLocations())
-        {
-            mapConsole.setItem(location, SimpleObjects.Food);
-        }
+    public void paint(Context context) throws IndexOutOfBoundsException {
+        //TODO:implement method
     }
 }

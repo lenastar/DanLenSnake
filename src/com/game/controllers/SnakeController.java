@@ -1,22 +1,17 @@
 package com.game.controllers;
 
-import com.game.classes.Directions;
-import com.game.classes.IController;
+import com.game.classes.enumerators.Directions;
+import com.game.classes.interfaces.IController;
 import com.game.models.Snake;
-import com.game.views.SnakeView;
 
-import javax.swing.*;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 
-public class SnakeController implements IController<Snake, SnakeView>{
+public class SnakeController implements IController<Snake>{
     private final Snake Model;
-    private final SnakeView View;
     private HashMap<Integer, Runnable> Actions;
 
-    public SnakeController(Snake model, SnakeView view) throws NoSuchMethodException {
+    public SnakeController(Snake model) throws NoSuchMethodException {
         Model = model;
-        View = view;
         Actions = new HashMap<Integer, Runnable>();
         Actions.put((int)'W', () -> Model.setDirection(Directions.Up));
         Actions.put((int)'S', () -> Model.setDirection(Directions.Down));
@@ -27,11 +22,6 @@ public class SnakeController implements IController<Snake, SnakeView>{
     @Override
     public Snake getModel() {
         return Model;
-    }
-
-    @Override
-    public SnakeView getView() {
-        return View;
     }
 
     @Override

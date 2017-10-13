@@ -1,6 +1,4 @@
-package com.game.tests;
-
-import com.game.classes.Directions;
+import com.game.classes.enumerators.Directions;
 import com.game.models.Snake;
 import org.junit.jupiter.api.Test;
 
