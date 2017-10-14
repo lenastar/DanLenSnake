@@ -1,58 +1,76 @@
 package com.game.views;
 
-import com.game.Main;
+import javafx.application.Application;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.HashMap;
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 public class Display extends JFrame {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Display app = new Display();
     }
-    public Display(){
+    public Display() throws IOException {
+
         JFrame frame = new JFrame("Snake");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JMenuBar menuBar = new JMenuBar();
-        JMenu start = new JMenu("Start!");
-        JMenu restart = new JMenu("Restart");
-        JMenu help = new JMenu("Help");
-        menuBar.add(start);
-        menuBar.add(restart);
-        menuBar.add(help);
-        frame.setJMenuBar(menuBar);
-        frame.setPreferredSize(new Dimension(500,500));
-        HashMap<Integer, Runnable> Actions = new HashMap<Integer, Runnable>(); //не работает
-        Actions.put(KeyEvent.VK_BACK_SPACE, () -> new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                int result = JOptionPane.showConfirmDialog(
-                        Display.this,
-                        "Continue?",
-                        "Pause",
-                        JOptionPane.YES_NO_CANCEL_OPTION);
-                if (result == JOptionPane.YES_OPTION)
-                    JOptionPane.showConfirmDialog(Display.this,
-                            "Вы не отказываетесь?");
-                else if (result == JOptionPane.NO_OPTION)
-                    JOptionPane.showConfirmDialog(Display.this,
-                            "Вы отказались?");
-            }
-        });
-     //  frame.addKeyListener(new KeyListener() {
-
-        //    @Override
-         //   public void keyPressed(KeyEvent e) {
-           //     {
-
-            //    }
-         //   }
-
-      //  });
-        frame.pack();
+        JPanelWithBackground panel = new JPanelWithBackground("C:\\Users\\Елена\\IdeaProjects\\DanLenSnake\\src\\com\\game\\resourses\\images\\images.jpg");
         frame.setVisible(true);
 
-    }
+        //Image img = new ImageIcon(Application.class.getResource("C:\\Users\\Елена\\IdeaProjects\\DanLenSnake\\src\\com\\game\\resourses\\images\\preview.gif")).getImage();
+      //  frame.setIconImage(img);
 
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setPreferredSize(new Dimension(600,500));
+
+
+        final JButton start = new JButton();
+        start.setText("Start");
+        start.setPreferredSize(new Dimension(100,50));
+        start.setContentAreaFilled(false);
+        panel.add(start);
+        start.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                {System.out.println("start");}
+            }
+        });
+
+        final JButton help = new JButton();
+        help.setText("Help");
+        help.setPreferredSize(new Dimension(100,50));
+        help.setContentAreaFilled(false);
+        panel.add(help);
+        help.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                {System.out.println("help");}
+            }
+        });
+
+
+        frame.getContentPane().add(panel);
+        frame.pack();
+
+    }
+    class JPanelWithBackground extends JPanel {
+
+        private Image backgroundImage;
+
+
+        public JPanelWithBackground(String fileName) throws IOException {
+            backgroundImage = ImageIO.read(new File(fileName));
+
+        }
+
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(backgroundImage,0,0,600,500,this);
+        }
+    }
 }
+
