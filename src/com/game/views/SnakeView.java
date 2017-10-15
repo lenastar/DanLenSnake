@@ -20,6 +20,11 @@ public class SnakeView implements IView<Snake, Context> {
 
     @Override
     public void paint(Context context) throws IndexOutOfBoundsException {
-        //TODO:implement method
+        for (Point point:Model.getSegments()){
+            if (point.x<=0 || point.y<=0 || point.x >= context.map.getWidth() || point.y >= context.map.getHeight())
+                throw new IndexOutOfBoundsException();
+            context.map.drawPoint(context.g,point,Color.PINK);
+        }
+        context.map.drawPoint(context.g,Model.getHead(),Color.RED);
     }
 }

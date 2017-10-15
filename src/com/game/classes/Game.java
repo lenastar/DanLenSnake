@@ -3,8 +3,12 @@ package com.game.classes;
 import com.game.classes.interfaces.IController;
 import com.game.classes.interfaces.IMap;
 import com.game.classes.interfaces.IRunnable;
+import com.game.classes.interfaces.IView;
+import com.game.models.Food;
 import com.game.models.FoodManager;
+import com.game.views.FoodManagerView;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
@@ -19,6 +23,15 @@ public class Game{
         containerControllers = new ArrayList<>();
         foodManager = new FoodManager(10);
         containerRunnable = new ArrayList<>();
+        map.addView(new FoodManagerView(foodManager));
+    }
+
+    public void addFood(Food food){
+        foodManager.addFood(food);
+    }
+
+    public void addView(IView view){
+        map.addView(view);
     }
 
     public void addController(IController controller) {
