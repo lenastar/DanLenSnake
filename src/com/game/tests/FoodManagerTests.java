@@ -64,14 +64,14 @@ public class FoodManagerTests {
     public void testIsFoodSuccess()
     {
         Manager.addFood(Foods.get(0));
-        assertTrue(Manager.isFood(new Point(1, 2)));
+        assertTrue(Manager.isCollisionWith(new Point(1, 2)));
     }
 
     @Test
     public void testIsFoodFail()
     {
         Manager.addFood(Foods.get(0));
-        assertFalse(Manager.isFood(new Point(5, 2)));
+        assertFalse(Manager.isCollisionWith(new Point(5, 2)));
     }
 
     @Test

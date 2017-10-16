@@ -1,11 +1,12 @@
 package com.game.models;
 
+import com.game.classes.interfaces.IModel;
 import com.game.models.Food;
 
 import java.awt.*;
 import java.util.*;
 
-public class FoodManager {
+public class FoodManager implements IModel{
     private HashMap<Point, Food> Foods;
     private int Limit;
 
@@ -15,7 +16,7 @@ public class FoodManager {
         Foods = new HashMap<Point, Food>();
     }
 
-    public boolean isFood(Point location)
+    public boolean isCollisionWith(Point location)
     {
         if (Foods.containsKey(location)) {
             return true;

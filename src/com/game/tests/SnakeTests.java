@@ -1,4 +1,5 @@
-import com.game.classes.enumerators.Directions;
+import com.game.classes.enumerators.Direction;
+import com.game.classes.exceptions.SnakeOppositeMoveException;
 import com.game.models.Snake;
 import org.junit.jupiter.api.Test;
 
@@ -11,30 +12,10 @@ public class SnakeTests {
 
     Point head = new Point(5, 5);
 
-    public Point getDiff(Directions direction)
-    {
-        Point point = new Point(0, 0);
-        switch (direction){
-            case Down:
-                point = new Point(-1, 0);
-                break;
-            case Up:
-                point = new Point(1, 0);
-                break;
-            case Left:
-                point = new Point(0, 1);
-                break;
-            case Right:
-                point = new Point(0, -1);
-                break;
-        }
-        return point;
-    }
-
-    public void testInit(Directions direction)
+    public void testInit(Direction direction)
     {
         Snake snake = new Snake(head, 3, direction);
-        Point point = getDiff(direction);
+        Point point = direction.opposite().getPoint();
         assertArrayEquals(
                 new Point[]{
                         new Point(2*point.x + head.x, 2*point.y + head.y),
@@ -48,25 +29,25 @@ public class SnakeTests {
     @Test
     public void testInitDirRight()
     {
-        testInit(Directions.Right);
+        testInit(Direction.Right);
     }
 
     @Test
     public void testInitDirLeft()
     {
-        testInit(Directions.Left);
+        testInit(Direction.Left);
     }
 
     @Test
     public void testInitDirUp()
     {
-        testInit(Directions.Up);
+        testInit(Direction.Up);
     }
 
     @Test
     public void testInitDirDown()
     {
-        testInit(Directions.Down);
+        testInit(Direction.Down);
     }
 
     @Test
@@ -78,12 +59,12 @@ public class SnakeTests {
         assertEquals(5, snake.getLength());
     }
 
-    public void testMove(Directions direction) throws Exception
+    public void testMove(Direction direction) throws Exception
     {
         Snake snake = new Snake(head, 4);
         ArrayList<Point> old = new ArrayList<>(snake.getSegments());
         snake.move(direction);
-        Point point = new Point( -getDiff(direction).x, -getDiff(direction).y);
+        Point point = direction.getPoint();
         assertArrayEquals(
                 new Point[]
                         {
@@ -98,26 +79,26 @@ public class SnakeTests {
     }
 
     @Test
-    public void testMoveRight() throws Exception
+    public void testMoveRight() throws SnakeOppositeMoveException
     {
-        assertThrows(Exception.class, () -> { testMove(Directions.Right); });
+        assertThrows(SnakeOppositeMoveException.class, () -> { testMove(Direction.Right); });
     }
 
     @Test
     public void testMoveLeft() throws Exception
     {
-        testMove(Directions.Left);
+        testMove(Direction.Left);
     }
 
     @Test
     public void testMoveUp() throws Exception
     {
-        testMove(Directions.Up);
+        testMove(Direction.Up);
     }
 
     @Test
     public void testMoveDown() throws Exception
     {
-        testMove(Directions.Down);
+        testMove(Direction.Down);
     }
 }

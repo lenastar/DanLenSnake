@@ -3,18 +3,13 @@ package com.game.views;
 import com.game.classes.Game;
 import com.game.classes.MapGUI;
 import com.game.classes.Model;
+import com.game.classes.enumerators.Direction;
 import com.game.classes.exceptions.LevelBadSizeException;
-import com.game.models.Food;
-import javafx.application.Application;
-import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -27,10 +22,11 @@ public class Display extends JFrame {
     public static void main(String[] args) throws IOException {
         Display app = new Display();
     }
+
     public Display() throws IOException {
 
         JFrame frame = new JFrame("Snake");
-        JPanelWithBackground panel = new JPanelWithBackground("C:\\Users\\Елена\\IdeaProjects\\DanLenSnake\\src\\com\\game\\resourses\\images\\images.jpg");
+        JPanelWithBackground panel = new JPanelWithBackground("src/com/game/resources/images/images.jpg");
         frame.setVisible(true);
 
         //Image img = new ImageIcon(Application.class.getResource("C:\\Users\\Елена\\IdeaProjects\\DanLenSnake\\src\\com\\game\\resourses\\images\\preview.gif")).getImage();
@@ -80,7 +76,8 @@ public class Display extends JFrame {
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                {frame.setVisible(false);}
+                frame.setVisible(false);
+                frame.dispose();
             }
         });
         frame.setResizable(false);
@@ -107,21 +104,63 @@ public class Display extends JFrame {
     public void startGame() throws LevelBadSizeException, NoSuchMethodException {
         JDialog dlg = new JDialog((JFrame) null, "Snake");
         dlg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        MapGUI map = new MapGUI(30,30,20);
-        Game sn = new Game(map);
-        sn.addFood(new Food(new Point(10,10),5));
-        sn.addInstance(Model.createSnake(new Point(5,5), 5));
+        MapGUI map = new MapGUI(20,10,30);
+        Game game = new Game(map);
+        game.addInstance(Model.createSnake(new Point(5,5), 5, Direction.Down));
         dlg.getContentPane().add(map);
-        sn.start();
+        game.start();
         dlg.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent ev) {
-                sn.processKey(ev);
+                game.processKey(ev);
+                if (ev.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    if (game.isRunning()) {
+                        game.stop();
+                    } else {
+                        game.start();
+                    }
+                }
             }
         });
         dlg.setVisible(true);
         dlg.pack();
         dlg.setResizable(true);
         dlg.setLocation(300, 200);
-}
+        dlg.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent windowEvent) {
+
+            }
+
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                game.stop();
+            }
+
+            @Override
+            public void windowClosed(WindowEvent windowEvent) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent windowEvent) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent windowEvent) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent windowEvent) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent windowEvent) {
+
+            }
+        });
+    }
 }
 

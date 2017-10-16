@@ -1,6 +1,7 @@
 package com.game.runnable;
 
 import com.game.classes.Game;
+import com.game.classes.exceptions.SnakeOppositeMoveException;
 import com.game.classes.interfaces.IRunnable;
 import com.game.models.Snake;
 
@@ -17,18 +18,18 @@ public class SnakeRunnable implements IRunnable<Snake>{
     }
 
     @Override
-    public boolean run(Game game) throws Exception {
+    public boolean run(Game game) throws SnakeOppositeMoveException {
         model.move(model.getDirection());
-        if (game.getFoodManager().isFood(model.getHead()))
+        if (game.getMap().getLevel().isCollision(model.getHead()) ||
+                model.isBodyCollisionWith(model.getHead())){
+            return false;
+        }
+        if (game.getFoodManager().isCollisionWith(model.getHead()))
         {
             model.grow(game
                     .getFoodManager()
                     .getFood(model.getHead()).getScores(), model.getHead());
             game.getFoodManager().removeFood(model.getHead());
-        }
-        if (game.getMap().getLevel().isCollision(model.getHead()) ||
-                model.isBody(model.getHead())){
-            return false;
         }
         return true;
     }

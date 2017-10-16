@@ -24,10 +24,13 @@ public class FoodManagerView implements IView<FoodManager, Context> {
     @Override
     public void paint(Context context) throws IndexOutOfBoundsException {
         for (Point point:Model.getLocations()){
-            if (point.x<=0 || point.y<=0 || point.x >= context.map.getWidth() || point.y >= context.map.getHeight())
+            if (point.x < 0
+                    || point.y < 0
+                    || point.x >= context.map.getLevel().getWidth()
+                    || point.y >= context.map.getLevel().getHeight())
                 throw new IndexOutOfBoundsException();
             try {
-                context.map.drawImagePoint(context.g,point, ImageIO.read(new File("C:\\Users\\Елена\\IdeaProjects\\DanLenSnake\\src\\com\\game\\resourses\\images\\banana.png")));
+                context.map.drawImagePoint(context.g,point, ImageIO.read(new File("src/com/game/resources/images/banana.png")));
             } catch (IOException e) {
                 e.printStackTrace();
             }

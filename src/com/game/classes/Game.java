@@ -11,19 +11,24 @@ import com.game.views.FoodManagerView;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Game{
     private IMap map;
     private ArrayList<IController> containerControllers;
     private FoodManager foodManager;
     private ArrayList<IRunnable> containerRunnable;
+    private Thread mainThread;
+    private int speed;
+    private Random random = new Random();
 
     public Game(IMap map) {
         this.map = map;
         containerControllers = new ArrayList<>();
-        foodManager = new FoodManager(10);
+        foodManager = new FoodManager(2);
         containerRunnable = new ArrayList<>();
         map.addView(new FoodManagerView(foodManager));
+        speed = 50;
     }
 
     public void addFood(Food food){
@@ -50,9 +55,11 @@ public class Game{
 
     public void doIteration() throws Exception {
         map.paint();
+        addFoodRandomly();
+        speed = Integer.min(300, speed + 1);
         for (IRunnable runnable: containerRunnable){
-            if (runnable.run(this)){
-                System.out.println("Game Over");
+            if (!runnable.run(this)){
+                gameOver();
             }
         }
     }
@@ -73,17 +80,26 @@ public class Game{
 
     public void start()
     {
-        Thread thread = new Thread(() -> {
+        mainThread = new Thread(() -> {
             try {
                 while(true) {
                     doIteration();
-                    Thread.sleep(500);
+                    Thread.sleep(500 - speed);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
-        thread.start();
+        mainThread.start();
+    }
+
+    public void stop(){
+        mainThread.stop();
+    }
+
+    public void gameOver(){
+        System.out.println("Game is over");
+        stop();
     }
 
     public IMap getMap() {
@@ -92,5 +108,28 @@ public class Game{
 
     public FoodManager getFoodManager() {
         return foodManager;
+    }
+
+    public void addFoodRandomly(){
+        Point point;
+        boolean flag;
+        do {
+            int x = random.nextInt(map.getLevel().getWidth());
+            int y = random.nextInt(map.getLevel().getHeight());
+            point = new Point(x, y);
+            final Point _point = new Point(point);
+            flag = containerControllers
+                    .stream()
+                    .anyMatch(controller -> controller
+                            .getModel()
+                            .isCollisionWith(_point));
+        }while (map.getLevel().isCollision(point)
+                || flag
+                || foodManager.isCollisionWith(point));
+        addFood(new Food(point, 1));
+    }
+
+    public boolean isRunning(){
+        return mainThread.isAlive();
     }
 }

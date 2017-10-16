@@ -1,22 +1,24 @@
 package com.game.models;
 
+import com.game.classes.interfaces.IModel;
+
 import java.awt.*;
 
-public class Food {
-    private int Scores;
-    private Point Location;
+public class Food implements IModel{
+    private int scores;
+    private Point location;
 
     public Food(Point location, int scores) {
-        Scores = scores;
-        Location = location;
+        this.scores = scores;
+        this.location = location;
     }
 
     public int getScores() {
-        return Scores;
+        return scores;
     }
 
     public Point getLocation() {
-        return Location;
+        return location;
     }
 
     @Override
@@ -27,6 +29,11 @@ public class Food {
 
     @Override
     public int hashCode() {
-        return 211*211*Location.x + 211*Location.y + Scores;
+        return 211*211* location.x + 211* location.y + scores;
+    }
+
+    @Override
+    public boolean isCollisionWith(Point point) {
+        return this.location.equals(point);
     }
 }

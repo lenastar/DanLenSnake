@@ -61,13 +61,13 @@ public class MapGUI extends JPanel implements IMap {
 
     public void drawPoint(Graphics g, Point point, Color color) {
         g.setColor(color);
-        g.fillRect(point.y * CELL_SIZE, point.x * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        g.fillRect(point.x * CELL_SIZE, point.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         g.setColor(Color.DARK_GRAY);
-        g.drawRect(point.y * CELL_SIZE, point.x * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        g.drawRect(point.x * CELL_SIZE, point.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     }
 
     public void drawImagePoint(Graphics g, Point point, Image image){
        // g.fillRect(point.y * CELL_SIZE, point.x * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        g.drawImage(image,point.y * CELL_SIZE, point.x * CELL_SIZE, CELL_SIZE, CELL_SIZE,null);
+        g.drawImage(image,point.x * CELL_SIZE, point.y * CELL_SIZE, CELL_SIZE, CELL_SIZE,null);
     }
 }
