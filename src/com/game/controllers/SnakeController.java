@@ -9,36 +9,36 @@ import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
 public class SnakeController implements IController<Snake>{
-    private final Snake Model;
-    private HashMap<Integer, Runnable> Actions;
+    private final Snake model;
+    private HashMap<Integer, Runnable> actions;
 
     public SnakeController(Snake model) throws NoSuchMethodException {
-        Model = model;
-        Actions = new HashMap<Integer, Runnable>();
-        Actions.put(KeyEvent.VK_UP, () -> {
+        this.model = model;
+        actions = new HashMap<Integer, Runnable>();
+        actions.put(KeyEvent.VK_UP, () -> {
             try {
-                Model.setDirection(Direction.Up);
+                this.model.setDirection(Direction.Up);
             } catch (SnakeOppositeMoveException e) {
 
             }
         });
-        Actions.put(KeyEvent.VK_DOWN, () -> {
+        actions.put(KeyEvent.VK_DOWN, () -> {
             try {
-                Model.setDirection(Direction.Down);
+                this.model.setDirection(Direction.Down);
             } catch (SnakeOppositeMoveException e) {
 
             }
         });
-        Actions.put(KeyEvent.VK_LEFT, () -> {
+        actions.put(KeyEvent.VK_LEFT, () -> {
             try {
-                Model.setDirection(Direction.Left);
+                this.model.setDirection(Direction.Left);
             } catch (SnakeOppositeMoveException e) {
 
             }
         });
-        Actions.put(KeyEvent.VK_RIGHT, () -> {
+        actions.put(KeyEvent.VK_RIGHT, () -> {
             try {
-                Model.setDirection(Direction.Right);
+                this.model.setDirection(Direction.Right);
             } catch (SnakeOppositeMoveException e) {
 
             }
@@ -47,16 +47,16 @@ public class SnakeController implements IController<Snake>{
 
     @Override
     public Snake getModel() {
-        return Model;
+        return model;
     }
 
     @Override
-    public void runAction(int key) {
-        Actions.get(key).run();
+    public void runAction(int key){
+        actions.get(key).run();
     }
 
     @Override
     public boolean keyExists(int key) {
-        return Actions.containsKey(key);
+        return actions.containsKey(key);
     }
 }

@@ -1,9 +1,8 @@
 package com.game.views;
 
 import com.game.classes.Game;
+import com.game.classes.GameTimer;
 import com.game.classes.MapGUI;
-import com.game.classes.Model;
-import com.game.classes.enumerators.Direction;
 import com.game.classes.exceptions.LevelBadSizeException;
 
 import javax.imageio.ImageIO;
@@ -15,66 +14,32 @@ import java.io.IOException;
 
 public class Display extends JFrame {
 
-    private int Width = 600;
-    private int Height = 500;
-    private int WidthButton = 100;
-    private int HeightButton = 50;
-    public static void main(String[] args) throws IOException {
-        Display app = new Display();
-    }
+    private final int Width = 600;
+    private final int Height = 500;
+    private final int WidthButton = 100;
+    private final int HeightButton = 50;
+    private final MapGUI mapGUI;
+    private final Game game;
 
-    public Display() throws IOException {
+    public Display(MapGUI mapGUI, Game game) throws IOException {
+        this.mapGUI = mapGUI;
+        this.game = game;
 
         JFrame frame = new JFrame("Snake");
         JPanelWithBackground panel = new JPanelWithBackground("src/com/game/resources/images/images.jpg");
         frame.setVisible(true);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(Width,Height));
 
-        final JButton start = new JButton();
-        start.setText("Start");
-        start.setPreferredSize(new Dimension(WidthButton,HeightButton));
-        start.setBackground(Color.lightGray);
+        final JButton start = getStartButton();
         panel.add(start);
-        start.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                {
-                    try {
-                        startGame();
-                    } catch (LevelBadSizeException e1) {
-                        e1.printStackTrace();
-                    } catch (NoSuchMethodException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-            }
-        });
 
-        final JButton help = new JButton();
-        help.setText("Help");
-        help.setPreferredSize(new Dimension(WidthButton,HeightButton));
-        help.setBackground(Color.lightGray);
+        final JButton help = getHelpButton(frame);
         panel.add(help);
-        help.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                {JOptionPane.showMessageDialog(frame," It is game \"Snake\".\n Your task is managing the keys W, A, S, D to control the snake and collect food so that your snake has reached its maximum size.\n The snake will die if it bites itself or hits the boundaries of the playing field.\n Good luck!");}
-            }
-        });
 
-        final JButton exit = new JButton();
-        exit.setText("Exit");
-        exit.setPreferredSize(new Dimension(WidthButton,HeightButton));
-        exit.setBackground(Color.lightGray);
+        final JButton exit = getExitButton(frame);
         panel.add(exit);
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                frame.dispose();
-            }
-        });
+
         frame.setResizable(false);
         frame.getContentPane().add(panel);
         frame.pack();
@@ -92,89 +57,107 @@ public class Display extends JFrame {
 
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            g.drawImage(backgroundImage,0,0,600,500,this);
+            g.drawImage(backgroundImage,0,0,Width, Height,this);
         }
     }
 
     public void startGame() throws LevelBadSizeException, NoSuchMethodException {
         JDialog dlg = new JDialog((JFrame) null, "Snake");
         dlg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        MapGUI map = new MapGUI(20,10,30);
-        Game game = new Game(map);
-        game.addInstance(Model.createSnake(new Point(5,5), 5, Direction.Down));
-        dlg.getContentPane().add(map);
-        game.start();
+        startGameAfterTimer(dlg);
+        dlg.getContentPane().add(mapGUI);
         dlg.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent ev) {
                 game.processKey(ev);
-                if (ev.getKeyCode() == KeyEvent.VK_ESCAPE){
-                    game.stop();
-                    Object[] options = {"Yes", "No"};
-                    int n = JOptionPane.showOptionDialog(dlg,
-                            "Do you want to exit?",
-                            "Snake",
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.QUESTION_MESSAGE,
-                            null,
-                            options,
-                            options[0]
-                    );
-                    if (n == 0){
-                        dlg.dispose();
-                    }
-                    else {
-                        game.start();
-                    }
-                }
-                if (ev.getKeyCode() == KeyEvent.VK_SPACE){
-                    if (game.isRunning()){
-                        game.stop();
-                    }else{
-                        game.start();
-                    }
-                }
+                processKey(ev, dlg, game);
             }
         });
         dlg.setVisible(true);
         dlg.pack();
-        dlg.setResizable(true);
+        dlg.setResizable(false);
         dlg.setLocation(300, 200);
-        dlg.addWindowListener(new WindowListener() {
-            @Override
-            public void windowOpened(WindowEvent windowEvent) {
 
-            }
-
-            @Override
-            public void windowClosing(WindowEvent windowEvent) {
-                game.stop();
-            }
-
-            @Override
-            public void windowClosed(WindowEvent windowEvent) {
-
-            }
-
-            @Override
-            public void windowIconified(WindowEvent windowEvent) {
-
-            }
-
-            @Override
-            public void windowDeiconified(WindowEvent windowEvent) {
-
-            }
-
-            @Override
-            public void windowActivated(WindowEvent windowEvent) {
-
-            }
-
-            @Override
-            public void windowDeactivated(WindowEvent windowEvent) {
-
-            }
-        });
     }
+
+    public JButton getStartButton(){
+        return getButton("Start",
+                new Dimension(WidthButton,HeightButton),
+                Color.lightGray,
+                e -> {
+                    {
+                        try {
+                            startGame();
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+                }
+                );
+    }
+
+    public JButton getHelpButton(JFrame frame){
+        return getButton("Help",
+                new Dimension(WidthButton,HeightButton),
+                Color.lightGray,
+                e -> JOptionPane.showMessageDialog(frame," It is game \"Snake\".\n " +
+                        "Your task is managing the keys W, A, S, D to control the snake and collect food so " +
+                        "that your snake has reached its maximum size.\n " +
+                        "The snake will die if it bites itself or hits the boundaries of the playing field.\n " +
+                        "Good luck!")
+        );
+
+    }
+
+    public JButton getExitButton(JFrame frame){
+        return getButton("Exit",
+                new Dimension(WidthButton,HeightButton),
+                Color.lightGray,
+                e -> frame.dispose()
+        );
+    }
+
+    public JButton getButton(String text, Dimension dimension, Color background, ActionListener listener){
+        JButton button = new JButton();
+        button.setText(text);
+        button.setPreferredSize(dimension);
+        button.setBackground(background);
+        button.addActionListener(listener);
+        return button;
+    }
+
+    public void processKey(KeyEvent event, JDialog dialog, Game game){
+        if (event.getKeyCode() == KeyEvent.VK_ESCAPE){
+            game.stop();
+            Object[] options = {"Yes", "No"};
+            int n = JOptionPane.showOptionDialog(dialog,
+                    "Do you want to exit?",
+                    "Snake",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    options,
+                    options[0]
+            );
+            if (n == 0){
+                dialog.dispose();
+            }
+            else {
+                game.start();
+            }
+        }
+        if (event.getKeyCode() == KeyEvent.VK_SPACE){
+            if (game.isRunning()){
+                game.stop();
+            }else{
+                game.start();
+            }
+        }
+    }
+
+    public void startGameAfterTimer(JDialog component){
+        GameTimer gameTimer = new GameTimer(component, game);
+        gameTimer.start();
+    }
+
 }
 

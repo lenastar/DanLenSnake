@@ -7,11 +7,10 @@ import com.game.classes.interfaces.IView;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class MapGUI extends JPanel implements IMap {
     private final Level level;
-    private final int CELL_SIZE;
+    private final int cellSize;
     private ArrayList<IView> container;
 
     public MapGUI(int width, int height, int cellSize) throws LevelBadSizeException {
@@ -19,7 +18,7 @@ public class MapGUI extends JPanel implements IMap {
         container = new ArrayList<>();
         Dimension dimension = new Dimension(width * cellSize, height * cellSize);
         setPreferredSize(dimension);
-        this.CELL_SIZE = cellSize;
+        this.cellSize = cellSize;
         setBackground(Color.WHITE);
     }
 
@@ -46,7 +45,7 @@ public class MapGUI extends JPanel implements IMap {
         /*g2.setColor(Color.DARK_GRAY);
         for (int j = 0; j < level.getHeight(); j++) {
             for (int i = 0; i < level.getWidth(); i++) {
-                g2.drawRect(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+                g2.drawRect(i * cellSize, j * cellSize, cellSize, cellSize);
             }
         }*/
         for (Point point: level.getWalls()){
@@ -60,14 +59,14 @@ public class MapGUI extends JPanel implements IMap {
 
     public void drawPoint(Graphics g, Point point, Color color) {
         g.setColor(color);
-        g.fillRect(point.x * CELL_SIZE, point.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        g.fillRect(point.x * cellSize, point.y * cellSize, cellSize, cellSize);
         g.setColor(Color.DARK_GRAY);
-        g.drawRect(point.x * CELL_SIZE, point.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+        g.drawRect(point.x * cellSize, point.y * cellSize, cellSize, cellSize);
     }
 
     public void drawImagePoint(Graphics g, Point point, Image image){
-       // g.fillRect(point.y * CELL_SIZE, point.x * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-        g.drawImage(image,point.x * CELL_SIZE, point.y * CELL_SIZE, CELL_SIZE, CELL_SIZE,null);
+       // g.fillRect(point.y * cellSize, point.x * cellSize, cellSize, cellSize);
+        g.drawImage(image,point.x * cellSize, point.y * cellSize, cellSize, cellSize,null);
     }
 
 }

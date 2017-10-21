@@ -10,20 +10,20 @@ import java.io.File;
 import java.io.IOException;
 
 public class FoodManagerView implements IView<FoodManager, Context> {
-    private final FoodManager Model;
+    private final FoodManager model;
 
     public FoodManagerView(FoodManager model) {
-        Model = model;
+        this.model = model;
     }
 
     @Override
     public FoodManager getModel() {
-        return Model;
+        return model;
     }
 
     @Override
     public void paint(Context context) throws IndexOutOfBoundsException {
-        for (Point point:Model.getLocations()){
+        for (Point point: model.getLocations()){
             if (point.x < 0
                     || point.y < 0
                     || point.x >= context.map.getLevel().getWidth()

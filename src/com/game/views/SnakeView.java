@@ -7,20 +7,20 @@ import com.game.models.Snake;
 import java.awt.*;
 
 public class SnakeView implements IView<Snake, Context> {
-    private final Snake Model;
+    private final Snake model;
 
     public SnakeView(Snake model){
-        Model = model;
+        this.model = model;
     }
 
     @Override
     public Snake getModel() {
-        return Model;
+        return model;
     }
 
     @Override
     public void paint(Context context) throws IndexOutOfBoundsException {
-        for (Point point:Model.getSegments()){
+        for (Point point: model.getSegments()){
             if (point.x < 0
                     || point.y < 0
                     || point.x >= context.map.getLevel().getWidth()
@@ -28,6 +28,6 @@ public class SnakeView implements IView<Snake, Context> {
                 throw new IndexOutOfBoundsException();
             context.map.drawPoint(context.g,point,Color.PINK);
         }
-        context.map.drawPoint(context.g,Model.getHead(),Color.RED);
+        context.map.drawPoint(context.g, model.getHead(),Color.RED);
     }
 }

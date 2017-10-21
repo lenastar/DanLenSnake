@@ -1,59 +1,58 @@
 package com.game.models;
 
 import com.game.classes.interfaces.IModel;
-import com.game.models.Food;
 
 import java.awt.*;
 import java.util.*;
 
 public class FoodManager implements IModel{
-    private HashMap<Point, Food> Foods;
-    private int Limit;
+    private HashMap<Point, Food> foods;
+    private int limit;
 
     public FoodManager(int limit)
     {
-        Limit = limit;
-        Foods = new HashMap<Point, Food>();
+        this.limit = limit;
+        foods = new HashMap<Point, Food>();
     }
 
     public boolean isCollisionWith(Point location)
     {
-        return Foods.containsKey(location);
+        return foods.containsKey(location);
     }
 
     public int getLimit() {
-        return Limit;
+        return limit;
     }
 
     public void addFood(Food food)
     {
-        if (Foods.size() < Limit) {
-            Foods.put(food.getLocation(), food);
+        if (foods.size() < limit) {
+            foods.put(food.getLocation(), food);
         }
     }
 
     public void removeFood(Point location)
     {
-        Foods.remove(location);
+        foods.remove(location);
     }
 
     public int count()
     {
-        return Foods.size();
+        return foods.size();
     }
 
     public Food getFood(Point location)
     {
-        return Foods.get(location);
+        return foods.get(location);
     }
 
     public Set<Point> getLocations()
     {
-        return Foods.keySet();
+        return foods.keySet();
     }
 
     public void clear()
     {
-        Foods.clear();
+        foods.clear();
     }
 }

@@ -21,11 +21,10 @@ public class SnakeRunnable implements IRunnable<Snake>{
     public boolean run(Game game) throws SnakeOppositeMoveException {
         model.move(model.getDirection());
         if (game.getMap().getLevel().isCollision(model.getHead()) ||
-                model.isBodyCollisionWith(model.getHead())){
+                model.isBodyCollisionWith(model.getHead())) {
             return false;
         }
-        if (game.getFoodManager().isCollisionWith(model.getHead()))
-        {
+        if (game.getFoodManager().isCollisionWith(model.getHead())) {
             model.grow(game
                     .getFoodManager()
                     .getFood(model.getHead()).getScores(), model.getHead());

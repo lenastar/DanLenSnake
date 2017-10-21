@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Game{
+    private final int MAX_SPEED = 350;
+
     private IMap map;
     private ArrayList<IController> containerControllers;
     private FoodManager foodManager;
@@ -21,14 +23,25 @@ public class Game{
     private Thread mainThread;
     private int speed;
     private Random random = new Random();
+    private boolean endIteration = false;
 
     public Game(IMap map) {
         this.map = map;
+
+        speed = 100;
         containerControllers = new ArrayList<>();
         foodManager = new FoodManager(2);
         containerRunnable = new ArrayList<>();
         map.addView(new FoodManagerView(foodManager));
-        speed = 50;
+        mainThread = new Thread(() -> {
+            try {
+                while(true) {
+                    doIteration();
+                    Thread.sleep(500 - speed);
+                }
+            } catch (Exception e) {
+            }
+        });
     }
 
     public void addFood(Food food){
@@ -54,22 +67,31 @@ public class Game{
     }
 
     public void doIteration() throws Exception {
-        map.paint();
-        addFoodRandomly();
-        speed = Integer.min(300, speed + 1);
-        for (IRunnable runnable: containerRunnable){
-            if (!runnable.run(this)){
-                gameOver();
+        synchronized ((Object)endIteration) {
+            map.paint();
+            addFoodRandomly();
+            speed = Integer.min(MAX_SPEED, speed + 1);
+            for (IRunnable runnable : containerRunnable) {
+                if (!runnable.run(this)) {
+                    gameOver();
+                }
             }
+            endIteration = true;
         }
     }
 
     public void processKey(int key)
     {
-        for (IController controller: containerControllers) {
-            if (controller.keyExists(key)) {
-                controller.runAction(key);
+        synchronized ((Object)endIteration) {
+            for (IController controller : containerControllers) {
+                if (controller.keyExists(key)) {
+                    controller.runAction(key);
+                }
             }
+            endIteration = false;
+        }
+        while (!endIteration && isRunning()){
+            Thread.yield();
         }
     }
 
@@ -80,21 +102,11 @@ public class Game{
 
     public void start()
     {
-        mainThread = new Thread(() -> {
-            try {
-                while(true) {
-                    doIteration();
-                    Thread.sleep(500 - speed);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
         mainThread.start();
     }
 
     public void stop(){
-        mainThread.interrupt();
+        mainThread.stop();
     }
 
     public void gameOver(){
