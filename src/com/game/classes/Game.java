@@ -94,7 +94,7 @@ public class Game{
     }
 
     public void stop(){
-        mainThread.stop();
+        mainThread.interrupt();
     }
 
     public void gameOver(){

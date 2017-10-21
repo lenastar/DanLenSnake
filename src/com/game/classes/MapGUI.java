@@ -13,7 +13,6 @@ public class MapGUI extends JPanel implements IMap {
     private final Level level;
     private final int CELL_SIZE;
     private ArrayList<IView> container;
-    private Random random = new Random();
 
     public MapGUI(int width, int height, int cellSize) throws LevelBadSizeException {
         level = Level.getDefaultLevel(width, height);
@@ -70,4 +69,5 @@ public class MapGUI extends JPanel implements IMap {
        // g.fillRect(point.y * CELL_SIZE, point.x * CELL_SIZE, CELL_SIZE, CELL_SIZE);
         g.drawImage(image,point.x * CELL_SIZE, point.y * CELL_SIZE, CELL_SIZE, CELL_SIZE,null);
     }
+
 }

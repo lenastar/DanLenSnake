@@ -29,12 +29,8 @@ public class Display extends JFrame {
         JPanelWithBackground panel = new JPanelWithBackground("src/com/game/resources/images/images.jpg");
         frame.setVisible(true);
 
-        //Image img = new ImageIcon(Application.class.getResource("C:\\Users\\Елена\\IdeaProjects\\DanLenSnake\\src\\com\\game\\resourses\\images\\preview.gif")).getImage();
-      //  frame.setIconImage(img);
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(Width,Height));
-
 
         final JButton start = new JButton();
         start.setText("Start");
@@ -76,7 +72,6 @@ public class Display extends JFrame {
         exit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
                 frame.dispose();
             }
         });
@@ -113,9 +108,28 @@ public class Display extends JFrame {
             public void keyPressed(KeyEvent ev) {
                 game.processKey(ev);
                 if (ev.getKeyCode() == KeyEvent.VK_ESCAPE){
-                    if (game.isRunning()) {
+                    game.stop();
+                    Object[] options = {"Yes", "No"};
+                    int n = JOptionPane.showOptionDialog(dlg,
+                            "Do you want to exit?",
+                            "Snake",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            options,
+                            options[0]
+                    );
+                    if (n == 0){
+                        dlg.dispose();
+                    }
+                    else {
+                        game.start();
+                    }
+                }
+                if (ev.getKeyCode() == KeyEvent.VK_SPACE){
+                    if (game.isRunning()){
                         game.stop();
-                    } else {
+                    }else{
                         game.start();
                     }
                 }

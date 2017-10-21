@@ -18,10 +18,7 @@ public class FoodManager implements IModel{
 
     public boolean isCollisionWith(Point location)
     {
-        if (Foods.containsKey(location)) {
-            return true;
-        }
-        return false;
+        return Foods.containsKey(location);
     }
 
     public int getLimit() {
@@ -37,7 +34,7 @@ public class FoodManager implements IModel{
 
     public void removeFood(Point location)
     {
-        Food food = Foods.remove(location);
+        Foods.remove(location);
     }
 
     public int count()
