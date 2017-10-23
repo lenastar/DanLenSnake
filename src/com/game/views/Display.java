@@ -64,7 +64,8 @@ public class Display extends JFrame {
     public void startGame() throws LevelBadSizeException, NoSuchMethodException {
         JDialog dlg = new JDialog((JFrame) null, "Snake");
         dlg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        startGameAfterTimer(dlg);
+//        startGameAfterTimer(dlg);
+        game.start();
         dlg.getContentPane().add(mapGUI);
         dlg.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent ev) {

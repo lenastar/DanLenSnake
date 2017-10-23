@@ -1,11 +1,12 @@
 package com.game.classes;
 
 import com.game.classes.interfaces.IController;
+import com.game.classes.interfaces.IModel;
 import com.game.classes.interfaces.IRunnable;
 import com.game.classes.interfaces.IView;
 
 public class Instance<
-        TModel,
+        TModel extends IModel,
         TView extends IView,
         TController extends IController,
         TRunnable extends IRunnable> {

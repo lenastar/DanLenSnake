@@ -56,8 +56,9 @@ public class FoodManager implements IModel{
         foods.clear();
     }
 
-    public void isCollisionWithSnake(Snake snake){
+    public boolean isCollisionWithSnake(Snake snake){
         snake.grow(getFood(snake.getHead()).getScores());
         removeFood(snake.getHead());
+        return true;
     }
 }

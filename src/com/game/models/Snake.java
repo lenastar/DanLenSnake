@@ -59,7 +59,10 @@ public class Snake implements IModel{
 
     @Override
     public boolean isCollisionWithSnake(Snake snake) {
-        return snake.getSegments().stream().anyMatch(point -> isCollisionWith(point));
+        return snake
+                .getSegments()
+                .stream()
+                .anyMatch(point -> isCollisionWith(point));
     }
 
     public boolean isBodyCollisionWith(Point point)

@@ -20,13 +20,11 @@ public class Game{
     private ArrayList<IModel> containerModels;
     private Thread mainThread;
     private int speed;
-    private Random random = new Random();
-    private boolean endIteration = false;
     private OptionalInt pressedKey;
 
     public Game(IMap map) {
         this.map = map;
-
+        pressedKey = OptionalInt.empty();
         speed = 100;
         containerModels = new ArrayList<>();
         containerControllers = new ArrayList<>();
@@ -67,6 +65,7 @@ public class Game{
     public void addInstance(Instance instance){
         addController(instance.getController());
         addRunnable(instance.getRunnable());
+        addModel(instance.getModel());
         map.addView(instance.getView());
     }
 
