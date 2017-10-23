@@ -55,7 +55,7 @@ public class SnakeTests {
     {
         Snake snake = new Snake(head, 3);
         assertEquals(3, snake.getLength());
-        snake.grow(2, new Point(0,0));
+        snake.grow(2);
         assertEquals(5, snake.getLength());
     }
 
@@ -63,7 +63,8 @@ public class SnakeTests {
     {
         Snake snake = new Snake(head, 4);
         ArrayList<Point> old = new ArrayList<>(snake.getSegments());
-        snake.move(direction);
+        snake.setDirection(direction);
+        snake.move();
         Point point = direction.getPoint();
         assertArrayEquals(
                 new Point[]

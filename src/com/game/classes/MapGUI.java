@@ -1,5 +1,6 @@
 package com.game.classes;
 
+import com.game.classes.enumerators.Images;
 import com.game.classes.exceptions.LevelBadSizeException;
 import com.game.classes.interfaces.IMap;
 import com.game.classes.interfaces.IView;
@@ -14,7 +15,11 @@ public class MapGUI extends JPanel implements IMap {
     private ArrayList<IView> container;
 
     public MapGUI(int width, int height, int cellSize) throws LevelBadSizeException {
-        level = Level.getDefaultLevel(width, height);
+        this(width, height, cellSize, Level.getDefaultLevel(width, height));
+    }
+
+    public MapGUI(int width, int height, int cellSize, Level level) throws LevelBadSizeException {
+        this.level = level;
         container = new ArrayList<>();
         Dimension dimension = new Dimension(width * cellSize, height * cellSize);
         setPreferredSize(dimension);
@@ -58,6 +63,11 @@ public class MapGUI extends JPanel implements IMap {
     }
 
     public void drawPoint(Graphics g, Point point, Color color) {
+        if (point.x < 0
+                || point.y < 0
+                || point.x >= getLevel().getWidth()
+                || point.y >= getLevel().getHeight())
+            throw new IndexOutOfBoundsException();
         g.setColor(color);
         g.fillRect(point.x * cellSize, point.y * cellSize, cellSize, cellSize);
         g.setColor(Color.DARK_GRAY);
@@ -65,7 +75,11 @@ public class MapGUI extends JPanel implements IMap {
     }
 
     public void drawImagePoint(Graphics g, Point point, Image image){
-       // g.fillRect(point.y * cellSize, point.x * cellSize, cellSize, cellSize);
+        if (point.x < 0
+                || point.y < 0
+                || point.x >= getLevel().getWidth()
+                || point.y >= getLevel().getHeight())
+            throw new IndexOutOfBoundsException();
         g.drawImage(image,point.x * cellSize, point.y * cellSize, cellSize, cellSize,null);
     }
 

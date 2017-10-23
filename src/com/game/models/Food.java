@@ -4,7 +4,7 @@ import com.game.classes.interfaces.IModel;
 
 import java.awt.*;
 
-public class Food implements IModel{
+public class Food{
     private int scores;
     private Point location;
 
@@ -30,10 +30,5 @@ public class Food implements IModel{
     @Override
     public int hashCode() {
         return 211*211* location.x + 211* location.y + scores;
-    }
-
-    @Override
-    public boolean isCollisionWith(Point point) {
-        return this.location.equals(point);
     }
 }

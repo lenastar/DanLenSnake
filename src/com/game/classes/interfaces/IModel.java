@@ -1,7 +1,10 @@
 package com.game.classes.interfaces;
 
+import com.game.models.Snake;
+
 import java.awt.*;
 
 public interface IModel {
-    public boolean isCollisionWith(Point point);
+    boolean isCollisionWith(Point point);
+    boolean isCollisionWithSnake(Snake snake);
 }

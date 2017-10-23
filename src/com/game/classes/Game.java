@@ -1,16 +1,13 @@
 package com.game.classes;
 
-import com.game.classes.interfaces.IController;
-import com.game.classes.interfaces.IMap;
-import com.game.classes.interfaces.IRunnable;
-import com.game.classes.interfaces.IView;
+import com.game.classes.interfaces.*;
 import com.game.models.Food;
 import com.game.models.FoodManager;
 import com.game.views.FoodManagerView;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.OptionalInt;
 import java.util.Random;
 
 public class Game{
@@ -20,15 +17,18 @@ public class Game{
     private ArrayList<IController> containerControllers;
     private FoodManager foodManager;
     private ArrayList<IRunnable> containerRunnable;
+    private ArrayList<IModel> containerModels;
     private Thread mainThread;
     private int speed;
     private Random random = new Random();
     private boolean endIteration = false;
+    private OptionalInt pressedKey;
 
     public Game(IMap map) {
         this.map = map;
 
         speed = 100;
+        containerModels = new ArrayList<>();
         containerControllers = new ArrayList<>();
         foodManager = new FoodManager(2);
         containerRunnable = new ArrayList<>();
@@ -52,6 +52,10 @@ public class Game{
         map.addView(view);
     }
 
+    public void addModel(IModel model) {
+        containerModels.add(model);
+    }
+
     public void addController(IController controller) {
         containerControllers.add(controller);
     }
@@ -66,32 +70,29 @@ public class Game{
         map.addView(instance.getView());
     }
 
-    public void doIteration() throws Exception {
-        synchronized ((Object)endIteration) {
+    public synchronized void doIteration() throws Exception {
             map.paint();
-            addFoodRandomly();
+            Randomize.addFoodRandomly(this);
             speed = Integer.min(MAX_SPEED, speed + 1);
             for (IRunnable runnable : containerRunnable) {
                 if (!runnable.run(this)) {
                     gameOver();
                 }
             }
-            endIteration = true;
-        }
+            pressedKey.ifPresent(key -> {
+                for (IController controller : containerControllers) {
+                    if (controller.keyExists(key)) {
+                        controller.runAction(key);
+                    }
+                }
+            });
+            pressedKey = OptionalInt.empty();
     }
 
-    public void processKey(int key)
+    public synchronized void processKey(int key)
     {
-        synchronized ((Object)endIteration) {
-            for (IController controller : containerControllers) {
-                if (controller.keyExists(key)) {
-                    controller.runAction(key);
-                }
-            }
-            endIteration = false;
-        }
-        while (!endIteration && isRunning()){
-            Thread.yield();
+        if (!pressedKey.isPresent()){
+            pressedKey = OptionalInt.of(key);
         }
     }
 
@@ -122,26 +123,15 @@ public class Game{
         return foodManager;
     }
 
-    public void addFoodRandomly(){
-        Point point;
-        boolean flag;
-        do {
-            int x = random.nextInt(map.getLevel().getWidth());
-            int y = random.nextInt(map.getLevel().getHeight());
-            point = new Point(x, y);
-            final Point _point = new Point(point);
-            flag = containerControllers
-                    .stream()
-                    .anyMatch(controller -> controller
-                            .getModel()
-                            .isCollisionWith(_point));
-        }while (map.getLevel().isCollision(point)
-                || flag
-                || foodManager.isCollisionWith(point));
-        addFood(new Food(point, 1));
-    }
-
     public boolean isRunning(){
         return mainThread.isAlive();
+    }
+
+    public ArrayList<IController> getContainerControllers() {
+        return containerControllers;
+    }
+
+    public ArrayList<IModel> getContainerModels() {
+        return containerModels;
     }
 }

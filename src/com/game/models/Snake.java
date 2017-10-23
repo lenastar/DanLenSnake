@@ -6,10 +6,12 @@ import com.game.classes.interfaces.IModel;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Snake implements IModel{
     private ArrayList<Point> segments;
     private Direction direction;
+    private int length;
 
     public Snake(Point head, int length, Direction direction)
     {
@@ -22,6 +24,7 @@ public class Snake implements IModel{
             segments.add(0,
                     new Point(head.x + dirPoint.x * index,head.y + dirPoint.y * index));
         }
+        this.length = segments.size();
     }
 
     public Snake(Point head, int length)
@@ -29,18 +32,14 @@ public class Snake implements IModel{
         this(head, length, Direction.Left);
     }
 
-    public void move(Direction direction) throws SnakeOppositeMoveException
+    public void move()
     {
-        setDirection(direction);
-        for (int index = 1; index < segments.size(); index++)
-        {
-            segments.set(index - 1, segments.get(index));
-        }
-
         Point head = new Point(getHead());
-
         head.translate(direction.getPoint().x, direction.getPoint().y);
-        segments.set(segments.size() - 1, head);
+        segments.add(head);
+        if (length < segments.size()) {
+            segments.remove(0);
+        }
     }
 
     public Point getHead()
@@ -48,17 +47,19 @@ public class Snake implements IModel{
         return segments.get(segments.size() - 1);
     }
 
-    public void grow(int length, Point location)
+    public void grow(int length)
     {
-        for (int index = 0; index < length; index++)
-        {
-            segments.add(0, new Point(location));
-        }
+        this.length += length;
     }
 
     public boolean isCollisionWith(Point point)
     {
         return isBodyCollisionWith(point) || isHeadCollisionWith(point);
+    }
+
+    @Override
+    public boolean isCollisionWithSnake(Snake snake) {
+        return snake.getSegments().stream().anyMatch(point -> isCollisionWith(point));
     }
 
     public boolean isBodyCollisionWith(Point point)
@@ -85,7 +86,7 @@ public class Snake implements IModel{
 
     public void setDirection(Direction direction) throws SnakeOppositeMoveException {
         if (this.direction.opposite() == direction){
-            throw new SnakeOppositeMoveException("Snake can't move in oppsite direction");
+            throw new SnakeOppositeMoveException();
         }
         this.direction = direction;
     }
@@ -96,6 +97,6 @@ public class Snake implements IModel{
 
     public int getLength()
     {
-        return segments.size();
+        return length;
     }
 }

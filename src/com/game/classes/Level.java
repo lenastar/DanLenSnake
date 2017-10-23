@@ -1,6 +1,7 @@
 package com.game.classes;
 
 import com.game.classes.exceptions.LevelBadSizeException;
+import com.game.models.Snake;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -66,5 +67,9 @@ public class Level {
 
     public boolean isCollision(Point point) {
         return walls.stream().anyMatch(p -> p.equals(point));
+    }
+
+    public boolean isCollisionWithSnake(Snake snake){
+        return snake.getSegments().stream().anyMatch(point -> isCollision(point));
     }
 }

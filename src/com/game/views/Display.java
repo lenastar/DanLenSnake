@@ -100,7 +100,7 @@ public class Display extends JFrame {
                 new Dimension(WidthButton,HeightButton),
                 Color.lightGray,
                 e -> JOptionPane.showMessageDialog(frame," It is game \"Snake\".\n " +
-                        "Your task is managing the keys W, A, S, D to control the snake and collect food so " +
+                        "Your task is managing the keys W,A,S,D to control the snake and collect food so " +
                         "that your snake has reached its maximum size.\n " +
                         "The snake will die if it bites itself or hits the boundaries of the playing field.\n " +
                         "Good luck!")

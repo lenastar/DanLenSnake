@@ -1,6 +1,7 @@
 package com.game.views;
 
 import com.game.classes.Context;
+import com.game.classes.enumerators.Images;
 import com.game.models.FoodManager;
 import com.game.classes.interfaces.IView;
 
@@ -24,16 +25,7 @@ public class FoodManagerView implements IView<FoodManager, Context> {
     @Override
     public void paint(Context context) throws IndexOutOfBoundsException {
         for (Point point: model.getLocations()){
-            if (point.x < 0
-                    || point.y < 0
-                    || point.x >= context.map.getLevel().getWidth()
-                    || point.y >= context.map.getLevel().getHeight())
-                throw new IndexOutOfBoundsException();
-            try {
-                context.map.drawImagePoint(context.g,point, ImageIO.read(new File("src/com/game/resources/images/banana.png")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            context.map.drawImagePoint(context.g,point, Images.Banana.getImage());
         }
 
     }
