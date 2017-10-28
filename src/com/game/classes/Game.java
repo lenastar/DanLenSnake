@@ -8,6 +8,7 @@ import com.game.views.FoodManagerView;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.OptionalInt;
+import java.util.PriorityQueue;
 import java.util.Random;
 
 public class Game{
@@ -20,12 +21,13 @@ public class Game{
     private ArrayList<IModel> containerModels;
     private Thread mainThread;
     private int speed;
-    private OptionalInt pressedKey;
+    private PriorityQueue<Integer> pressedKeys;
+    private boolean endIteration;
 
     public Game(IMap map) {
         this.map = map;
-        pressedKey = OptionalInt.empty();
-        speed = 100;
+        pressedKeys = new PriorityQueue<>();
+        speed = 200;
         containerModels = new ArrayList<>();
         containerControllers = new ArrayList<>();
         foodManager = new FoodManager(2);
@@ -69,35 +71,41 @@ public class Game{
         map.addView(instance.getView());
     }
 
-    public synchronized void doIteration() throws Exception {
-            map.paint();
-            Randomize.addFoodRandomly(this);
-            speed = Integer.min(MAX_SPEED, speed + 1);
-            for (IRunnable runnable : containerRunnable) {
-                if (!runnable.run(this)) {
-                    gameOver();
-                }
+    public void doIteration() throws Exception {
+        map.paint();
+        Randomize.addFoodRandomly(this);
+        speed = Integer.min(MAX_SPEED, speed + 1);
+        System.out.print(pressedKeys + "  ");
+        if (pressedKeys.size() > 0){
+            processKey(pressedKeys.poll());
+        }
+        System.out.println();
+        for (IRunnable runnable : containerRunnable) {
+            if (!runnable.run(this)) {
+                gameOver();
             }
-            pressedKey.ifPresent(key -> {
-                for (IController controller : containerControllers) {
-                    if (controller.keyExists(key)) {
-                        controller.runAction(key);
-                    }
-                }
-            });
-            pressedKey = OptionalInt.empty();
+        }
+        endIteration = true;
     }
 
-    public synchronized void processKey(int key)
+    public void processKey(int key)
     {
-        if (!pressedKey.isPresent()){
-            pressedKey = OptionalInt.of(key);
+        for (IController controller : containerControllers) {
+            if (controller.keyExists(key)) {
+                controller.runAction(key);
+            }
         }
     }
 
     public void processKey(KeyEvent event)
     {
-        processKey(event.getKeyCode());
+        handleKey(event.getKeyCode());
+    }
+
+    public void handleKey(int key){
+        if (pressedKeys.size() == 0 || pressedKeys.peek() != key) {
+            pressedKeys.add(key);
+        }
     }
 
     public void start()

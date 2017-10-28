@@ -66,6 +66,7 @@ public class Display extends JFrame {
         dlg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 //        startGameAfterTimer(dlg);
         game.start();
+
         dlg.getContentPane().add(mapGUI);
         dlg.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent ev) {
