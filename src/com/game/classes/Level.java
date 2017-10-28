@@ -70,6 +70,6 @@ public class Level {
     }
 
     public boolean snakeIsAliveAfterCollision(Snake snake){
-        return !(snake.getSegments().stream().anyMatch(point -> isCollision(point)));
+        return !isCollision(snake.getHead());
     }
 }

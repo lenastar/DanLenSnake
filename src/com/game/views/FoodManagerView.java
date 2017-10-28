@@ -25,11 +25,7 @@ public class FoodManagerView implements IView<FoodManager, Context> {
     @Override
     public void paint(Context context) throws IndexOutOfBoundsException {
         for (Point point: model.getLocations()){
-            try {
-                context.map.drawImagePoint(context.g,point, ImageIO.read(new File("src/com/game/resources/images/banana.png")));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            context.map.drawImagePoint(context.g, point, Images.getBanana());
         }
 
     }

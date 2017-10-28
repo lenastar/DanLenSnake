@@ -1,5 +1,7 @@
 import com.game.classes.Level;
+import com.game.classes.enumerators.Direction;
 import com.game.classes.exceptions.LevelBadSizeException;
+import com.game.models.Snake;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -56,5 +58,25 @@ public class LevelTests {
                         "###"
                 });
         });
+    }
+
+    @Test
+    public void testCollisionWith() throws LevelBadSizeException {
+        Level level = Level.getDefaultLevel(3, 3);
+        Point point1 = new Point(3, 2);
+        Point point2 = new Point(2, 2);
+        assertTrue(level.isCollision(point2));
+        assertFalse(level.isCollision(point1));
+    }
+
+    @Test
+    public void testCollisionWithSnake() throws LevelBadSizeException {
+        Level level = Level.getDefaultLevel(6, 6);
+        Snake snake = new Snake(new Point(2, 2), 3, Direction.Up);
+        assertTrue(level.snakeIsAliveAfterCollision(snake));
+        snake.move();
+        assertTrue(level.snakeIsAliveAfterCollision(snake));
+        snake.move();
+        assertFalse(level.snakeIsAliveAfterCollision(snake));
     }
 }

@@ -27,8 +27,7 @@ public class Display extends JFrame {
         this.game = game;
 
         JFrame frame = new JFrame("Snake");
-        //TODO: optimize
-        JPanelWithBackground panel = new JPanelWithBackground(ImageIO.read(new File("src/com/game/resources/images/images.jpg")));
+        JPanelWithBackground panel = new JPanelWithBackground(Images.getBackground());
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(Width,Height));

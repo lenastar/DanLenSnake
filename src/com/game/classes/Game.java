@@ -6,10 +6,7 @@ import com.game.models.FoodManager;
 import com.game.views.FoodManagerView;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.OptionalInt;
-import java.util.PriorityQueue;
-import java.util.Random;
+import java.util.*;
 
 public class Game{
     private final int MAX_SPEED = 350;
@@ -22,8 +19,15 @@ public class Game{
     private Thread mainThread;
     private int speed;
     private PriorityQueue<Integer> pressedKeys;
+    public boolean isGameOver = false;
+    private HashMap<String, ArrayList> startState;
 
     public Game(IMap map) {
+        startState = new HashMap<>();
+        startState.put("views", new ArrayList(getMap().getViews()));
+        startState.put("models", new ArrayList(getContainerModels()));
+        startState.put("controllers", new ArrayList(getContainerControllers()));
+        startState.put("views", new ArrayList());
         this.map = map;
         pressedKeys = new PriorityQueue<>();
         speed = 200;
@@ -82,7 +86,7 @@ public class Game{
         }
     }
 
-    public void processKey(int key)
+    private void processKey(int key)
     {
         for (IController controller : containerControllers) {
             if (controller.keyExists(key)) {
@@ -96,7 +100,7 @@ public class Game{
         handleKey(event.getKeyCode());
     }
 
-    public void handleKey(int key){
+    private void handleKey(int key){
         if (pressedKeys.size() == 0 || pressedKeys.peek() != key) {
             pressedKeys.add(key);
         }
@@ -114,6 +118,11 @@ public class Game{
     public void gameOver(){
         System.out.println("Game is over");
         stop();
+        containerModels.clear();
+        containerControllers.clear();
+        containerRunnable.clear();
+        map.getViews().clear();
+        isGameOver = true;
     }
 
     public IMap getMap() {

@@ -1,6 +1,8 @@
+import com.game.classes.enumerators.Direction;
 import com.game.models.FoodManager;
 import com.game.classes.interfaces.IController;
 import com.game.models.Food;
+import com.game.models.Snake;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -81,6 +83,27 @@ public class FoodManagerTests {
         assertEquals(Manager.count(), 2);
         Manager.clear();
         assertEquals(Manager.count(), 0);
+    }
+
+    @Test
+    public void testCollisionWithPoint(){
+        Manager.addFood(Foods.get(0));
+        Manager.addFood(Foods.get(1));
+        assertTrue(Manager.isCollisionWith(new Point(2, 3)));
+        assertFalse(Manager.isCollisionWith(new Point(4, 2)));
+        Manager.clear();
+    }
+
+    @Test
+    public void testCollisionWithSnake(){
+        Manager.addFood(Foods.get(0));
+        Snake snake = new Snake(new Point(1, 4), 3, Direction.Up);
+        snake.move();
+        snake.move();
+        boolean result = Manager.snakeIsAliveAfterCollision(snake);
+        assertTrue(result);
+        assertEquals(6, snake.getLength());
+        assertEquals(0, Manager.count());
     }
 
 }

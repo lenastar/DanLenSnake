@@ -10,14 +10,35 @@ import java.io.IOException;
 import static javax.imageio.ImageIO.*;
 
 public class Images {
-    private static final Image Banana;
-    private static final Image Background ;
+//    public static Image Banana;
+//    public static Image Background;
+//
+//    static {
+//        try {
+//            Banana = ImageIO.read(new File("src/com/game/resources/images/banana.png"));
+//            Background = ImageIO.read(new File("src/com/game/resources/images/images.jpg"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+    private static final String Banana = "src/com/game/resources/images/banana.png";
+    private static final String Background = "src/com/game/resources/images/images.jpg";
 
-    static {
+    private static Image getImages(String pathname){
         try {
-            Banana = new BufferedImage(Image.class.getResource("src/com/game/resources/images/banana.png"));
+            return ImageIO.read(new File(pathname));
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    public static Image getBanana(){
+        return getImages(Banana);
+    }
+
+    public static Image getBackground(){
+        return getImages(Background);
     }
 }

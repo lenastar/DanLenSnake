@@ -122,4 +122,14 @@ public class SnakeTests {
         assertTrue(snake.isHeadCollisionWith(point));
         assertFalse(snake.isHeadCollisionWith(point1));
     }
+
+    @Test
+    public void testCollisionWithSnake(){
+        Snake snake1 = new Snake(head, 3, Direction.Up);
+        Snake snake2 = new Snake(new Point(5, 6), 3, Direction.Left);
+        Snake snake3 = new Snake(new Point(1, 1), 3, Direction.Up);
+
+        assertFalse(!snake1.snakeIsAliveAfterCollision(snake2));
+        assertTrue(snake1.snakeIsAliveAfterCollision(snake3));
+    }
 }

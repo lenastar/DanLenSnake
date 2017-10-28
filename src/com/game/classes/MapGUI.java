@@ -30,6 +30,10 @@ public class MapGUI extends JPanel implements IMap {
         container.add(view);
     }
 
+    public ArrayList<IView> getViews() {
+        return container;
+    }
+
     @Override
     public void paint() {
         this.repaint();
