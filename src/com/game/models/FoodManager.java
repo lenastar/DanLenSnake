@@ -12,7 +12,7 @@ public class FoodManager implements IModel{
     public FoodManager(int limit)
     {
         this.limit = limit;
-        foods = new HashMap<Point, Food>();
+        foods = new HashMap<>();
     }
 
     public boolean isCollisionWith(Point location)
@@ -56,9 +56,11 @@ public class FoodManager implements IModel{
         foods.clear();
     }
 
-    public boolean isCollisionWithSnake(Snake snake){
-        snake.grow(getFood(snake.getHead()).getScores());
-        removeFood(snake.getHead());
+    public boolean snakeIsAliveAfterCollision(Snake snake){
+        if (isCollisionWith(snake.getHead())){
+            snake.grow(getFood(snake.getHead()).getScores());
+            removeFood(snake.getHead());
+        }
         return true;
     }
 }

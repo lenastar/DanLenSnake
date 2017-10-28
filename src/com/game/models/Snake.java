@@ -58,23 +58,19 @@ public class Snake implements IModel{
     }
 
     @Override
-    public boolean isCollisionWithSnake(Snake snake) {
-        return snake
-                .getSegments()
-                .stream()
-                .anyMatch(point -> isCollisionWith(point));
+    public boolean snakeIsAliveAfterCollision(Snake snake) {
+        if (snake == this)
+            return !(isBodyCollisionWith(getHead()));
+        else return !(snake.isCollisionWith(getHead())) ;
+
     }
 
     public boolean isBodyCollisionWith(Point point)
     {
-        for (int index = 0; index < segments.size() - 1; index++)
-        {
-            if (segments.get(index).equals(point))
-            {
-                return true;
-            }
-        }
-        return false;
+        return segments
+                .stream()
+                .limit(segments.size()-1)
+                .anyMatch(p->p.equals(point));
     }
 
     public boolean isHeadCollisionWith(Point point)

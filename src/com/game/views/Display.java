@@ -2,6 +2,7 @@ package com.game.views;
 
 import com.game.classes.Game;
 import com.game.classes.GameTimer;
+import com.game.classes.Images;
 import com.game.classes.MapGUI;
 import com.game.classes.exceptions.LevelBadSizeException;
 
@@ -26,7 +27,8 @@ public class Display extends JFrame {
         this.game = game;
 
         JFrame frame = new JFrame("Snake");
-        JPanelWithBackground panel = new JPanelWithBackground("src/com/game/resources/images/images.jpg");
+        //TODO: optimize
+        JPanelWithBackground panel = new JPanelWithBackground(ImageIO.read(new File("src/com/game/resources/images/images.jpg")));
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(Width,Height));
@@ -50,8 +52,8 @@ public class Display extends JFrame {
 
         private Image backgroundImage;
 
-        public JPanelWithBackground(String fileName) throws IOException {
-            backgroundImage = ImageIO.read(new File(fileName));
+        public JPanelWithBackground(Image image) {
+            backgroundImage = image;
 
         }
 

@@ -6,5 +6,5 @@ import java.awt.*;
 
 public interface IModel {
     boolean isCollisionWith(Point point);
-    boolean isCollisionWithSnake(Snake snake);
+    boolean snakeIsAliveAfterCollision(Snake snake);
 }

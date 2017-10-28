@@ -1,6 +1,5 @@
 package com.game.classes;
 
-import com.game.classes.enumerators.Images;
 import com.game.classes.exceptions.LevelBadSizeException;
 import com.game.classes.interfaces.IMap;
 import com.game.classes.interfaces.IView;

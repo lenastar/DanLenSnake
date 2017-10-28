@@ -22,7 +22,6 @@ public class Game{
     private Thread mainThread;
     private int speed;
     private PriorityQueue<Integer> pressedKeys;
-    private boolean endIteration;
 
     public Game(IMap map) {
         this.map = map;
@@ -31,6 +30,7 @@ public class Game{
         containerModels = new ArrayList<>();
         containerControllers = new ArrayList<>();
         foodManager = new FoodManager(2);
+        addModel(foodManager);
         containerRunnable = new ArrayList<>();
         map.addView(new FoodManagerView(foodManager));
         mainThread = new Thread(() -> {
@@ -40,16 +40,13 @@ public class Game{
                     Thread.sleep(500 - speed);
                 }
             } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
 
     public void addFood(Food food){
         foodManager.addFood(food);
-    }
-
-    public void addView(IView view){
-        map.addView(view);
     }
 
     public void addModel(IModel model) {
@@ -75,17 +72,14 @@ public class Game{
         map.paint();
         Randomize.addFoodRandomly(this);
         speed = Integer.min(MAX_SPEED, speed + 1);
-        System.out.print(pressedKeys + "  ");
         if (pressedKeys.size() > 0){
             processKey(pressedKeys.poll());
         }
-        System.out.println();
         for (IRunnable runnable : containerRunnable) {
             if (!runnable.run(this)) {
                 gameOver();
             }
         }
-        endIteration = true;
     }
 
     public void processKey(int key)

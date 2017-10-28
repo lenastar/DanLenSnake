@@ -69,7 +69,7 @@ public class Level {
         return walls.stream().anyMatch(p -> p.equals(point));
     }
 
-    public boolean isCollisionWithSnake(Snake snake){
-        return snake.getSegments().stream().anyMatch(point -> isCollision(point));
+    public boolean snakeIsAliveAfterCollision(Snake snake){
+        return !(snake.getSegments().stream().anyMatch(point -> isCollision(point)));
     }
 }

@@ -102,4 +102,24 @@ public class SnakeTests {
     {
         testMove(Direction.Down);
     }
+
+    @Test
+    public void testBodyCollision()
+    {
+        Point point = new Point(5,4);
+        Snake snake = new Snake(head,5,Direction.Down);
+        assertTrue(snake.isBodyCollisionWith(point));
+        Point point1 = new Point(10,10);
+        assertFalse(snake.isBodyCollisionWith(point1));
+    }
+
+    @Test
+    public void testHeadCollision()
+    {
+        Point point = new Point(5,5);
+        Point point1 = new Point(5,4);
+        Snake snake = new Snake(head,5,Direction.Down);
+        assertTrue(snake.isHeadCollisionWith(point));
+        assertFalse(snake.isHeadCollisionWith(point1));
+    }
 }
