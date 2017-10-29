@@ -35,7 +35,7 @@ public class MapGUI extends JPanel implements IMap {
     }
 
     @Override
-    public void paint() {
+    public void paint(){
         this.repaint();
     }
 
@@ -50,12 +50,7 @@ public class MapGUI extends JPanel implements IMap {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        /*g2.setColor(Color.DARK_GRAY);
-        for (int j = 0; j < level.getHeight(); j++) {
-            for (int i = 0; i < level.getWidth(); i++) {
-                g2.drawRect(i * cellSize, j * cellSize, cellSize, cellSize);
-            }
-        }*/
+
         for (Point point: level.getWalls()){
             drawPoint(g, point, Color.LIGHT_GRAY);
         }
@@ -65,24 +60,26 @@ public class MapGUI extends JPanel implements IMap {
         }
     }
 
-    public void drawPoint(Graphics g, Point point, Color color) {
+    public void drawPoint(Graphics g, Point point, Color color) throws IndexOutOfBoundsException{
         if (point.x < 0
                 || point.y < 0
                 || point.x >= getLevel().getWidth()
-                || point.y >= getLevel().getHeight())
+                || point.y >= getLevel().getHeight()) {
             throw new IndexOutOfBoundsException();
+        }
         g.setColor(color);
         g.fillRect(point.x * cellSize, point.y * cellSize, cellSize, cellSize);
         g.setColor(Color.DARK_GRAY);
         g.drawRect(point.x * cellSize, point.y * cellSize, cellSize, cellSize);
     }
 
-    public void drawImagePoint(Graphics g, Point point, Image image){
+    public void drawImagePoint(Graphics g, Point point, Image image) throws IndexOutOfBoundsException{
         if (point.x < 0
                 || point.y < 0
                 || point.x >= getLevel().getWidth()
-                || point.y >= getLevel().getHeight())
+                || point.y >= getLevel().getHeight()) {
             throw new IndexOutOfBoundsException();
+        }
         g.drawImage(image,point.x * cellSize, point.y * cellSize, cellSize, cellSize,null);
     }
 

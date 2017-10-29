@@ -4,5 +4,5 @@ import com.game.classes.Game;
 
 public interface IRunnable<TModel extends IModel> {
     TModel getModel();
-    boolean run(Game game) throws Exception;
+    boolean run(Game game);
 }

@@ -14,7 +14,7 @@ public class SnakeController implements IController<Snake>{
 
     public SnakeController(Snake model) throws NoSuchMethodException {
         this.model = model;
-        actions = new HashMap<Integer, Runnable>();
+        actions = new HashMap<>();
         actions.put(KeyEvent.VK_UP, () -> {
             try {
                 this.model.setDirection(Direction.Up);

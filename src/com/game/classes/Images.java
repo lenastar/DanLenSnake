@@ -10,18 +10,6 @@ import java.io.IOException;
 import static javax.imageio.ImageIO.*;
 
 public class Images {
-//    public static Image Banana;
-//    public static Image Background;
-//
-//    static {
-//        try {
-//            Banana = ImageIO.read(new File("src/com/game/resources/images/banana.png"));
-//            Background = ImageIO.read(new File("src/com/game/resources/images/images.jpg"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
     private static final String Banana = "src/com/game/resources/images/banana.png";
     private static final String Background = "src/com/game/resources/images/images.jpg";
 

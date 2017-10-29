@@ -20,14 +20,8 @@ public class Game{
     private int speed;
     private PriorityQueue<Integer> pressedKeys;
     public boolean isGameOver = false;
-    private HashMap<String, ArrayList> startState;
 
     public Game(IMap map) {
-        startState = new HashMap<>();
-        startState.put("views", new ArrayList(getMap().getViews()));
-        startState.put("models", new ArrayList(getContainerModels()));
-        startState.put("controllers", new ArrayList(getContainerControllers()));
-        startState.put("views", new ArrayList());
         this.map = map;
         pressedKeys = new PriorityQueue<>();
         speed = 200;
@@ -39,7 +33,7 @@ public class Game{
         map.addView(new FoodManagerView(foodManager));
         mainThread = new Thread(() -> {
             try {
-                while(true) {
+                while(!isGameOver) {
                     doIteration();
                     Thread.sleep(500 - speed);
                 }
@@ -72,7 +66,7 @@ public class Game{
         map.addView(instance.getView());
     }
 
-    public void doIteration() throws Exception {
+    public void doIteration(){
         map.paint();
         Randomize.addFoodRandomly(this);
         speed = Integer.min(MAX_SPEED, speed + 1);
@@ -81,7 +75,7 @@ public class Game{
         }
         for (IRunnable runnable : containerRunnable) {
             if (!runnable.run(this)) {
-                gameOver();
+                isGameOver = true;
             }
         }
     }

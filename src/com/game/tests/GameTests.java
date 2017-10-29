@@ -16,15 +16,15 @@ public class GameTests {
 
     @BeforeEach
     public void init() throws LevelBadSizeException {
-        MapGUI map = new MapGUI(4, 4, 10);
-        Game game = new Game(map);
+        map = new MapGUI(4, 4, 10);
+        game = new Game(map);
     }
 
     @Test
     public void testAddInstance() throws NoSuchMethodException {
         game.addInstance(Model.createSnake(new Point(1, 2), 2));
-        assertEquals(1, game.getContainerModels().size());
-        assertEquals(1, map.getViews().size());
+        assertEquals(2, game.getContainerModels().size());
+        assertEquals(2, map.getViews().size());
         assertEquals(1, game.getContainerControllers().size());
     }
 

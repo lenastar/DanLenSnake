@@ -18,7 +18,7 @@ public class SnakeRunnable implements IRunnable<Snake>{
     }
 
     @Override
-    public boolean run(Game game) throws SnakeOppositeMoveException {
+    public boolean run(Game game){
         model.move();
         return game.getMap().getLevel().snakeIsAliveAfterCollision(model)&&
                 game.getContainerModels()
