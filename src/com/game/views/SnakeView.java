@@ -6,14 +6,13 @@ import com.game.models.Snake;
 
 import java.awt.*;
 
-public class SnakeView implements IView<Snake, Context> {
+public class SnakeView implements IView<Context> {
     private final Snake model;
 
     public SnakeView(Snake model){
         this.model = model;
     }
 
-    @Override
     public Snake getModel() {
         return model;
     }

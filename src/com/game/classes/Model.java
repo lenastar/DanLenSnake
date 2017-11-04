@@ -2,8 +2,10 @@ package com.game.classes;
 
 import com.game.classes.enumerators.Direction;
 import com.game.controllers.SnakeController;
+import com.game.models.FoodManager;
 import com.game.models.Snake;
 import com.game.runnable.SnakeRunnable;
+import com.game.views.FoodManagerView;
 import com.game.views.SnakeView;
 
 import java.awt.*;

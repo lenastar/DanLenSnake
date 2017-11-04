@@ -23,12 +23,7 @@ public class MapGUITests {
     public void testBadPointForDrawing() throws LevelBadSizeException {
         MapGUI map = new MapGUI(5, 5, 10);
         JDialog dlg = new JDialog((JFrame) null, "Snake");
-        IView<IModel, Context> view = new IView<IModel, Context>() {
-            @Override
-            public IModel getModel() {
-                return null;
-            }
-
+        IView<Context> view = new IView<Context>() {
             @Override
             public void paint(Context context) throws IndexOutOfBoundsException{
                 assertThrows(IndexOutOfBoundsException.class, () -> {

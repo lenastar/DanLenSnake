@@ -3,6 +3,7 @@ package com.game.classes;
 import com.game.classes.interfaces.*;
 import com.game.models.Food;
 import com.game.models.FoodManager;
+import com.game.runnable.FoodManagerRunnable;
 import com.game.views.FoodManagerView;
 
 import java.awt.event.KeyEvent;
@@ -31,6 +32,7 @@ public class Game{
         addModel(foodManager);
         containerRunnable = new ArrayList<>();
         map.addView(new FoodManagerView(foodManager));
+        addRunnable(new FoodManagerRunnable(foodManager));
         mainThread = new Thread(() -> {
             try {
                 while(!isGameOver) {
@@ -66,9 +68,8 @@ public class Game{
         map.addView(instance.getView());
     }
 
-    public void doIteration(){
+    public synchronized void doIteration(){
         map.paint();
-        Randomize.addFoodRandomly(this);
         speed = Integer.min(MAX_SPEED, speed + 1);
         if (pressedKeys.size() > 0){
             processKey(pressedKeys.poll());
@@ -94,7 +95,7 @@ public class Game{
         handleKey(event.getKeyCode());
     }
 
-    private void handleKey(int key){
+    private synchronized void handleKey(int key){
         if (pressedKeys.size() == 0 || pressedKeys.peek() != key) {
             pressedKeys.add(key);
         }

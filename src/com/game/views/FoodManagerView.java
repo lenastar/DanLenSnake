@@ -10,14 +10,13 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
-public class FoodManagerView implements IView<FoodManager, Context> {
+public class FoodManagerView implements IView<Context> {
     private final FoodManager model;
 
     public FoodManagerView(FoodManager model) {
         this.model = model;
     }
 
-    @Override
     public FoodManager getModel() {
         return model;
     }

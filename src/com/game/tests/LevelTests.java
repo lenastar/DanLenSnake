@@ -28,9 +28,11 @@ public class LevelTests {
     }
 
     @Test
-    public void testGetDefaultLevelFail(){
+    public void testGetDefaultLevelFail() {
         assertThrows(LevelBadSizeException.class,
-                () -> {Level level = Level.getDefaultLevel(1, 3);});
+                () -> {
+                    Level level = Level.getDefaultLevel(1, 3);
+                });
 
     }
 
@@ -51,13 +53,14 @@ public class LevelTests {
     }
 
     @Test
-    public void testGetFromListFail(){
+    public void testGetFromListFail() {
         assertThrows(LevelBadSizeException.class,
-                () -> {Level level = Level.getFromList(new String[]{
-                        "###",
-                        "###"
+                () -> {
+                    Level level = Level.getFromList(new String[]{
+                            "###",
+                            "###"
+                    });
                 });
-        });
     }
 
     @Test

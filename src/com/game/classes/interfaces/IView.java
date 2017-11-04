@@ -1,6 +1,5 @@
 package com.game.classes.interfaces;
 
-public interface IView<TModel extends IModel, TContext>{
-    TModel getModel();
+public interface IView<TContext>{
     void paint(TContext context) throws IndexOutOfBoundsException;
 }

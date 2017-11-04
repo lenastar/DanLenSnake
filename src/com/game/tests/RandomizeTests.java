@@ -2,6 +2,7 @@ import com.game.classes.*;
 import com.game.classes.enumerators.Direction;
 import com.game.classes.exceptions.LevelBadSizeException;
 import com.game.classes.exceptions.SnakeOppositeMoveException;
+import com.game.classes.interfaces.IRunnable;
 import com.game.models.Food;
 import com.game.models.Snake;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,10 +19,10 @@ public class RandomizeTests {
         Point randomFoodLocation;
         MapGUI map = new MapGUI(5, 5, 20);
         Game game = new Game(map);
-        game.addModel(new Snake(new Point(3, 3), 2, Direction.Left));
         Food food = new Food(new Point(2, 1), 2);
         game.addFood(food);
-        Randomize.addFoodRandomly(game);
+        game.doIteration();
+
         randomFoodLocation = game
                 .getFoodManager()
                 .getLocations()
@@ -44,7 +45,7 @@ public class RandomizeTests {
 
     @Test
     public void voidSomeTests() throws LevelBadSizeException {
-        for (int i = 0; i < new Random().nextInt(6); i++) {
+        for (int i = 0; i < 100; i++) {
             testRandomFoodIsNotCollidedWithSomebody();
         }
     }

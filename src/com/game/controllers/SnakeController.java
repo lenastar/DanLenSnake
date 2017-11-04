@@ -8,7 +8,7 @@ import com.game.models.Snake;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
 
-public class SnakeController implements IController<Snake>{
+public class SnakeController implements IController{
     private final Snake model;
     private HashMap<Integer, Runnable> actions;
 
@@ -45,7 +45,6 @@ public class SnakeController implements IController<Snake>{
         });
     }
 
-    @Override
     public Snake getModel() {
         return model;
     }
