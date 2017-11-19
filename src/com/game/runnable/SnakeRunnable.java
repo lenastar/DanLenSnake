@@ -19,11 +19,8 @@ public class SnakeRunnable implements IRunnable{
     @Override
     public boolean run(Game game){
         model.move();
-        return game.getMap().getLevel().snakeIsAliveAfterCollision(model)&&
-                game.getContainerModels()
+        return game.getContainerModels()
                         .stream()
                         .allMatch(m->m.snakeIsAliveAfterCollision(model));
-
-
     }
 }

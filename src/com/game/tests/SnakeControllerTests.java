@@ -21,6 +21,9 @@ public class SnakeControllerTests {
         controller = new SnakeController(snake);
     }
 
+    //TODO: make common test with parameters (KeyEvent.KeyCode: int, Direction snake: Direction)
+    //TODO: and remake those four tests with common one
+
     @Test
     public void testClickLeftButton(){
         KeyEvent event = new KeyEvent(button, 1, 20, 1, KeyEvent.VK_LEFT, 'a');

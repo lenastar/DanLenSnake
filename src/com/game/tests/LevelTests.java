@@ -1,4 +1,4 @@
-import com.game.classes.Level;
+import com.game.models.Level;
 import com.game.classes.enumerators.Direction;
 import com.game.classes.exceptions.LevelBadSizeException;
 import com.game.models.Snake;
@@ -68,8 +68,8 @@ public class LevelTests {
         Level level = Level.getDefaultLevel(3, 3);
         Point point1 = new Point(3, 2);
         Point point2 = new Point(2, 2);
-        assertTrue(level.isCollision(point2));
-        assertFalse(level.isCollision(point1));
+        assertTrue(level.isCollisionWith(point2));
+        assertFalse(level.isCollisionWith(point1));
     }
 
     @Test

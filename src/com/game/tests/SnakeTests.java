@@ -132,4 +132,6 @@ public class SnakeTests {
         assertFalse(!snake1.snakeIsAliveAfterCollision(snake2));
         assertTrue(snake1.snakeIsAliveAfterCollision(snake3));
     }
+
+    //TODO: add test that check the snake can move out of filed and come to the opposite side
 }

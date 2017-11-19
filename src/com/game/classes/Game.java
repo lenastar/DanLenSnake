@@ -1,38 +1,38 @@
 package com.game.classes;
 
+import com.game.classes.exceptions.GameSerializableException;
 import com.game.classes.interfaces.*;
-import com.game.models.Food;
-import com.game.models.FoodManager;
+import com.game.models.*;
 import com.game.runnable.FoodManagerRunnable;
 import com.game.views.FoodManagerView;
 
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.util.*;
 
-public class Game{
+public class Game extends GameSerializable{
     private final int MAX_SPEED = 350;
 
     private IMap map;
     private ArrayList<IController> containerControllers;
-    private FoodManager foodManager;
     private ArrayList<IRunnable> containerRunnable;
     private ArrayList<IModel> containerModels;
     private Thread mainThread;
-    private int speed;
+    private int speed = 200;
     private PriorityQueue<Integer> pressedKeys;
+    private int scores = 0;
+    private String playerName = "Player";
     public boolean isGameOver = false;
+    private HighscoreTable highscoreTable;
 
     public Game(IMap map) {
+        addInstance(Model.createFoodManager(2));
         this.map = map;
         pressedKeys = new PriorityQueue<>();
-        speed = 200;
         containerModels = new ArrayList<>();
         containerControllers = new ArrayList<>();
-        foodManager = new FoodManager(2);
-        addModel(foodManager);
         containerRunnable = new ArrayList<>();
-        map.addView(new FoodManagerView(foodManager));
-        addRunnable(new FoodManagerRunnable(foodManager));
+
         mainThread = new Thread(() -> {
             try {
                 while(!isGameOver) {
@@ -45,8 +45,16 @@ public class Game{
         });
     }
 
-    public void addFood(Food food){
-        foodManager.addFood(food);
+    private void addHighscoreTable() throws ClassNotFoundException {
+        try{
+            highscoreTable = HighscoreTable.get(HighscoreTable.path);
+        } catch (GameSerializableException e){
+          highscoreTable = new HighscoreTable();
+        }
+    }
+
+    public void addScores(int value){
+        scores += value;
     }
 
     public void addModel(IModel model) {
@@ -62,10 +70,16 @@ public class Game{
     }
 
     public void addInstance(Instance instance){
-        addController(instance.getController());
-        addRunnable(instance.getRunnable());
         addModel(instance.getModel());
-        map.addView(instance.getView());
+        if (instance.hasController()){
+            addController(instance.getController());
+        }
+        if (instance.hasRunnable()) {
+            addRunnable(instance.getRunnable());
+        }
+        if (instance.hasView()) {
+            map.addView(instance.getView());
+        }
     }
 
     public synchronized void doIteration(){
@@ -110,7 +124,7 @@ public class Game{
         mainThread.stop();
     }
 
-    public void gameOver(){
+    public void gameOver() throws IOException {
         System.out.println("Game is over");
         stop();
         containerModels.clear();
@@ -118,14 +132,12 @@ public class Game{
         containerRunnable.clear();
         map.getViews().clear();
         isGameOver = true;
+        highscoreTable.addResult(new Result(scores, playerName));
+        highscoreTable.save(HighscoreTable.path);
     }
 
     public IMap getMap() {
         return map;
-    }
-
-    public FoodManager getFoodManager() {
-        return foodManager;
     }
 
     public boolean isRunning(){
@@ -138,5 +150,9 @@ public class Game{
 
     public ArrayList<IModel> getContainerModels() {
         return containerModels;
+    }
+
+    public int getScores() {
+        return scores;
     }
 }

@@ -8,6 +8,7 @@ import java.util.*;
 public class FoodManager implements IModel{
     private HashMap<Point, Food> foods;
     private int limit;
+    private Food lastEatenFood;
 
     public FoodManager(int limit)
     {
@@ -56,9 +57,14 @@ public class FoodManager implements IModel{
         foods.clear();
     }
 
+    public Food getLastEatenFood() {
+        return lastEatenFood;
+    }
+
     public boolean snakeIsAliveAfterCollision(Snake snake){
         if (isCollisionWith(snake.getHead())){
             snake.grow(getFood(snake.getHead()).getScores());
+            lastEatenFood = getFood(snake.getHead());
             removeFood(snake.getHead());
         }
         return true;

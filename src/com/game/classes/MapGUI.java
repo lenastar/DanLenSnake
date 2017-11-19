@@ -3,24 +3,20 @@ package com.game.classes;
 import com.game.classes.exceptions.LevelBadSizeException;
 import com.game.classes.interfaces.IMap;
 import com.game.classes.interfaces.IView;
+import com.game.models.Level;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
 public class MapGUI extends JPanel implements IMap {
-    private final Level level;
     private final int cellSize;
     private ArrayList<IView> container;
+    private Dimension dimension;
 
-    public MapGUI(int width, int height, int cellSize) throws LevelBadSizeException {
-        this(width, height, cellSize, Level.getDefaultLevel(width, height));
-    }
-
-    public MapGUI(int width, int height, int cellSize, Level level) throws LevelBadSizeException {
-        this.level = level;
+    public MapGUI(int width, int height, int cellSize){
         container = new ArrayList<>();
-        Dimension dimension = new Dimension(width * cellSize, height * cellSize);
+        dimension = new Dimension(width * cellSize, height * cellSize);
         setPreferredSize(dimension);
         this.cellSize = cellSize;
         setBackground(Color.WHITE);
@@ -35,13 +31,13 @@ public class MapGUI extends JPanel implements IMap {
     }
 
     @Override
-    public void paint(){
-        this.repaint();
+    public Dimension getDimension() {
+        return dimension;
     }
 
     @Override
-    public Level getLevel() {
-        return level;
+    public void paint(){
+        this.repaint();
     }
 
     @Override
@@ -51,10 +47,6 @@ public class MapGUI extends JPanel implements IMap {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        for (Point point: level.getWalls()){
-            drawPoint(g, point, Color.LIGHT_GRAY);
-        }
-
         for (IView view: container) {
             view.paint(new Context(this, g));
         }
@@ -63,8 +55,8 @@ public class MapGUI extends JPanel implements IMap {
     public void drawPoint(Graphics g, Point point, Color color) throws IndexOutOfBoundsException{
         if (point.x < 0
                 || point.y < 0
-                || point.x >= getLevel().getWidth()
-                || point.y >= getLevel().getHeight()) {
+                || point.x >= dimension.getWidth()
+                || point.y >= dimension.getHeight()) {
             throw new IndexOutOfBoundsException();
         }
         g.setColor(color);
@@ -76,8 +68,8 @@ public class MapGUI extends JPanel implements IMap {
     public void drawImagePoint(Graphics g, Point point, Image image) throws IndexOutOfBoundsException{
         if (point.x < 0
                 || point.y < 0
-                || point.x >= getLevel().getWidth()
-                || point.y >= getLevel().getHeight()) {
+                || point.x >= dimension.getWidth()
+                || point.y >= dimension.getHeight()) {
             throw new IndexOutOfBoundsException();
         }
         g.drawImage(image,point.x * cellSize, point.y * cellSize, cellSize, cellSize,null);
