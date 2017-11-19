@@ -39,6 +39,7 @@ public class SnakeRunnableTests {
 
     @Test
     public void testSnakeDeadAfterCollisionWithItself() throws NoSuchMethodException {
+        //TODO: delete all events. make test more simple. For this use snakeRunnable.run
         game.addInstance(Model.createSnake(new Point(3, 3), 5, Direction.Down));
         Button button = new Button("click");
         KeyEvent eventLeft = new KeyEvent(button, 1, 20, 1, KeyEvent.VK_LEFT, 'a');

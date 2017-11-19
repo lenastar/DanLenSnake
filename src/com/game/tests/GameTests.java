@@ -28,4 +28,6 @@ public class GameTests {
         assertEquals(1, game.getContainerControllers().size());
     }
 
+    //TODO: add test that check that speed of game grew in each step
+
 }

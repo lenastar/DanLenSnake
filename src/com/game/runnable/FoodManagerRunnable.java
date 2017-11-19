@@ -1,8 +1,7 @@
 package com.game.runnable;
 
 import com.game.classes.Game;
-import com.game.classes.Level;
-import com.game.classes.interfaces.IModel;
+import com.game.classes.interfaces.IMap;
 import com.game.classes.interfaces.IRunnable;
 import com.game.models.Food;
 import com.game.models.FoodManager;
@@ -21,25 +20,28 @@ public class FoodManagerRunnable implements IRunnable {
 
     @Override
     public boolean run(Game game) {
+        if (model.getLastEatenFood() != null){
+            game.addScores(model.getLastEatenFood().getScores());
+        }
         addFoodRandomly(game);
         return true;
     }
 
     private void addFoodRandomly(Game game) {
-        Predicate<Point> isCollision = point -> game.getMap().getLevel().isCollision(point)
-                || game.getContainerModels()
-                .stream()
-                .anyMatch(model -> model.isCollisionWith(point))
-                || model.isCollisionWith(point);
-        Point point = addFoodRandomly(game.getMap().getLevel(), isCollision);
+        Predicate<Point> isCollision =
+                point -> game
+                    .getContainerModels()
+                    .stream()
+                    .anyMatch(model -> model.isCollisionWith(point));
+        Point point = addFoodRandomly(game.getMap(), isCollision);
         model.addFood(new Food(point, 1));
     }
 
-    private Point addFoodRandomly(Level level, Predicate<Point> isCollision) {
+    private Point addFoodRandomly(IMap map, Predicate<Point> isCollision) {
         Point point;
         do {
-            int x = random.nextInt(level.getWidth());
-            int y = random.nextInt(level.getHeight());
+            int x = random.nextInt((int)map.getDimension().getWidth());
+            int y = random.nextInt((int)map.getDimension().getHeight());
             point = new Point(x, y);
         } while (isCollision.test(point))   ;
         return point;

@@ -37,4 +37,16 @@ public class Instance<
     public TView getView() {
         return view;
     }
+
+    public boolean hasController() {
+        return controller != null;
+    }
+
+    public boolean hasView() {
+        return view != null;
+    }
+
+    public boolean hasRunnable() {
+        return runnable != null;
+    }
 }

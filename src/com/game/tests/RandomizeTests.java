@@ -31,10 +31,6 @@ public class RandomizeTests {
                 .findFirst()
                 .get();
 
-        assertFalse(game
-                .getMap()
-                .getLevel()
-                .isCollision(randomFoodLocation));
 
         game.getFoodManager().removeFood(randomFoodLocation);
         assertTrue(game

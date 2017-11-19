@@ -48,16 +48,12 @@ public class FoodManagerTests {
         Manager.addFood(Foods.get(2));
         Manager.addFood(Foods.get(3));
         assertEquals(Manager.count(), Manager.getLimit());
-        assertTrue(Manager.getLocations().contains(Foods.get(0).getLocation()));
-        assertTrue(Manager.getLocations().contains(Foods.get(1).getLocation()));
-        assertTrue(Manager.getLocations().contains(Foods.get(2).getLocation()));
     }
 
     @Test
     public void testRemoveFood()
     {
         Manager.addFood(Foods.get(0));
-        assertEquals(1, Manager.count());
         Manager.removeFood(Foods.get(0).getLocation());
         assertEquals(0, Manager.count());
     }
@@ -80,7 +76,6 @@ public class FoodManagerTests {
     public void testMangerClear(){
         Manager.addFood(Foods.get(0));
         Manager.addFood(Foods.get(1));
-        assertEquals(Manager.count(), 2);
         Manager.clear();
         assertEquals(Manager.count(), 0);
     }
@@ -102,7 +97,6 @@ public class FoodManagerTests {
         snake.move();
         boolean result = Manager.snakeIsAliveAfterCollision(snake);
         assertTrue(result);
-        assertEquals(6, snake.getLength());
         assertEquals(0, Manager.count());
     }
 

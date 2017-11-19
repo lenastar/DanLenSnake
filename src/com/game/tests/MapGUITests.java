@@ -21,6 +21,7 @@ public class MapGUITests {
 
     @Test
     public void testBadPointForDrawing() throws LevelBadSizeException {
+        //TODO: remake test. Need in test to check specific methods of IView anon class
         MapGUI map = new MapGUI(5, 5, 10);
         JDialog dlg = new JDialog((JFrame) null, "Snake");
         IView<Context> view = new IView<Context>() {
