@@ -21,38 +21,30 @@ public class SnakeControllerTests {
         controller = new SnakeController(snake);
     }
 
-    //TODO: make common test with parameters (KeyEvent.KeyCode: int, Direction snake: Direction)
-    //TODO: and remake those four tests with common one
+    public void testClick(int keyEvent, Direction direction){
+        KeyEvent event = new KeyEvent(button, 1, 20, 1, keyEvent, 'a');
+        assertTrue(controller.keyExists(keyEvent));
+        controller.runAction(keyEvent);
+        assertEquals(direction, snake.getDirection());
+    }
 
     @Test
     public void testClickLeftButton(){
-        KeyEvent event = new KeyEvent(button, 1, 20, 1, KeyEvent.VK_LEFT, 'a');
-        assertTrue(controller.keyExists(KeyEvent.VK_LEFT));
-        controller.runAction(KeyEvent.VK_LEFT);
-        assertEquals(Direction.Left, snake.getDirection());
+        testClick(KeyEvent.VK_LEFT, Direction.Left);
     }
 
     @Test
     public void testClickRightButton(){
-        KeyEvent event = new KeyEvent(button, 1, 20, 1, KeyEvent.VK_RIGHT, 'a');
-        assertTrue(controller.keyExists(KeyEvent.VK_RIGHT));
-        controller.runAction(KeyEvent.VK_RIGHT);
-        assertEquals(Direction.Right, snake.getDirection());
+        testClick(KeyEvent.VK_RIGHT, Direction.Right);
     }
 
     @Test
     public void testClickUpButton(){
-        KeyEvent event = new KeyEvent(button, 1, 20, 1, KeyEvent.VK_UP, 'a');
-        assertTrue(controller.keyExists(KeyEvent.VK_UP));
-        controller.runAction(KeyEvent.VK_UP);
-        assertEquals(Direction.Up, snake.getDirection());
+        testClick(KeyEvent.VK_UP, Direction.Up);
     }
 
     @Test
     public void testClickDownButton(){
-        KeyEvent event = new KeyEvent(button, 1, 20, 1, KeyEvent.VK_DOWN, 'a');
-        assertTrue(controller.keyExists(KeyEvent.VK_DOWN));
-        controller.runAction(KeyEvent.VK_DOWN);
-        assertEquals(Direction.Up, snake.getDirection());
+        testClick(KeyEvent.VK_DOWN, Direction.Up);
     }
 }

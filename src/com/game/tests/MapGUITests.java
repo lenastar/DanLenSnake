@@ -13,31 +13,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MapGUITests {
     @Test
-    public void testBadSizeForMap(){
-        assertThrows(LevelBadSizeException.class, () -> {
-            MapGUI map = new MapGUI(2, 2, 30);
-        });
-    }
-
-    @Test
-    public void testBadPointForDrawing() throws LevelBadSizeException {
+    public void testBadPointForDrawing() {
         //TODO: remake test. Need in test to check specific methods of IView anon class
-        MapGUI map = new MapGUI(5, 5, 10);
-        JDialog dlg = new JDialog((JFrame) null, "Snake");
-        IView<Context> view = new IView<Context>() {
-            @Override
-            public void paint(Context context) throws IndexOutOfBoundsException{
-                assertThrows(IndexOutOfBoundsException.class, () -> {
-                    context.map.drawPoint(context.g, new Point(200, 200), Color.DARK_GRAY);
-                });
-                assertThrows(IndexOutOfBoundsException.class, () -> {
-                    context.map.drawImagePoint(context.g, new Point(200, 200), Images.getBanana());
-                });
-            }
+        MapGUI map = new MapGUI(20, 30, 30);
+        assertThrows(IndexOutOfBoundsException.class, () -> { map.drawPoint(map.getGraphics(), new Point(20000, 20000), Color.DARK_GRAY);});
+        assertThrows(IndexOutOfBoundsException.class, () -> { map.drawImagePoint(map.getGraphics(), new Point(20000, 20000), Images.getBanana());});
         };
-        map.addView(view);
-        dlg.getContentPane().add(map);
-        dlg.setVisible(true);
-        dlg.pack();
-    }
+
+
 }

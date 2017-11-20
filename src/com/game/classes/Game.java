@@ -25,14 +25,15 @@ public class Game extends GameSerializable{
     public boolean isGameOver = false;
     private HighscoreTable highscoreTable;
 
-    public Game(IMap map) {
-        addInstance(Model.createFoodManager(2));
+    public Game(IMap map, List<Instance> instances) {
         this.map = map;
         pressedKeys = new PriorityQueue<>();
         containerModels = new ArrayList<>();
         containerControllers = new ArrayList<>();
         containerRunnable = new ArrayList<>();
-
+        for (Instance instance: instances){
+            addInstance(instance);
+        }
         mainThread = new Thread(() -> {
             try {
                 while(!isGameOver) {
@@ -44,6 +45,12 @@ public class Game extends GameSerializable{
             }
         });
     }
+
+    public Game(IMap map){
+        this(map, Collections.singletonList(Model.createFoodManager(2)));
+    }
+
+
 
     private void addHighscoreTable() throws ClassNotFoundException {
         try{
@@ -154,5 +161,9 @@ public class Game extends GameSerializable{
 
     public int getScores() {
         return scores;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 }
