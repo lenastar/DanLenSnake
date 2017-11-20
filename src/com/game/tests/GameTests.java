@@ -28,6 +28,28 @@ public class GameTests {
         assertEquals(1, game.getContainerControllers().size());
     }
 
-    //TODO: add test that check that speed of game grew in each step
+    @Test
+    public void testSpeedGrow(){
+        int speed_1 = game.getSpeed();
+        game.doIteration();
+        int speed_2 = game.getSpeed();
+        assertEquals(speed_2 - speed_1, 1);
+
+    }
+
+    @Test
+    public void testSpeedLimit(){
+        for (int i = 0; i < 200; i++)
+            game.doIteration();
+        assertEquals(game.getSpeed(), 350);
+    }
+
+    @Test
+    public void testSpeedGrowManyTimes(){
+        int speed_1 = game.getSpeed();
+        for (int i = 0; i < 50; i++)
+            game.doIteration();
+        assertEquals(game.getSpeed() - speed_1, 50);
+    }
 
 }

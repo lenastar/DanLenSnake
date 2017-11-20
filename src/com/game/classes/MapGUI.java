@@ -16,8 +16,8 @@ public class MapGUI extends JPanel implements IMap {
 
     public MapGUI(int width, int height, int cellSize){
         container = new ArrayList<>();
-        dimension = new Dimension(width * cellSize, height * cellSize);
-        setPreferredSize(dimension);
+        dimension = new Dimension(width, height);
+        setPreferredSize(new Dimension(width * cellSize, height * cellSize));
         this.cellSize = cellSize;
         setBackground(Color.WHITE);
     }
