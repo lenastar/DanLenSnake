@@ -6,6 +6,7 @@ import com.game.classes.Model;
 import com.game.classes.enumerators.Direction;
 import com.game.models.HighscoreTable;
 import com.game.views.Display;
+import com.game.views.MainMenu;
 
 import java.awt.*;
 
@@ -15,6 +16,7 @@ public class Main {
         MapGUI map = new MapGUI(20,20,30);
         Game game = new Game(map);
         game.addInstance(Model.createSnake(new Point(5,5), 5, Direction.Down));
-//        Display app = new Display(map, game);
+        MainMenu app = new MainMenu(map, game);
+
     }
 }
