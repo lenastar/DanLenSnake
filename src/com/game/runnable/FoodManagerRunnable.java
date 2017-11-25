@@ -34,7 +34,9 @@ public class FoodManagerRunnable implements IRunnable {
                     .stream()
                     .anyMatch(model -> model.isCollisionWith(point));
         Point point = addFoodRandomly(game.getMap(), isCollision);
+        synchronized (model){
         model.addFood(new Food(point, 1));
+        }
     }
 
     private Point addFoodRandomly(IMap map, Predicate<Point> isCollision) {

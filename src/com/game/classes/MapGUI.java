@@ -41,7 +41,7 @@ public class MapGUI extends JPanel implements IMap {
     }
 
     @Override
-    public void paint(Graphics g)
+    public void paint(Graphics g) throws IndexOutOfBoundsException
     {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g.create();

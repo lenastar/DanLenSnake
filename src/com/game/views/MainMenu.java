@@ -6,6 +6,8 @@ import com.game.classes.Game;
 import com.game.classes.GameTimer;
 import com.game.classes.Images;
 import com.game.classes.MapGUI;
+
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -33,6 +35,12 @@ public class MainMenu extends  JFrame{
             final JButton help = getHelpButton(frame);
             panel.add(help);
 
+            final JButton table = getTableButton(frame);
+            panel.add(table);
+
+       //     final JButton settings = getSettingsButton(frame);
+//            panel.add(settings);
+
             final JButton exit = getExitButton(frame);
             panel.add(exit);
 
@@ -41,7 +49,25 @@ public class MainMenu extends  JFrame{
             frame.pack();
 
         }
-        public JButton getStartButton(){
+
+ //   private JButton getSettingsButton(JFrame frame) {
+  //          return getButton("Settings", new Dimension(WidthButton,HeightButton),Color.lightGray, e->{
+
+  //          });
+  //  }
+
+    private JButton getTableButton(JFrame frame) {
+            return getButton("Records", new Dimension(WidthButton,HeightButton),Color.lightGray,e -> {
+                        try{
+                            JOptionPane.showMessageDialog(frame,game.getHighscoreTable().toString());
+                        } catch (ClassNotFoundException e1) {
+                            e1.printStackTrace();
+                        }
+                    }
+            );
+    }
+
+    public JButton getStartButton(){
             return getButton("Start",
                     new Dimension(WidthButton,HeightButton),
                     Color.lightGray,

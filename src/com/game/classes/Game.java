@@ -31,6 +31,7 @@ public class Game extends GameSerializable{
         containerModels = new ArrayList<>();
         containerControllers = new ArrayList<>();
         containerRunnable = new ArrayList<>();
+        addHighscoreTable();
         for (Instance instance: instances){
             addInstance(instance);
         }
@@ -46,18 +47,25 @@ public class Game extends GameSerializable{
         });
     }
 
-    public Game(IMap map){
+    public Game(IMap map) {
         this(map, Collections.singletonList(Model.createFoodManager(2)));
     }
 
 
 
-    private void addHighscoreTable() throws ClassNotFoundException {
+    private void addHighscoreTable(){
         try{
             highscoreTable = HighscoreTable.get(HighscoreTable.path);
         } catch (GameSerializableException e){
           highscoreTable = new HighscoreTable();
         }
+        catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+
+    public HighscoreTable getHighscoreTable() throws ClassNotFoundException{
+        return highscoreTable;
     }
 
     public void addScores(int value){
@@ -90,14 +98,23 @@ public class Game extends GameSerializable{
     }
 
     public synchronized void doIteration(){
-        map.paint();
-        speed = Integer.min(MAX_SPEED, speed + 1);
-        if (pressedKeys.size() > 0){
-            processKey(pressedKeys.poll());
-        }
-        for (IRunnable runnable : containerRunnable) {
-            if (!runnable.run(this)) {
-                isGameOver = true;
+        try{
+            map.paint();
+            speed = Integer.min(MAX_SPEED, speed + 1);
+            if (pressedKeys.size() > 0){
+                processKey(pressedKeys.poll());
+            }
+                for (IRunnable runnable : containerRunnable) {
+                    if (!runnable.run(this)) {
+                        isGameOver = true;
+                    }
+                }
+            }
+        catch (Exception e){
+            try {
+                gameOver();
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
         }
     }

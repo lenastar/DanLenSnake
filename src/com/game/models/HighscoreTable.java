@@ -36,4 +36,9 @@ public class HighscoreTable extends GameSerializable<HighscoreTable>{
     public Result getBest(){
         return allResults.get(0);
     }
+
+    @Override
+    public String toString(){
+        return allResults.toString();
+    }
 }
