@@ -14,8 +14,8 @@ import java.awt.*;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Game game = Defaults.getEasyGame();
-        MainMenu app = new MainMenu(game.getMap(), game);
+        Game game = Defaults.getHardGame();
+        MainMenu app = new MainMenu((MapGUI)game.getMap(), game);
 
     }
 }

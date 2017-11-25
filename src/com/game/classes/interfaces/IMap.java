@@ -6,7 +6,7 @@ import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public interface IMap extends Serializable{
+public interface IMap{
     void paint();
     void addView(IView view);
     ArrayList<IView> getViews();

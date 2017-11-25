@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.*;
 
-public class Game extends GameSerializable{
+public class Game{
     private final int MAX_SPEED = 350;
 
     private IMap map;
@@ -41,6 +41,7 @@ public class Game extends GameSerializable{
                     doIteration();
                     Thread.sleep(500 - speed);
                 }
+                gameOver();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -111,11 +112,7 @@ public class Game extends GameSerializable{
                 }
             }
         catch (Exception e){
-            try {
-                gameOver();
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            isGameOver = true;
         }
     }
 
@@ -150,7 +147,6 @@ public class Game extends GameSerializable{
 
     public void gameOver() throws IOException {
         System.out.println("Game is over");
-        stop();
         containerModels.clear();
         containerControllers.clear();
         containerRunnable.clear();
@@ -158,6 +154,7 @@ public class Game extends GameSerializable{
         isGameOver = true;
         highscoreTable.addResult(new Result(scores, playerName));
         highscoreTable.save(HighscoreTable.path);
+        stop();
     }
 
     public IMap getMap() {

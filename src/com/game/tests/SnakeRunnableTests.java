@@ -81,4 +81,13 @@ public class SnakeRunnableTests {
         assertEquals(7, snake.getLength());
         assertFalse(game.isGameOver);
     }
+
+    @Test
+    public void testSnakeMoveCyclically() throws NoSuchMethodException {
+        Instance<Snake, SnakeView, SnakeController, SnakeRunnable> instance = Model.createSnake(new Point(0, 3), 5, Direction.Left);
+        Snake snake = instance.getModel();
+        game.addInstance(instance);
+        game.doIteration();
+        assertEquals(new Point(9, 3), snake.getHead());
+    }
 }

@@ -8,14 +8,16 @@ import com.game.models.Level;
 import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class Defaults {
     private static final String pathForGame = "src/com/game/resources/games/defaults";
+    private static final String line_1 = "000000000000000000000000000000";
+    private static final String line_2 = "000000#################0000000";
+
 
     public static void saveMediumLevel() throws LevelBadSizeException, IOException {
-        String line_1 = "000000000000000000000000000000";
-        String line_2 = "000000#################0000000";
         String[] lines = Collections.nCopies(30, line_1).toArray(new String[30]);
         lines[5] = line_2;
         lines[6] = line_2;
@@ -27,9 +29,40 @@ public class Defaults {
         level.save(level.getFullPath());
     }
 
-    public static void saveHardLevel()
-    {
-
+    public static void saveHardLevel() throws LevelBadSizeException, IOException {
+        Level level = Level.getFromList(new String[]{
+                "##############################",
+                "#0000000000000000000000000000#",
+                "#0##########################0#",
+                "#0##########################0#",
+                "#0##########################0#",
+                "#0##########################0#",
+                "#0000000000000000000000000000#",
+                "#0000000000000000000000000000#",
+                "#000#0####################000#",
+                "#000#0#000000000000000000#000#",
+                "#000#0#000000000000000000#000#",
+                "#000#00000000000000000000#000#",
+                "#000#00000000000000000000#000#",
+                "#000#00000000000000000000#000#",
+                "#000#00000000000000000000#000#",
+                "0000#00000000000000000000#0000",
+                "#000#00000000000000000000#000#",
+                "#000#00000000000000000000#000#",
+                "#000#0##################0#000#",
+                "#000#0##################0#000#",
+                "#000#00000000000000000000#000#",
+                "#000######################000#",
+                "#0000000000000000000000000000#",
+                "#0000000000000000000000000000#",
+                "#0##########################0#",
+                "#0##########################0#",
+                "#0##########################0#",
+                "#0##########################0#",
+                "#0000000000000000000000000000#",
+                "##############################"
+        }, "Hard");
+        level.save(level.getFullPath());
     }
 
     public static Game getEasyGame() throws NoSuchMethodException {
@@ -43,7 +76,17 @@ public class Defaults {
         Level level = Level.get(Level.getFullPath("Medium"));
         MapGUI map = new MapGUI(level.getWidth(),level.getHeight(),30);
         Game game = new Game(map);
-        game.addInstance(Model.createSnake(new Point(5,5), 5, Direction.Down));
+        game.addInstance(Model.createLevel(level));
+        game.addInstance(Model.createSnake(new Point(3,5), 5, Direction.Down));
+        return game;
+    }
+
+    public static Game getHardGame() throws NoSuchMethodException, GameSerializableException, ClassNotFoundException {
+        Level level = Level.get(Level.getFullPath("Hard"));
+        MapGUI map = new MapGUI(level.getWidth(),level.getHeight(),30);
+        Game game = new Game(map);
+        game.addInstance(Model.createLevel(level));
+        game.addInstance(Model.createSnake(new Point(10,10), 3, Direction.Left));
         return game;
     }
 }
