@@ -1,5 +1,7 @@
 package com.game.classes.interfaces;
 
-public interface IView<TContext>{
+import java.io.Serializable;
+
+public interface IView<TContext> extends Serializable{
     void paint(TContext context) throws IndexOutOfBoundsException;
 }

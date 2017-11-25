@@ -20,7 +20,7 @@ public class HighscoreTable extends GameSerializable<HighscoreTable>{
     public void addResult(Result result){
         int last_index = 0;
         for (int index = 0; index < allResults.size() && allResults.get(index).getScores() > result.getScores(); index++ ){
-            last_index = index;
+            last_index = index + 1;
         }
         allResults.add(last_index, result);
     }
@@ -40,5 +40,15 @@ public class HighscoreTable extends GameSerializable<HighscoreTable>{
     @Override
     public String toString(){
         return allResults.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof HighscoreTable && allResults.equals(((HighscoreTable) o).getAllResults());
+    }
+
+    @Override
+    public int hashCode() {
+        return allResults.hashCode();
     }
 }

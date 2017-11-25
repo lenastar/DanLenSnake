@@ -11,14 +11,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 
 public class Defaults {
-    private static final String pathForGame = "src/com/game/resources/data/games/defaults";
-
-    private static void saveEasyLevel() throws LevelBadSizeException, IOException {
-        String line = "000000000000000000000000000000";
-        String[] lines = Collections.nCopies(30, line).toArray(new String[30]);
-        Level level = Level.getFromList(lines, "Easy");
-        level.save(level.getFullPath());
-    }
+    private static final String pathForGame = "src/com/game/resources/games/defaults";
 
     public static void saveMediumLevel() throws LevelBadSizeException, IOException {
         String line_1 = "000000000000000000000000000000";
@@ -39,36 +32,18 @@ public class Defaults {
 
     }
 
-    public static void saveEasyGame() throws LevelBadSizeException, IOException,
-            GameSerializableException, ClassNotFoundException, NoSuchMethodException {
-        saveEasyLevel();
-        Level level = Level.get(Level.getFullPath("Easy"));
-        MapGUI map = new MapGUI(level.getWidth(),level.getHeight(),30);
+    public static Game getEasyGame() throws NoSuchMethodException {
+        MapGUI map = new MapGUI(30,30,30);
         Game game = new Game(map);
         game.addInstance(Model.createSnake(new Point(5,5), 5, Direction.Down));
-        game.save(Paths.get(pathForGame, "Easy", ".dat").toString());
+        return game;
     }
 
-    public static void saveMediumGame() throws GameSerializableException,
-            ClassNotFoundException, NoSuchMethodException, IOException {
+    public static Game getMediumGame() throws NoSuchMethodException, GameSerializableException, ClassNotFoundException {
         Level level = Level.get(Level.getFullPath("Medium"));
         MapGUI map = new MapGUI(level.getWidth(),level.getHeight(),30);
         Game game = new Game(map);
         game.addInstance(Model.createSnake(new Point(5,5), 5, Direction.Down));
-        game.save(Paths.get(pathForGame, "Medium", ".dat").toString());
-    }
-
-    public static void saveHardGame(){
-
-    }
-
-    public static Game getEasyGame() throws ClassNotFoundException,
-            LevelBadSizeException, IOException, GameSerializableException {
-        try{
-            return Game.get(Paths.get(pathForGame, "Easy", ".dat").toString());
-        } catch (GameSerializableException e) {
-            saveEasyLevel();
-            return Game.get(Paths.get(pathForGame, "Easy", ".dat").toString());
-        }
+        return game;
     }
 }

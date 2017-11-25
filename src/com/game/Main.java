@@ -1,5 +1,6 @@
 package com.game;
 
+import com.game.classes.Defaults;
 import com.game.classes.Game;
 import com.game.classes.MapGUI;
 import com.game.classes.Model;
@@ -13,10 +14,8 @@ import java.awt.*;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        MapGUI map = new MapGUI(20,20,30);
-        Game game = new Game(map);
-        game.addInstance(Model.createSnake(new Point(5,5), 5, Direction.Down));
-        MainMenu app = new MainMenu(map, game);
+        Game game = Defaults.getEasyGame();
+        MainMenu app = new MainMenu(game.getMap(), game);
 
     }
 }

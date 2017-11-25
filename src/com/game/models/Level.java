@@ -14,7 +14,7 @@ public class Level extends GameSerializable implements IModel {
     private int width;
     private int height;
     private String name;
-    private static final String path = "src/com/game/resources/data/levels/";
+    private static final String path = "src/com/game/resources/levels/";
 
     private Level(String[] lines, String name) throws LevelBadSizeException {
         this.name = name;
@@ -44,11 +44,11 @@ public class Level extends GameSerializable implements IModel {
     }
 
     public String getFullPath(){
-        return Paths.get(path, "default", name, ".dat").toString();
+        return Paths.get(path, "default", name + ".dat").toString();
     }
 
     public static String getFullPath(String name){
-        return Paths.get(path, "default", name, ".dat").toString();
+        return Paths.get(path, "default", name + ".dat").toString();
     }
 
     public static Level getDefaultLevel(int width, int height, String name) throws LevelBadSizeException {

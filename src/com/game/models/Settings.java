@@ -2,6 +2,8 @@ package com.game.models;
 
 import com.game.classes.GameSerializable;
 
+import java.io.Serializable;
+
 public class Settings extends GameSerializable<Settings>{
     private boolean soundOn;
     private static final String path = "src/com/game/resources/data/highscore.dat";
@@ -34,7 +36,7 @@ public class Settings extends GameSerializable<Settings>{
         this.resolution = resolution;
     }
 
-    public class Resolution {
+    public class Resolution implements Serializable{
         private final int width;
         private final int height;
 

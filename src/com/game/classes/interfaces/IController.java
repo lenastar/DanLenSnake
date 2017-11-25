@@ -1,6 +1,8 @@
 package com.game.classes.interfaces;
 
-public interface IController{
+import java.io.Serializable;
+
+public interface IController extends Serializable{
     void runAction(int key);
     boolean keyExists(int key);
 }

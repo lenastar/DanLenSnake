@@ -1,6 +1,8 @@
 package com.game.models;
 
-public class Result{
+import java.io.Serializable;
+
+public class Result implements Serializable{
     private final int scores;
     private final String name;
 
@@ -20,5 +22,17 @@ public class Result{
     @Override
     public String toString(){
         return String.format("%s: %d",name,scores);
+    }
+
+    @Override
+    public int hashCode() {
+        return 211 * 211 * scores + 211 * name.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Result &&
+                ((Result) o).getScores() == scores &&
+                ((Result) o).getName().equals(name);
     }
 }
