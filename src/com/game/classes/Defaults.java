@@ -68,7 +68,7 @@ public class Defaults {
     public static Game getEasyGame() throws NoSuchMethodException {
         MapGUI map = new MapGUI(30,30,30);
         Game game = new Game(map);
-        game.addInstance(Model.createSnake(new Point(5,5), 5, Direction.Down));
+        game.addInstance(Model.createSnake(new Point(5,5), 5, Direction.Right));
         return game;
     }
 
@@ -77,7 +77,7 @@ public class Defaults {
         MapGUI map = new MapGUI(level.getWidth(),level.getHeight(),30);
         Game game = new Game(map);
         game.addInstance(Model.createLevel(level));
-        game.addInstance(Model.createSnake(new Point(3,5), 5, Direction.Down));
+        game.addInstance(Model.createSnake(new Point(3,5), 5, Direction.Right));
         return game;
     }
 
@@ -86,7 +86,7 @@ public class Defaults {
         MapGUI map = new MapGUI(level.getWidth(),level.getHeight(),30);
         Game game = new Game(map);
         game.addInstance(Model.createLevel(level));
-        game.addInstance(Model.createSnake(new Point(10,10), 3, Direction.Left));
+        game.addInstance(Model.createSnake(new Point(10,10), 3, Direction.Right));
         return game;
     }
 }

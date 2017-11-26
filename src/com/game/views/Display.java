@@ -40,7 +40,6 @@ public class Display extends JFrame {
         dlg.pack();
         dlg.setResizable(false);
         dlg.setLocation(300, 200);
-
     }
 
 

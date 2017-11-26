@@ -6,11 +6,15 @@ import com.game.classes.Game;
 import com.game.classes.GameTimer;
 import com.game.classes.Images;
 import com.game.classes.MapGUI;
+import com.game.models.Settings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.awt.event.KeyEvent;
+
 import java.io.IOException;
+import java.util.Scanner;
 
 public class MainMenu extends  JFrame{
         private final int Width = 600;
@@ -19,12 +23,14 @@ public class MainMenu extends  JFrame{
         private final int HeightButton = 50;
         private final MapGUI mapGUI;
         private final Game game;
+        private final Settings settings;
 
         public MainMenu(MapGUI mapGUI,Game game) throws IOException {
             this.mapGUI = mapGUI;
             this.game = game;
+            settings = new Settings();
             JFrame frame = new JFrame("Snake");
-            MainMenu.JPanelWithBackground panel = new MainMenu.JPanelWithBackground(Images.getBackground());
+            JPanelWithBackground panel = new JPanelWithBackground(Images.getBackground());
             frame.setVisible(true);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setPreferredSize(new Dimension(Width,Height));
@@ -38,8 +44,8 @@ public class MainMenu extends  JFrame{
             final JButton table = getTableButton(frame);
             panel.add(table);
 
-       //     final JButton settings = getSettingsButton(frame);
-//            panel.add(settings);
+            final JButton settings = getSettingsButton(frame);
+            panel.add(settings);
 
             final JButton exit = getExitButton(frame);
             panel.add(exit);
@@ -50,18 +56,35 @@ public class MainMenu extends  JFrame{
 
         }
 
- //   private JButton getSettingsButton(JFrame frame) {
-  //          return getButton("Settings", new Dimension(WidthButton,HeightButton),Color.lightGray, e->{
-
-  //          });
-  //  }
+    private JButton getSettingsButton(JFrame frame) {
+        return getButton("Settings", new Dimension(WidthButton,HeightButton),Color.lightGray, (ActionEvent e) ->{
+            SettingsView view = new SettingsView(settings);
+            JDialog dlg = new JDialog((JFrame) null, "Settings");
+            dlg.setPreferredSize(new Dimension(300,200));
+            dlg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            dlg.getContentPane().add(view);
+            dlg.setVisible(true);
+            dlg.pack();
+            dlg.setLocation(300, 200);
+        });
+    }
 
     private JButton getTableButton(JFrame frame) {
             return getButton("Records", new Dimension(WidthButton,HeightButton),Color.lightGray,e -> {
                         try{
-                            JOptionPane.showMessageDialog(frame,game.getHighscoreTable().toString());
+                            StringBuilder output = new StringBuilder();
+                            Scanner s = new Scanner(game.getHighscoreTable().toString());
+                            s.useDelimiter(",\\s*");
+                            while (s.hasNext()){
+                                output.append(s.next());
+                                output.append(" \n");
+                            }
+                            output.delete(0,1);
+                            output.delete(output.length()-3,output.length()-2);
+                            JOptionPane.showMessageDialog(frame,output);
                         } catch (ClassNotFoundException e1) {
                             e1.printStackTrace();
+
                         }
                     }
             );
@@ -74,8 +97,14 @@ public class MainMenu extends  JFrame{
                     e -> {
                         {
                             try {
-                                Display display = new Display(mapGUI,game);
-                                display.startGame();
+                                SelectLevelView level = new SelectLevelView(mapGUI,game);
+                                JDialog dlg = new JDialog((JFrame) null, "Settings");
+                                dlg.setPreferredSize(new Dimension(Width,Height));
+                                dlg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                                dlg.getContentPane().add(level);
+                                dlg.setVisible(true);
+                                dlg.pack();
+                                dlg.setLocation(300, 200);
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }
@@ -105,14 +134,14 @@ public class MainMenu extends  JFrame{
             );
         }
 
-        public JButton getButton(String text, Dimension dimension, Color background, ActionListener listener){
-            JButton button = new JButton();
-            button.setText(text);
-            button.setPreferredSize(dimension);
-            button.setBackground(background);
-            button.addActionListener(listener);
-            return button;
-        }
+    public static JButton getButton(String text, Dimension dimension, Color background, ActionListener listener){
+        JButton button = new JButton();
+        button.setText(text);
+        button.setPreferredSize(dimension);
+        button.setBackground(background);
+        button.addActionListener(listener);
+        return button;
+    }
 
         public static void processKey(KeyEvent event, JDialog dialog, Game game){
             if (event.getKeyCode() == KeyEvent.VK_ESCAPE){
@@ -155,7 +184,6 @@ public class MainMenu extends  JFrame{
 
             public JPanelWithBackground(Image image) {
                 backgroundImage = image;
-
             }
 
             public void paintComponent(Graphics g) {

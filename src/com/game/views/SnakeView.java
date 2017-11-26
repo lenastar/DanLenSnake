@@ -1,6 +1,7 @@
 package com.game.views;
 
 import com.game.classes.Context;
+import com.game.classes.Images;
 import com.game.classes.interfaces.IView;
 import com.game.models.Snake;
 
@@ -20,8 +21,8 @@ public class SnakeView implements IView<Context> {
     @Override
     public void paint(Context context) throws IndexOutOfBoundsException {
         for (Point point: model.getSegments()){
-            context.map.drawPoint(context.g,point,Color.PINK);
+            context.map.drawImagePoint(context.g,point, Images.getBody());
         }
-        context.map.drawPoint(context.g, model.getHead(),Color.RED);
+        context.map.drawImagePoint(context.g, model.getHead(),Images.getHead());
     }
 }

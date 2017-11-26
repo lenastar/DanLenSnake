@@ -8,6 +8,7 @@ public class Settings extends GameSerializable<Settings>{
     private boolean soundOn;
     private static final String path = "src/com/game/resources/data/settings.dat";
 
+
     public void setSoundOn(boolean soundOn) {
         this.soundOn = soundOn;
     }
