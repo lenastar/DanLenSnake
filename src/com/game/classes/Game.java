@@ -56,12 +56,9 @@ public class Game{
 
     private void addHighscoreTable(){
         try{
-            highscoreTable = HighscoreTable.get(HighscoreTable.path);
+            highscoreTable = HighscoreTable.get();
         } catch (GameSerializableException e){
           highscoreTable = new HighscoreTable();
-        }
-        catch (ClassNotFoundException e){
-            e.printStackTrace();
         }
     }
 
@@ -153,7 +150,7 @@ public class Game{
         map.getViews().clear();
         isGameOver = true;
         highscoreTable.addResult(new Result(scores, playerName));
-        highscoreTable.save(HighscoreTable.path);
+        highscoreTable.save();
         stop();
     }
 

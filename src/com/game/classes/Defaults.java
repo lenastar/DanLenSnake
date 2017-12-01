@@ -12,8 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class Defaults {
-    private static final String pathForGame = "src/com/game/resources/games/defaults";
-    private static final String line_1 = "000000000000000000000000000000";
+    private static final String line_1 = "0000000000000%0000000000000000";
     private static final String line_2 = "000000#################0000000";
 
 
@@ -26,13 +25,13 @@ public class Defaults {
         lines[25] = line_2;
         lines[26] = line_2;
         Level level = Level.getFromList(lines, "Medium");
-        level.save(level.getFullPath());
+        level.save();
     }
 
     public static void saveHardLevel() throws LevelBadSizeException, IOException {
         Level level = Level.getFromList(new String[]{
                 "##############################",
-                "#0000000000000000000000000000#",
+                "#0000000000000000%00000000000#",
                 "#0##########################0#",
                 "#0##########################0#",
                 "#0##########################0#",
@@ -41,7 +40,7 @@ public class Defaults {
                 "#0000000000000000000000000000#",
                 "#000#0####################000#",
                 "#000#0#000000000000000000#000#",
-                "#000#0#000000000000000000#000#",
+                "#000#0#00000%000000000000#000#",
                 "#000#00000000000000000000#000#",
                 "#000#00000000000000000000#000#",
                 "#000#00000000000000000000#000#",
@@ -53,40 +52,63 @@ public class Defaults {
                 "#000#0##################0#000#",
                 "#000#00000000000000000000#000#",
                 "#000######################000#",
+                "#0000000000000%00000000000000#",
                 "#0000000000000000000000000000#",
-                "#0000000000000000000000000000#",
                 "#0##########################0#",
                 "#0##########################0#",
                 "#0##########################0#",
                 "#0##########################0#",
-                "#0000000000000000000000000000#",
+                "#0000000000000%00000000000000#",
                 "##############################"
         }, "Hard");
         level.save(level.getFullPath());
     }
 
-    public static Game getEasyGame() throws NoSuchMethodException {
+    public static Game getEasyGame() {
         MapGUI map = new MapGUI(30,30,30);
         Game game = new Game(map);
-        game.addInstance(Model.createSnake(new Point(5,5), 5, Direction.Right));
+        try {
+            game.addInstance(Model.createSnake(new Point(5,5), 5, Direction.Right));
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
         return game;
     }
 
-    public static Game getMediumGame() throws NoSuchMethodException, GameSerializableException, ClassNotFoundException {
-        Level level = Level.get(Level.getFullPath("Medium"));
-        MapGUI map = new MapGUI(level.getWidth(),level.getHeight(),30);
-        Game game = new Game(map);
-        game.addInstance(Model.createLevel(level));
-        game.addInstance(Model.createSnake(new Point(3,5), 5, Direction.Right));
-        return game;
+    public static Game getMediumGame(){
+        Level level = null;
+        try {
+            level = Level.get(Level.getFullPath("Medium"));
+            MapGUI map = new MapGUI(level.getWidth(),level.getHeight(),30);
+            Game game = new Game(map);
+            game.addInstance(Model.createLevel(level));
+            game.addInstance(Model.createSnake(RandomUtils.getRespawnPoint(level), 5, Direction.Right));
+            return game;
+        } catch (GameSerializableException | NoSuchMethodException e) {
+            try {
+                saveMediumLevel();
+            } catch (LevelBadSizeException | IOException e1) {
+                e1.printStackTrace();
+            }
+            return getMediumGame();
+        }
     }
 
-    public static Game getHardGame() throws NoSuchMethodException, GameSerializableException, ClassNotFoundException {
-        Level level = Level.get(Level.getFullPath("Hard"));
-        MapGUI map = new MapGUI(level.getWidth(),level.getHeight(),30);
-        Game game = new Game(map);
-        game.addInstance(Model.createLevel(level));
-        game.addInstance(Model.createSnake(new Point(10,10), 3, Direction.Right));
-        return game;
+    public static Game getHardGame(){
+        try{
+            Level level = Level.get(Level.getFullPath("Hard"));
+            MapGUI map = new MapGUI(level.getWidth(),level.getHeight(),30);
+            Game game = new Game(map);
+            game.addInstance(Model.createLevel(level));
+            game.addInstance(Model.createSnake(RandomUtils.getRespawnPoint(level), 3, Direction.Right));
+            return game;
+        }catch (NoSuchMethodException | GameSerializableException e){
+            try {
+                saveHardLevel();
+            } catch (LevelBadSizeException | IOException e1) {
+                e1.printStackTrace();
+            }
+            return getHardGame();
+        }
     }
 }

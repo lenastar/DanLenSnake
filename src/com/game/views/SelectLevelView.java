@@ -15,31 +15,17 @@ public class SelectLevelView extends JPanel {
 
     private MapGUI mapGUI;
     private Game game;
+    private final int width = 600;
+    private final int height = 500;
 
-    public SelectLevelView(MapGUI mapGUI, Game game){
-        this.mapGUI = mapGUI;
-        this.game = game;
-        setPreferredSize(new Dimension(600,500));
+    public SelectLevelView(){
+        setPreferredSize(new Dimension(width, height));
         JButton light  = getLightButton();
         add(light);
         JButton medium = getMediumButton();
         add(medium);
         JButton hard = getHardButton();
         add(hard);
-        JButton start = getStartButton();
-        //хотела сделать её внизу, не успеваю
-        add(start);
-    }
-
-    private JButton getStartButton() {
-        return MainMenu.getButton("Start!",new Dimension(100,50),Color.lightGray,(e -> {
-            Display display = new Display(mapGUI, game);
-            try {
-                display.startGame();
-            } catch (LevelBadSizeException | NoSuchMethodException e1) {
-                e1.printStackTrace();
-            }
-        }));
     }
 
     private JButton getLightButton() {
@@ -47,7 +33,9 @@ public class SelectLevelView extends JPanel {
             try {
                 this.game = Defaults.getEasyGame();
                 //а здесь магическим образом надо высвечивать картинку
-            } catch (NoSuchMethodException e1) {
+                Display display = new Display((MapGUI) game.getMap(), game);
+                display.startGame();
+            } catch (NoSuchMethodException | LevelBadSizeException e1) {
                 e1.printStackTrace();
             }
         }));
@@ -57,7 +45,9 @@ public class SelectLevelView extends JPanel {
         return MainMenu.getButton("Medium Level",new Dimension(100,50),Color.lightGray,(e -> {
             try {
                 this.game = Defaults.getMediumGame();
-            } catch (NoSuchMethodException | GameSerializableException | ClassNotFoundException e1) {
+                Display display = new Display((MapGUI) game.getMap(), game);
+                display.startGame();
+            } catch (NoSuchMethodException | LevelBadSizeException e1) {
                 e1.printStackTrace();
             }
         }));
@@ -67,9 +57,9 @@ public class SelectLevelView extends JPanel {
         return MainMenu.getButton("Hard Level",new Dimension(100,50),Color.lightGray,(e -> {
             try {
                 this.game = Defaults.getHardGame();
-            } catch (NoSuchMethodException | GameSerializableException e1) {
-                e1.printStackTrace();
-            } catch (ClassNotFoundException e1) {
+                Display display = new Display((MapGUI) game.getMap(), game);
+                display.startGame();
+            } catch (NoSuchMethodException | LevelBadSizeException e1) {
                 e1.printStackTrace();
             }
         }));

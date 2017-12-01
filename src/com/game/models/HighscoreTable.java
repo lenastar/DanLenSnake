@@ -1,32 +1,38 @@
 package com.game.models;
 
-import com.game.classes.GameSerializable;
+import com.game.classes.SerializationUtil;
+import com.game.classes.exceptions.GameSerializableException;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
-import java.util.ArrayList;
+import static java.lang.Math.min;
 
-public class HighscoreTable extends GameSerializable<HighscoreTable>{
-    private ArrayList<Result> allResults;
-    public static final String path = "src/com/game/resources/data/highscore.dat";
+public class HighscoreTable implements Serializable {
+    private TreeSet<Result> allResults;
+    private static final String path = "src/com/game/resources/data/highscore.dat";
 
     public HighscoreTable() {
-        allResults = new ArrayList<>();
+        allResults = new TreeSet<>();
     }
 
-    public ArrayList<Result> getAllResults() {
+    public TreeSet<Result> getAllResults() {
         return allResults;
     }
 
-    public void addResult(Result result){
-        int last_index = 0;
-        for (int index = 0; index < allResults.size() && allResults.get(index).getScores() > result.getScores(); index++ ){
-            last_index = index + 1;
-        }
-        allResults.add(last_index, result);
+    public void save () {
+        SerializationUtil.save(path,this);
     }
 
-    public void deleteResult(int index){
-        allResults.remove(index);
+    public static HighscoreTable get() throws GameSerializableException {
+        return (HighscoreTable)SerializationUtil.get(path);
+    }
+
+
+    public void addResult(Result result){
+        allResults.add(result);
     }
 
     public void deleteResult(Result result){
@@ -34,7 +40,11 @@ public class HighscoreTable extends GameSerializable<HighscoreTable>{
     }
 
     public Result getBest(){
-        return allResults.get(0);
+        return allResults.first();
+    }
+
+    public List<Result> take(int n){
+        return allResults.stream().limit(n).collect(Collectors.toList());
     }
 
     @Override

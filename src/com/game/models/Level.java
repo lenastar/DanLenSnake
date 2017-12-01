@@ -1,16 +1,19 @@
 package com.game.models;
 
-import com.game.classes.GameSerializable;
+import com.game.classes.SerializationUtil;
+import com.game.classes.exceptions.GameSerializableException;
 import com.game.classes.exceptions.LevelBadSizeException;
 import com.game.classes.interfaces.IModel;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class Level extends GameSerializable implements IModel {
+public class Level implements IModel, Serializable {
     private ArrayList<Point> walls;
+    private ArrayList<Point> respawns;
     private int width;
     private int height;
     private String name;
@@ -21,6 +24,7 @@ public class Level extends GameSerializable implements IModel {
         width = lines[0].length();
         height = lines.length;
         walls = new ArrayList<>();
+        respawns = new ArrayList<>();
         if (width <= 2 || height <= 2) {
             throw new LevelBadSizeException();
         }
@@ -29,11 +33,15 @@ public class Level extends GameSerializable implements IModel {
                 if (lines[i].charAt(j) == '#'){
                     walls.add(new Point(j, i));
                 }
+                else if (lines[i].charAt(j) == '%'){
+                    respawns.add(new Point(j, i));
+                }
             }
         }
     }
 
-    private Level(int width, int height, ArrayList<Point> walls, String name) throws LevelBadSizeException {
+    public Level(int width, int height, ArrayList<Point> walls, ArrayList<Point> respawns, String name) throws LevelBadSizeException {
+        this.respawns = respawns;
         this.name = name;
         this.width = width;
         this.height = height;
@@ -43,8 +51,20 @@ public class Level extends GameSerializable implements IModel {
         this.walls = new ArrayList<>(walls);
     }
 
+    public void save(){
+        SerializationUtil.save(getFullPath(), this);
+    }
+
+    public void save(String path){
+        SerializationUtil.save(path, this);
+    }
+
+    public static Level get(String path) throws GameSerializableException {
+        return (Level)SerializationUtil.get(path);
+    }
+
     public String getFullPath(){
-        return Paths.get(path, "default", name + ".dat").toString();
+        return getFullPath(name);
     }
 
     public static String getFullPath(String name){
@@ -61,7 +81,9 @@ public class Level extends GameSerializable implements IModel {
             points.add(new Point(0, i));
             points.add(new Point(width - 1, i));
         }
-        return new Level(width, height, points, name);
+        ArrayList<Point> respawns = new ArrayList<>();
+        respawns.add(new Point(width / 2, height / 2));
+        return new Level(width, height, points, respawns, name);
     }
 
     public static Level getDefaultLevel(int width, int height) throws LevelBadSizeException {
@@ -94,5 +116,17 @@ public class Level extends GameSerializable implements IModel {
 
     public boolean snakeIsAliveAfterCollision(Snake snake){
         return !isCollisionWith(snake.getHead());
+    }
+
+    public ArrayList<Point> getRespawns() {
+        return respawns;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

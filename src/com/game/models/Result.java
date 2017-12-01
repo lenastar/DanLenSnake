@@ -2,7 +2,7 @@ package com.game.models;
 
 import java.io.Serializable;
 
-public class Result implements Serializable{
+public class Result implements Serializable, Comparable<Result>{
     private final int scores;
     private final String name;
 
@@ -34,5 +34,13 @@ public class Result implements Serializable{
         return o instanceof Result &&
                 ((Result) o).getScores() == scores &&
                 ((Result) o).getName().equals(name);
+    }
+
+    @Override
+    public int compareTo(Result result) {
+        if (scores == result.getScores()){
+            return result.getName().compareTo(name);
+        }
+        return Integer.compare(result.getScores(), scores);
     }
 }

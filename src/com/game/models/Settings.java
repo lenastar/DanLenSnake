@@ -1,10 +1,8 @@
 package com.game.models;
 
-import com.game.classes.GameSerializable;
-
 import java.io.Serializable;
 
-public class Settings extends GameSerializable<Settings>{
+public class Settings implements Serializable{
     private boolean soundOn;
     private static final String path = "src/com/game/resources/data/settings.dat";
 

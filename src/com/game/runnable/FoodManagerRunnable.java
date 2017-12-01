@@ -1,6 +1,7 @@
 package com.game.runnable;
 
 import com.game.classes.Game;
+import com.game.classes.RandomUtils;
 import com.game.classes.interfaces.IMap;
 import com.game.classes.interfaces.IRunnable;
 import com.game.models.Food;
@@ -11,8 +12,7 @@ import java.util.Random;
 import java.util.function.Predicate;
 
 public class FoodManagerRunnable implements IRunnable {
-    public Random random = new Random();
-    public FoodManager model;
+    public final FoodManager model;
 
     public FoodManagerRunnable(FoodManager foodManager){
         model = foodManager;
@@ -33,19 +33,9 @@ public class FoodManagerRunnable implements IRunnable {
                     .getContainerModels()
                     .stream()
                     .anyMatch(model -> model.isCollisionWith(point));
-        Point point = addFoodRandomly(game.getMap(), isCollision);
+        Point point = RandomUtils.addFoodRandomly(game.getMap(), isCollision);
         synchronized (model){
-        model.addFood(new Food(point, 1));
+            model.addFood(new Food(point, 1));
         }
-    }
-
-    private Point addFoodRandomly(IMap map, Predicate<Point> isCollision) {
-        Point point;
-        do {
-            int x = random.nextInt((int)map.getDimension().getWidth());
-            int y = random.nextInt((int)map.getDimension().getHeight());
-            point = new Point(x, y);
-        } while (isCollision.test(point))   ;
-        return point;
     }
 }

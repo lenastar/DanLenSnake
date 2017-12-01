@@ -48,13 +48,6 @@ public class HighscoreTableTests {
     }
 
     @Test
-    public void deleteByIndex(){
-        addResults();
-        highscoreTable.deleteResult(0);
-        assertIterableEquals(Arrays.asList(results.get(0), results.get(2), results.get(1)), highscoreTable.getAllResults());
-    }
-
-    @Test
     public void deleteByResult()
     {
         addResults();
