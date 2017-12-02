@@ -8,6 +8,7 @@ import com.game.models.Level;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 public class MapGUI extends JPanel implements IMap {
     private final int cellSize;
@@ -41,7 +42,7 @@ public class MapGUI extends JPanel implements IMap {
     }
 
     @Override
-    public void paint(Graphics g) throws IndexOutOfBoundsException
+    public void paint(Graphics g) throws IndexOutOfBoundsException,ConcurrentModificationException
     {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g.create();

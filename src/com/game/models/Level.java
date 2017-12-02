@@ -14,8 +14,8 @@ import java.util.UUID;
 public class Level implements IModel, Serializable {
     private ArrayList<Point> walls;
     private ArrayList<Point> respawns;
-    private int width;
-    private int height;
+    private static int width;
+    private static int height;
     private String name;
     private static final String path = "src/com/game/resources/levels/";
 
@@ -102,8 +102,17 @@ public class Level implements IModel, Serializable {
         return height;
     }
 
+    public static void SetHeight(int heigh){
+        height = heigh;
+    }
+
+
     public int getWidth() {
         return width;
+    }
+
+    public static void SetWidth(int widt){
+        width= widt;
     }
 
     public ArrayList<Point> getWalls() {

@@ -3,6 +3,8 @@ package com.game.views;
 import com.game.classes.Game;
 import com.game.classes.MapGUI;
 import com.game.classes.exceptions.LevelBadSizeException;
+import com.game.models.Level;
+import com.game.models.Settings;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -20,6 +22,10 @@ public class Display extends JFrame {
     public void startGame() throws LevelBadSizeException, NoSuchMethodException {
         JDialog dlg = new JDialog((JFrame) null, "Snake");
         dlg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        if (Settings.isFullScreen()){
+            Level.SetHeight(1080);
+            Level.SetWidth(1650);
+        }
         game.start();
         dlg.getContentPane().add(mapGUI);
         dlg.addKeyListener(new KeyAdapter() {
@@ -30,7 +36,7 @@ public class Display extends JFrame {
         dlg.setVisible(true);
         dlg.pack();
         dlg.setResizable(false);
-        dlg.setLocation(300, 200);
+        dlg.setLocation(0, 0);
     }
 
 

@@ -3,26 +3,23 @@ package com.game.models;
 import java.io.Serializable;
 
 public class Settings implements Serializable{
-    private boolean soundOn;
+    private static boolean fullScreen;
+    private Sound sound = new Sound(new java.io.File("src/com/game/resources/sounds/Sunshine.wav"));
     private static final String path = "src/com/game/resources/data/settings.dat";
 
 
-    public void setSoundOn(boolean soundOn) {
-        this.soundOn = soundOn;
+    public void setSoundOn() {
+        this.sound.play();
     }
 
-    public boolean isSoundOn() {
-        return soundOn;
-    }
+    public void setSoundOff(){this.sound.stop();}
 
-    private boolean fullScreen;
-
-    public boolean isFullScreen() {
+    public static boolean isFullScreen() {
         return fullScreen;
     }
 
-    public void setFullScreen(boolean fullScreen) {
-        this.fullScreen = fullScreen;
+    public static void setFullScreen(boolean flag) {
+        fullScreen = flag;
     }
 
     private Resolution resolution;
