@@ -14,14 +14,6 @@ public class Settings implements Serializable{
 
     public void setSoundOff(){this.sound.stop();}
 
-    public static boolean isFullScreen() {
-        return fullScreen;
-    }
-
-    public static void setFullScreen(boolean flag) {
-        fullScreen = flag;
-    }
-
     private Resolution resolution;
 
     public Resolution getResolution() {

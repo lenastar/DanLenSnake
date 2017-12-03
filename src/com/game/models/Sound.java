@@ -24,13 +24,6 @@ public class Sound {
         }
     }
 
-    public boolean isReleased() {
-        return released;
-    }
-
-    public boolean isPlaying() {
-        return playing;
-    }
 
     public void play(boolean breakOld) {
         if (released) {
@@ -67,13 +60,7 @@ public class Sound {
         return (v-min)/(max-min);
     }
 
-
-    public static Sound playSound(String s) {
-        File f = new File(s);
-        Sound snd = new Sound(f);
-        snd.play();
-        return snd;
-    }
+    
 
     private class Listener implements LineListener {
         public void update(LineEvent ev) {

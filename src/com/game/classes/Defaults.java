@@ -76,7 +76,7 @@ public class Defaults {
     }
 
     public static Game getMediumGame(){
-        Level level = null;
+        Level level;
         try {
             level = Level.get(Level.getFullPath("Medium"));
             MapGUI map = new MapGUI(level.getWidth(),level.getHeight(),30);

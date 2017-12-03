@@ -18,6 +18,7 @@ public class SnakeController implements IController{
         actions.put(KeyEvent.VK_UP, () -> {
             try {
                 this.model.setDirection(Direction.Up);
+            //    this.model.
             } catch (SnakeOppositeMoveException e) {
 
             }

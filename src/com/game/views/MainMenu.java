@@ -1,23 +1,22 @@
 package com.game.views;
 
+
 import javax.swing.*;
 import java.awt.*;
-import com.game.classes.Game;
-import com.game.classes.GameTimer;
+
 import com.game.classes.Images;
-import com.game.classes.MapGUI;
+
 import com.game.classes.exceptions.GameSerializableException;
 import com.game.models.HighscoreTable;
 import com.game.models.Result;
 import com.game.models.Settings;
+import com.game.classes.JPanelWithBackground;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.awt.event.KeyEvent;
-
 import java.io.IOException;
-import java.util.Scanner;
+
 import java.util.stream.Collectors;
 
 public class MainMenu extends  JFrame{
@@ -30,13 +29,16 @@ public class MainMenu extends  JFrame{
         public MainMenu() throws IOException {
             settings = new Settings();
             JFrame frame = new JFrame("Snake");
-            JPanelWithBackground panel = new JPanelWithBackground(Images.getBackground());
+            JPanelWithBackground panel = new JPanelWithBackground(Images.getBackground(),Width,Height);
             frame.setVisible(true);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             frame.setPreferredSize(new Dimension(Width,Height));
 
             final JButton start = getStartButton();
             panel.add(start);
+
+            final JButton constructor = getConstructorButton();
+            panel.add(constructor);
 
             final JButton help = getHelpButton(frame);
             panel.add(help);
@@ -55,6 +57,16 @@ public class MainMenu extends  JFrame{
             frame.pack();
 
         }
+
+    private JButton getConstructorButton() {
+            return getButton("Make map", new Dimension(WidthButton, HeightButton), Color.lightGray, e -> {
+                try {
+                    com.levelConstructor.views.MainMenu constr= new com.levelConstructor.views.MainMenu();
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            });
+    }
 
     private JButton getSettingsButton(JFrame frame) {
         return getButton("Settings", new Dimension(WidthButton,HeightButton),Color.lightGray, (ActionEvent e) ->{
@@ -95,13 +107,13 @@ public class MainMenu extends  JFrame{
                         {
                             try {
                                 SelectLevelView level = new SelectLevelView();
-                                JDialog dlg = new JDialog((JFrame) null, "Select level");
-                                dlg.setPreferredSize(new Dimension(Width,Height));
-                                dlg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                                dlg.getContentPane().add(level);
-                                dlg.setVisible(true);
-                                dlg.pack();
-                                dlg.setLocation(300, 200);
+//                                JDialog dlg = new JDialog((JFrame) null, "Select level");
+//                                dlg.setPreferredSize(new Dimension(Width,Height));
+//                                dlg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//                                dlg.getContentPane().add(level);
+//                                dlg.setVisible(true);
+//                                dlg.pack();
+//                                dlg.setLocation(300, 200);
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }
@@ -139,20 +151,6 @@ public class MainMenu extends  JFrame{
         button.addActionListener(listener);
         return button;
     }
-
-        class JPanelWithBackground extends JPanel {
-
-            private Image backgroundImage;
-
-            public JPanelWithBackground(Image image) {
-                backgroundImage = image;
-            }
-
-            public void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(backgroundImage,0,0,Width, Height,this);
-            }
-        }
 
     }
 

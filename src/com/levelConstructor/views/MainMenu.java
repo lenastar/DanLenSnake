@@ -13,7 +13,7 @@ public class MainMenu extends JFrame{
 
     public MainMenu() throws LevelBadSizeException {
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setPreferredSize(new Dimension(width, height));
         constructorView = new ConstructorView(30, 30 ,"Name", 30);
         getContentPane().add(constructorView);

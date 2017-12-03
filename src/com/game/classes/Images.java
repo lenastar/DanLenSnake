@@ -14,7 +14,9 @@ public class Images {
     private static final String Background = "src/com/game/resources/images/images.jpg";
     private static final String Head = "src/com/game/resources/images/head.png";
     private static final String Body = "src/com/game/resources/images/body.png";
-    private static final String Khvost = "src/com/game/resources/images/Khvost.png";
+    private static final String Easy = "src/com/game/resources/images/easy.png";
+    private static final String Medium = "src/com/game/resources/images/medium.png";
+    private static final String Hard = "src/com/game/resources/images/hard.png";
 
     private static Image getImages(String pathname){
         try {
@@ -41,7 +43,10 @@ public class Images {
         return getImages(Body);
     }
 
-    public static Image getKhvost(){
-        return getImages(Khvost);
-    }
+
+    public static Image getEasy() {return getImages(Easy);}
+
+    public static Image getMedium(){return getImages(Medium);}
+
+    public static Image getHard(){return getImages(Hard);}
 }

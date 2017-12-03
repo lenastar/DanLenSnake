@@ -69,9 +69,9 @@ public class ConstructorMenuBar extends JMenuBar{
         //endregion
         //region change size of canvas
         JMenuItem changeSizeMenuItem = new JMenuItem("Change Size");
-        changeSizeMenuItem.addActionListener(e -> ResizeCanvasDialog.show(e1 -> {
-            constructorView.
-        }));
+       // changeSizeMenuItem.addActionListener(e -> ResizeCanvasDialog.show(e1 -> {
+      //      constructorView.
+      //  }));
         toolsMenu.add(changeSizeMenuItem);
         //endregion
     }

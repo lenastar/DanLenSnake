@@ -53,27 +53,24 @@ public class MapGUI extends JPanel implements IMap {
         }
     }
 
-    public void drawPoint(Graphics g, Point point, Color color) throws IndexOutOfBoundsException{
+    public void drawPoint(Graphics g, Point point, Color color)  {
         if (point.x < 0
                 || point.y < 0
                 || point.x >= dimension.getWidth()
                 || point.y >= dimension.getHeight()) {
             throw new IndexOutOfBoundsException();
         }
-        g.setColor(color);
-        g.fillRect(point.x * cellSize, point.y * cellSize, cellSize, cellSize);
-        g.setColor(Color.DARK_GRAY);
-        g.drawRect(point.x * cellSize, point.y * cellSize, cellSize, cellSize);
+        DrawingUtils.drawPoint(g,point,cellSize,color);
     }
 
-    public void drawImagePoint(Graphics g, Point point, Image image) throws IndexOutOfBoundsException{
+    public void drawImagePoint(Graphics g, Point point, Image image) {
         if (point.x < 0
                 || point.y < 0
                 || point.x >= dimension.getWidth()
                 || point.y >= dimension.getHeight()) {
             throw new IndexOutOfBoundsException();
         }
-        g.drawImage(image,point.x * cellSize, point.y * cellSize, cellSize, cellSize,null);
+        DrawingUtils.drawImagePoint(g,cellSize,point,image);
     }
 
 }
