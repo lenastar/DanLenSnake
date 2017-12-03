@@ -5,6 +5,7 @@ import com.game.classes.exceptions.GameSerializableException;
 import com.game.models.Level;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 
 public class ConstructorMenuBar extends JMenuBar{
@@ -65,6 +66,13 @@ public class ConstructorMenuBar extends JMenuBar{
         JMenuItem drawingMode = new JMenuItem("Set Drawing Mode");
         drawingMode.addActionListener(e -> constructorView.setDrawingMode());
         toolsMenu.add(drawingMode);
+        //endregion
+        //region change size of canvas
+        JMenuItem changeSizeMenuItem = new JMenuItem("Change Size");
+        changeSizeMenuItem.addActionListener(e -> ResizeCanvasDialog.show(e1 -> {
+            constructorView.
+        }));
+        toolsMenu.add(changeSizeMenuItem);
         //endregion
     }
 }

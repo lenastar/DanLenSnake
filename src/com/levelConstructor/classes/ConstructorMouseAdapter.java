@@ -3,6 +3,7 @@ package com.levelConstructor.classes;
 import com.levelConstructor.models.Constructor;
 import com.levelConstructor.views.ConstructorView;
 
+import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -35,9 +36,12 @@ public class ConstructorMouseAdapter extends MouseInputAdapter {
                 for (int y = Collections.min(yRange) / constructorView.getCellSize();
                         y <= Collections.max(yRange) / constructorView.getCellSize();
                         y++){
-                    Point point = new Point(x, y);
-                    constructor.addPointToBuffer(point);
-                    constructor.removeRespawn(point);
+                    if (x < constructorView.getConstructor().getLevel().getWidth()
+                            && y < constructorView.getConstructor().getLevel().getHeight()) {
+                        Point point = new Point(x, y);
+                        constructor.addPointToBuffer(point);
+                        constructor.removeRespawn(point);
+                    }
                 }
             }
             this.constructor.addBufferToWalls();
@@ -49,6 +53,8 @@ public class ConstructorMouseAdapter extends MouseInputAdapter {
     public void mouseWheelMoved(MouseWheelEvent mouseWheelEvent) {
         int notches = mouseWheelEvent.getWheelRotation();
         constructorView.setCellSize(constructorView.getCellSize() - notches);
+        constructorView.setDimension();
+        constructorView.getParent().revalidate();
         constructorView.repaint();
     }
 
@@ -67,8 +73,10 @@ public class ConstructorMouseAdapter extends MouseInputAdapter {
     public void mouseClicked(MouseEvent mouseEvent) {
         Point point = new Point(mouseEvent.getX() / constructorView.getCellSize(),
                 mouseEvent.getY() / constructorView.getCellSize());
-        constructor.addRespawn(point);
-        constructorView.repaint();
+        if (!constructor.getRespawns().contains(point)) {
+            constructor.addRespawn(point);
+            constructorView.repaint();
+        }
     }
 }
 

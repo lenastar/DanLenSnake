@@ -2,6 +2,7 @@ package com.levelConstructor.views;
 
 import com.game.classes.exceptions.LevelBadSizeException;
 import com.game.models.Level;
+import com.levelConstructor.Main;
 import com.levelConstructor.classes.ConstructorMouseAdapter;
 import com.levelConstructor.classes.Eraser;
 import com.levelConstructor.models.Constructor;
@@ -22,12 +23,13 @@ public class ConstructorView extends JPanel{
     public ConstructorView(int width, int height, String name, int cellSize) throws LevelBadSizeException {
         this.constructor = new Constructor(width, height, name);
         this.cellSize = cellSize;
-        setPreferredSize(new Dimension(width * cellSize, height * cellSize));
-        setBackground(Color.WHITE);
         this.width = width;
         this.height = height;
+        setDimension();
+        setBackground(Color.WHITE);
         mouseInputAdapter = new ConstructorMouseAdapter(this);
         eraser = new Eraser(this);
+        addMouseWheelListener(mouseInputAdapter);
         setDrawingMode();
     }
 
@@ -91,7 +93,6 @@ public class ConstructorView extends JPanel{
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         removeMouseListener(mouseInputAdapter);
         removeMouseMotionListener(mouseInputAdapter);
-        removeMouseWheelListener(mouseInputAdapter);
         addMouseMotionListener(eraser);
     }
 
@@ -100,6 +101,10 @@ public class ConstructorView extends JPanel{
         removeMouseMotionListener(eraser);
         addMouseMotionListener(mouseInputAdapter);
         addMouseListener(mouseInputAdapter);
-        addMouseWheelListener(mouseInputAdapter);
     }
+
+    public void setDimension(){
+        setPreferredSize(new Dimension(width * cellSize, height * cellSize));
+    }
+
 }
