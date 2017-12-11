@@ -12,7 +12,7 @@ import java.awt.event.ItemListener;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-public class ResizeCanvasDialog implements ItemListener {
+public class ResizeCanvasDialog{
     private ConstructorView constructorView;
     private final int MAX = 100;
     private final int MIN = 6;
@@ -92,7 +92,6 @@ public class ResizeCanvasDialog implements ItemListener {
         if (widthField.getValue()!=null && heightField.getValue()!=null && widthValue<=MAX && widthValue>=MIN && heightValue>=MIN && heightValue<=MAX) {
             constructorView.setWidth(widthValue);
             constructorView.setHeight(heightValue);
-            constructorView.repaint();
         }
         else {
             JOptionPane.showMessageDialog(constructorView,"Please enter values");
@@ -110,11 +109,5 @@ public class ResizeCanvasDialog implements ItemListener {
 
         frame.pack();
         frame.setVisible(true);
-    }
-
-
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-
     }
 }

@@ -35,11 +35,11 @@ public class Images {
         return getImages(Background);
     }
 
-    public static Image getHead(){
+    public static Image getDefaultSnakeHead(){
         return getImages(Head);
     }
 
-    public static Image getBody(){
+    public static Image getDefaultSnakeBody(){
         return getImages(Body);
     }
 

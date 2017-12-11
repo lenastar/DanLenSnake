@@ -8,6 +8,7 @@ import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -16,18 +17,20 @@ public class ConstructorMouseAdapter extends MouseInputAdapter {
     private final ConstructorView constructorView;
     private final Constructor constructor;
     private Point pressed;
+    private ArrayList<Point> buffer;
 
     public ConstructorMouseAdapter(ConstructorView constructorView) {
         this.constructorView = constructorView;
         this.constructor = constructorView.getConstructor();
         this.pressed = null;
+        this.buffer = new ArrayList<>();
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
         if (pressed != null){
-            constructor.removeBufferFromWalls();
-            constructor.clearBuffer();
+            constructor.removeRangeFromWalls(buffer);
+            buffer.clear();
             List<Integer> xRange = Arrays.asList(pressed.x, mouseEvent.getX());
             List<Integer> yRange = Arrays.asList(pressed.y, mouseEvent.getY());
             for (int x = Collections.min(xRange) / constructorView.getCellSize();
@@ -39,12 +42,12 @@ public class ConstructorMouseAdapter extends MouseInputAdapter {
                     if (x < constructorView.getConstructor().getLevel().getWidth()
                             && y < constructorView.getConstructor().getLevel().getHeight()) {
                         Point point = new Point(x, y);
-                        constructor.addPointToBuffer(point);
+                        buffer.add(point);
                         constructor.removeRespawn(point);
                     }
                 }
             }
-            this.constructor.addBufferToWalls();
+            this.constructor.addRangeToWalls(buffer);
             constructorView.repaint();
         }
     }
@@ -66,7 +69,7 @@ public class ConstructorMouseAdapter extends MouseInputAdapter {
     @Override
     public void mouseReleased(MouseEvent mouseEvent){
         this.pressed = null;
-        constructor.clearBuffer();
+        buffer.clear();
     }
 
     @Override

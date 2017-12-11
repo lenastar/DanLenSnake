@@ -10,14 +10,25 @@ import java.io.File;
 
 public class ConstructorMenuBar extends JMenuBar{
     private final ConstructorView constructorView;
+    private final JMenu fileMenu;
+    private final JMenu toolsMenu;
 
     public ConstructorMenuBar(ConstructorView constructorView){
         this.constructorView = constructorView;
-
-        JMenu fileMenu = new JMenu("File");
+        fileMenu =new JMenu("File");
         fileMenu.setMnemonic('f');
         add(fileMenu);
-        //region add open item to file menu
+        addOpenFileMenuItem();
+        addSaveMenuItem();
+        addExitFileMenuItem();
+
+        toolsMenu = new JMenu("Tools");
+        add(toolsMenu);
+        addEraseMode();
+        addDrawingMode();
+        addChangeSizeMode();
+    }
+    private void addOpenFileMenuItem(){
         JMenuItem openFileMenuItem = new JMenuItem("Open");
         openFileMenuItem.setMnemonic('o');
         openFileMenuItem.addActionListener(e -> {
@@ -34,8 +45,8 @@ public class ConstructorMenuBar extends JMenuBar{
             }
         });
         fileMenu.add(openFileMenuItem);
-        //endregion
-        //region add save item to file menu
+    }
+    private void addSaveMenuItem(){
         JMenuItem saveFileMenuItem = new JMenuItem("Save");
         saveFileMenuItem.setMnemonic('s');
         saveFileMenuItem.addActionListener(e -> {
@@ -47,30 +58,26 @@ public class ConstructorMenuBar extends JMenuBar{
             }
         });
         fileMenu.add(saveFileMenuItem);
-        //endregion
-        //region add exit item to file menu
+    }
+    private void addExitFileMenuItem(){
         JMenuItem exitFileMenuItem = new JMenuItem("Exit");
         exitFileMenuItem.setMnemonic('e');
         exitFileMenuItem.addActionListener(e -> System.exit(0));
         fileMenu.add(exitFileMenuItem);
-        //endregion
-
-        JMenu toolsMenu = new JMenu("Tools");
-        add(toolsMenu);
-        //region add erase mode
+    }
+    private void addEraseMode(){
         JMenuItem eraseMode = new JMenuItem("Set Erase Mode");
         eraseMode.addActionListener(e -> constructorView.setEraseMode());
         toolsMenu.add(eraseMode);
-        //endregion
-        //region add drawing mode
+    }
+    private void addDrawingMode(){
         JMenuItem drawingMode = new JMenuItem("Set Drawing Mode");
         drawingMode.addActionListener(e -> constructorView.setDrawingMode());
         toolsMenu.add(drawingMode);
-        //endregion
-        //region change size of canvas
+    }
+    private void addChangeSizeMode(){
         JMenuItem changeSizeMenuItem = new JMenuItem("Change Size");
         changeSizeMenuItem.addActionListener(e -> ResizeCanvasDialog.show(constructorView));
         toolsMenu.add(changeSizeMenuItem);
-        //endregion
     }
 }

@@ -12,18 +12,15 @@ import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 
 public class ConstructorView extends JPanel{
-    private final Constructor constructor;
+    private Constructor constructor;
     private int cellSize;
-    private int width;
-    private int height;
-    private final MouseInputAdapter mouseInputAdapter;
-    private final Eraser eraser;
+
+    private MouseInputAdapter mouseInputAdapter;
+    private Eraser eraser;
 
     public ConstructorView(int width, int height, String name, int cellSize) throws LevelBadSizeException {
         this.constructor = new Constructor(width, height, name);
         this.cellSize = cellSize;
-        this.width = width;
-        this.height = height;
         setDimension();
         setBackground(Color.WHITE);
         mouseInputAdapter = new ConstructorMouseAdapter(this);
@@ -37,6 +34,8 @@ public class ConstructorView extends JPanel{
         super.paint(graphics);
         Graphics2D g2 = (Graphics2D) graphics.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        int width = constructor.getLevel().getWidth();
+        int height = constructor.getLevel().getHeight();
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -45,16 +44,12 @@ public class ConstructorView extends JPanel{
         }
 
         for (Point point: constructor.getRespawns()){
-            drawPoint(graphics, point, Color.RED);
+            DrawingUtils.drawPoint(graphics, point, cellSize, Color.RED);
         }
 
         for (Point point: constructor.getWalls()){
-            drawPoint(graphics, point, Color.DARK_GRAY);
+            DrawingUtils.drawPoint(graphics, point, cellSize, Color.LIGHT_GRAY);
         }
-    }
-
-    private void drawPoint(Graphics g, Point point, Color color) throws IndexOutOfBoundsException{
-        DrawingUtils.drawPoint(g,point,cellSize,color);
     }
 
     public Constructor getConstructor() {
@@ -70,15 +65,27 @@ public class ConstructorView extends JPanel{
     }
 
     public void setWidth(int value){
-        width = value;
+        try {
+            constructor = new Constructor(value, constructor.getLevel().getHeight(), constructor.getLevel().getName());
+            changeAdapters();
+
+        } catch (LevelBadSizeException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setHeight(int value){
-        height = value;
+        try {
+            constructor = new Constructor(constructor.getLevel().getWidth(), value, constructor.getLevel().getName());
+            changeAdapters();
+        } catch (LevelBadSizeException e) {
+            e.printStackTrace();
+        }
     }
 
     public void changeLevel(Level level){
-        constructor.setLevel(level);
+        constructor = new Constructor(level);
+        setDrawingMode();
         repaint();
     }
 
@@ -97,7 +104,16 @@ public class ConstructorView extends JPanel{
     }
 
     public void setDimension(){
+        int width = constructor.getLevel().getWidth();
+        int height = constructor.getLevel().getHeight();
         setPreferredSize(new Dimension(width * cellSize, height * cellSize));
+    }
+
+    private void changeAdapters(){
+        mouseInputAdapter=new ConstructorMouseAdapter(this);
+        eraser = new Eraser(this);
+        setDrawingMode();
+        repaint();
     }
 
 }
