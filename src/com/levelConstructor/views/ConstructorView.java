@@ -1,8 +1,8 @@
 package com.levelConstructor.views;
 
+import com.game.classes.DrawingUtils;
 import com.game.classes.exceptions.LevelBadSizeException;
 import com.game.models.Level;
-import com.levelConstructor.Main;
 import com.levelConstructor.classes.ConstructorMouseAdapter;
 import com.levelConstructor.classes.Eraser;
 import com.levelConstructor.models.Constructor;
@@ -10,7 +10,6 @@ import com.levelConstructor.models.Constructor;
 import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.util.Arrays;
 
 public class ConstructorView extends JPanel{
     private final Constructor constructor;
@@ -41,10 +40,7 @@ public class ConstructorView extends JPanel{
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                graphics.setColor(Color.WHITE);
-                graphics.fillRect(x * cellSize, y * cellSize, cellSize, cellSize);
-                graphics.setColor(Color.LIGHT_GRAY);
-                graphics.drawRect(x * cellSize, y * cellSize, cellSize, cellSize);
+                DrawingUtils.drawPoint(graphics,new Point(x,y),cellSize,Color.WHITE);
             }
         }
 
@@ -58,10 +54,7 @@ public class ConstructorView extends JPanel{
     }
 
     private void drawPoint(Graphics g, Point point, Color color) throws IndexOutOfBoundsException{
-        g.setColor(color);
-        g.fillRect(point.x * cellSize, point.y * cellSize, cellSize, cellSize);
-        g.setColor(Color.LIGHT_GRAY);
-        g.drawRect(point.x * cellSize, point.y * cellSize, cellSize, cellSize);
+        DrawingUtils.drawPoint(g,point,cellSize,color);
     }
 
     public Constructor getConstructor() {

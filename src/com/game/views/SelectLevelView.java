@@ -32,7 +32,7 @@ public class SelectLevelView extends JFrame {
         return MainMenu.getButton("Light Level",new Dimension(100,50),Color.pink,( e -> {
             setGame(Defaults.getEasyGame());
             Image image = Images.getEasy();
-            setComponentOnBack(image);
+            setBackground(image);
         }
         ));
     }
@@ -41,7 +41,7 @@ public class SelectLevelView extends JFrame {
         return MainMenu.getButton("Medium Level",new Dimension(100,50),Color.pink,(e -> {
             setGame(Defaults.getMediumGame());
             Image image = Images.getMedium();
-            setComponentOnBack(image);
+            setBackground(image);
         }
         ));
     }
@@ -50,7 +50,7 @@ public class SelectLevelView extends JFrame {
         return MainMenu.getButton("Hard Level",new Dimension(100,50),Color.pink,(e ->{
             setGame(Defaults.getHardGame());
             Image image = Images.getHard();
-            setComponentOnBack(image);
+            setBackground(image);
     }
         ));
     }
@@ -81,7 +81,7 @@ public class SelectLevelView extends JFrame {
         panel.add(run);
     }
 
-    private void setComponentOnBack(Image image){
+    private void setBackground(Image image){
         JPanel panel = new JPanelWithBackground(image,width,height);
         this.getContentPane().add(panel,1);
         this.setComponentZOrder(panel,1);
