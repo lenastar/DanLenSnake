@@ -107,4 +107,12 @@ public class Constructor {
         this.respawns = level.getRespawns();
         this.buffer = new ArrayList<>();
     }
+
+    public void setWidth(int value){
+        level.setWidth(value);
+    }
+
+    public void setHeight(int value){
+        level.setHeight(value);
+    }
 }

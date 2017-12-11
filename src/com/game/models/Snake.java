@@ -98,4 +98,8 @@ public class Snake implements IModel{
     {
         return length;
     }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
 }

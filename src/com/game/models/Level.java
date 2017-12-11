@@ -130,4 +130,12 @@ public class Level implements IModel, Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setWidth(int value) {
+        this.width = value;
+    }
+
+    public void setHeight(int value){
+        this.height = value;
+    }
 }
