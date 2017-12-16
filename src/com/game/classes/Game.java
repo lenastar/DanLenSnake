@@ -3,8 +3,6 @@ package com.game.classes;
 import com.game.classes.exceptions.GameSerializableException;
 import com.game.classes.interfaces.*;
 import com.game.models.*;
-import com.game.runnable.FoodManagerRunnable;
-import com.game.views.FoodManagerView;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -19,7 +17,7 @@ public class Game{
     private ArrayList<IModel> containerModels;
     private Thread mainThread;
     private int speed = 200;
-    private PriorityQueue<Integer> pressedKeys;
+    private LinkedList<Integer> pressedKeys;
     private int scores = 0;
     private String playerName = "Player";
     public boolean isGameOver = false;
@@ -27,7 +25,7 @@ public class Game{
 
     public Game(IMap map, List<Instance> instances) {
         this.map = map;
-        pressedKeys = new PriorityQueue<>();
+        pressedKeys = new LinkedList<>();
         containerModels = new ArrayList<>();
         containerControllers = new ArrayList<>();
         containerRunnable = new ArrayList<>();
@@ -100,7 +98,7 @@ public class Game{
             map.paint();
             speed = Integer.min(MAX_SPEED, speed + 1);
             if (pressedKeys.size() > 0){
-                processKey(pressedKeys.poll());
+                treatKey(pressedKeys.pollFirst());
             }
                 for (IRunnable runnable : containerRunnable) {
                     if (!runnable.run(this)) {
@@ -113,7 +111,7 @@ public class Game{
         }
     }
 
-    private void processKey(int key)
+    private void treatKey(int key)
     {
         for (IController controller : containerControllers) {
             if (controller.keyExists(key)) {
@@ -122,9 +120,20 @@ public class Game{
         }
     }
 
-    public void processKey(KeyEvent event)
-    {
+    public void processKey(KeyEvent event){
         handleKey(event.getKeyCode());
+    }
+
+    public void processKey(int key){
+        handleKey(key);
+    }
+
+    public void processKey(ArrayList<Integer> collections){
+        pressedKeys.addAll(collections);
+    }
+
+    public synchronized void clearKeys(){
+        pressedKeys.clear();
     }
 
     private synchronized void handleKey(int key){

@@ -14,6 +14,7 @@ public class MapGUI extends JPanel implements IMap {
     private final int cellSize;
     private ArrayList<IView> container;
     private Dimension dimension;
+    private ArrayList<Point> path;
 
     public MapGUI(int width, int height, int cellSize){
         container = new ArrayList<>();
@@ -51,6 +52,11 @@ public class MapGUI extends JPanel implements IMap {
         for (IView view: container) {
             view.paint(new Context(this, g));
         }
+        if (path != null){
+            for (Point point: path) {
+                DrawingUtils.drawPoint(g, point, cellSize, Color.GREEN);
+            }
+        }
     }
 
     public void drawPoint(Graphics g, Point point, Color color)  {
@@ -73,4 +79,7 @@ public class MapGUI extends JPanel implements IMap {
         DrawingUtils.drawImagePoint(g,cellSize,point,image);
     }
 
+    public void setPath(ArrayList<Point> path) {
+        this.path = path;
+    }
 }

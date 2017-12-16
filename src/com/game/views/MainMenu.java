@@ -107,13 +107,6 @@ public class MainMenu extends  JFrame{
                         {
                             try {
                                 SelectLevelView level = new SelectLevelView();
-//                                JDialog dlg = new JDialog((JFrame) null, "Select level");
-//                                dlg.setPreferredSize(new Dimension(Width,Height));
-//                                dlg.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//                                dlg.getContentPane().add(level);
-//                                dlg.setVisible(true);
-//                                dlg.pack();
-//                                dlg.setLocation(300, 200);
                             } catch (Exception e1) {
                                 e1.printStackTrace();
                             }

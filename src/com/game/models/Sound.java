@@ -11,17 +11,17 @@ public class Sound {
     private boolean playing = false;
 
     public Sound(File file) {
-        try {
-            AudioInputStream stream = AudioSystem.getAudioInputStream(file);
-            clip = AudioSystem.getClip();
-            clip.open(stream);
-            clip.addLineListener(new Listener());
-            volumeC = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            released = true;
-        } catch (IOException | UnsupportedAudioFileException | LineUnavailableException exc) {
-            exc.printStackTrace();
-            released = false;
-        }
+//        try {
+//            AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+//            clip = AudioSystem.getClip();
+//            clip.open(stream);
+//            clip.addLineListener(new Listener());
+//            volumeC = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+//            released = true;
+//        } catch (IOException | UnsupportedAudioFileException | LineUnavailableException exc) {
+//            exc.printStackTrace();
+//            released = false;
+//        }
     }
 
 
