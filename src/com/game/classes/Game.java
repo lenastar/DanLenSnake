@@ -128,7 +128,7 @@ public class Game{
         handleKey(key);
     }
 
-    public void processKey(ArrayList<Integer> collections){
+    public void processKeys(List<Integer> collections){
         pressedKeys.addAll(collections);
     }
 

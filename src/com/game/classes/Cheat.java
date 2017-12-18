@@ -11,6 +11,7 @@ import com.game.models.Snake;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.*;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -38,20 +39,20 @@ public class Cheat {
         this(game.getContainerModels());
     }
 
-    public ArrayList<Point> getPath() throws PathNotFoundException {
+    public List<Point> getPath() throws PathNotFoundException {
         currentStartPoint = snake.getHead();
         return getPath(level, currentStartPoint, point -> foodManager.isCollisionWith(point), point -> !snake.isBodyCollisionWith(point));
     }
 
-    public ArrayList<Integer> getKeycodes() throws PathNotFoundException {
+    public List<Integer> getKeycodes() throws PathNotFoundException {
         return transformPathToKeycode(getPath(), level);
     }
 
-    public static ArrayList<Point> getPath(Level level,  Point startPoint, Point endPoint) throws PathNotFoundException {
+    public static List<Point> getPath(Level level,  Point startPoint, Point endPoint) throws PathNotFoundException {
         return getPath(level, startPoint, point -> point.equals(endPoint), point -> true);
     }
 
-    public static ArrayList<Point> getPath(Level level, Point startPoint, Predicate<Point> breakCondition, Predicate<Point> filterPoint) throws PathNotFoundException {
+    public static List<Point> getPath(Level level, Point startPoint, Predicate<Point> breakCondition, Predicate<Point> filterPoint) throws PathNotFoundException {
         LinkedList<Point> queue = new LinkedList<>();
         HashSet<Point> visited = new HashSet<>();
         visited.add(startPoint);
@@ -82,7 +83,7 @@ public class Cheat {
         return getPathFromGraph(path, startPoint, endPoint);
     }
 
-    private static ArrayList<Point> getPathFromGraph(HashMap<Point, Point> path, Point startPoint, Point endPoint) throws PathNotFoundException {
+    private static List<Point> getPathFromGraph(HashMap<Point, Point> path, Point startPoint, Point endPoint) throws PathNotFoundException {
         Point point = endPoint;
         ArrayList<Point> result = new ArrayList<>();
         while (point != null){
@@ -96,7 +97,7 @@ public class Cheat {
         throw new PathNotFoundException();
     }
 
-    public static ArrayList<Direction> transformPathToDirections(ArrayList<Point> path, Level level){
+    public static List<Direction> transformPathToDirections(List<Point> path, Level level){
         ArrayList<Direction> result = new ArrayList<>();
         for (int i = 1; i < path.size(); i++){
             try {
@@ -108,14 +109,14 @@ public class Cheat {
         return result;
     }
 
-    public static ArrayList<Integer> transformDirectionsToKeycode(ArrayList<Direction> directions){
+    public static List<Integer> transformDirectionsToKeycode(List<Direction> directions){
         return directions
                 .stream()
                 .map(PointAndDirectionUtils::getKeycode)
-                .collect(Collectors.toCollection(ArrayList::new));
+                .collect(Collectors.toList());
     }
 
-    public static ArrayList<Integer> transformPathToKeycode(ArrayList<Point> path, Level level){
+    public static List<Integer> transformPathToKeycode(List<Point> path, Level level){
         return transformDirectionsToKeycode(transformPathToDirections(path, level));
     }
 }

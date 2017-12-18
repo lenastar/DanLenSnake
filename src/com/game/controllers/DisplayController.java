@@ -21,12 +21,13 @@ public class DisplayController extends KeyAdapter{
         if (keyEvent.getKeyCode() == KeyEvent.VK_H){
             try {
                 game.clearKeys();
-                game.processKey(cheat.getKeycodes());
+                game.processKeys(cheat.getKeycodes());
             } catch (PathNotFoundException e) {
                 System.out.println("Path not found");
             }
         }else{
             game.processKey(keyEvent);
         }
+
     }
 }

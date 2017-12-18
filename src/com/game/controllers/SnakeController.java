@@ -1,5 +1,6 @@
 package com.game.controllers;
 
+import com.game.classes.PointAndDirectionUtils;
 import com.game.classes.enumerators.Direction;
 import com.game.classes.exceptions.SnakeOppositeMoveException;
 import com.game.classes.interfaces.IController;
@@ -15,35 +16,16 @@ public class SnakeController implements IController{
     public SnakeController(Snake model) throws NoSuchMethodException {
         this.model = model;
         actions = new HashMap<>();
-        actions.put(KeyEvent.VK_UP, () -> {
-            try {
-                this.model.setDirection(Direction.Up);
-            //    this.model.
-            } catch (SnakeOppositeMoveException e) {
+        for (Integer keyInteger: PointAndDirectionUtils.keyValues()){
+            actions.put(keyInteger, () -> {
+                try {
+                    this.model.setDirection(PointAndDirectionUtils.getDirection(keyInteger));
+                    //    this.model.
+                } catch (SnakeOppositeMoveException e) {
 
-            }
-        });
-        actions.put(KeyEvent.VK_DOWN, () -> {
-            try {
-                this.model.setDirection(Direction.Down);
-            } catch (SnakeOppositeMoveException e) {
-
-            }
-        });
-        actions.put(KeyEvent.VK_LEFT, () -> {
-            try {
-                this.model.setDirection(Direction.Left);
-            } catch (SnakeOppositeMoveException e) {
-
-            }
-        });
-        actions.put(KeyEvent.VK_RIGHT, () -> {
-            try {
-                this.model.setDirection(Direction.Right);
-            } catch (SnakeOppositeMoveException e) {
-
-            }
-        });
+                }
+            });
+        }
     }
 
     public Snake getModel() {

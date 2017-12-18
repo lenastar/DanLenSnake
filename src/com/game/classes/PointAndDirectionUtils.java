@@ -2,11 +2,11 @@ package com.game.classes;
 
 import com.game.classes.enumerators.Direction;
 import com.game.classes.exceptions.UnknownDirectionException;
-import com.game.models.Snake;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.HashMap;
+import java.util.Set;
 
 public class PointAndDirectionUtils {
     private static HashMap<Direction, Integer> dirToKeycode = new HashMap<Direction, Integer>(){{
@@ -16,17 +16,28 @@ public class PointAndDirectionUtils {
        put(Direction.Right, KeyEvent.VK_RIGHT);
     }};
 
+    private static HashMap<Integer, Direction> keycodetoDir = new HashMap<Integer, Direction>() {{
+        put(KeyEvent.VK_UP, Direction.Up);
+        put(KeyEvent.VK_DOWN, Direction.Down);
+        put(KeyEvent.VK_LEFT, Direction.Left);
+        put(KeyEvent.VK_RIGHT, Direction.Right);
+    }};
+
+    public static Set<Integer> keyValues(){
+        return keycodetoDir.keySet();
+    }
+
     public static Direction getDirection(Point point_1, Point point_2, int width, int height) throws UnknownDirectionException {
-        if (isDirection(Direction.Up, point_1, point_2, width, height)){
-            return Direction.Up;
-        } else if (isDirection(Direction.Down, point_1, point_2, width, height)){
-            return Direction.Down;
-        } else if (isDirection(Direction.Left, point_1, point_2, width, height)){
-            return Direction.Left;
-        } else if (isDirection(Direction.Right, point_1, point_2, width, height)){
-            return Direction.Right;
+        for (Direction direction: Direction.values()){
+            if (isDirection(direction, point_1, point_2, width, height)){
+                return direction;
+            }
         }
         throw new UnknownDirectionException();
+    }
+
+    public static Direction getDirection(int keyCodes){
+        return keycodetoDir.get(keyCodes);
     }
 
     public static int getKeycode(Direction direction){
